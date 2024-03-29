@@ -1,2 +1,4 @@
-package com.example.duantn.controller;public class Hi10 {
+package com.example.duantn.controller;
+
+public class Hi10 {
 }
