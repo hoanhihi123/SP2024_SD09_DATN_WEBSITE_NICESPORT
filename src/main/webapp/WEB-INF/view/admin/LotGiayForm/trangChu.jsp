@@ -1,11 +1,10 @@
-<!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
+
+<!doctype html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,188 +21,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/admin/admin/assets/css/cs-skin-elastic.css">
+    <link rel="stylesheet" href="/admin/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="/admin/assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
-
+    <style>
+        .messageError{
+            color: red;
+        }
+    </style>
 </head>
 <body>
-
-
 <!-- Left Panel -->
-<aside id="left-panel" class="left-panel ">
-    <nav class="navbar navbar-expand-sm navbar-default">
-        <div id="main-menu" class="main-menu collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="">
-                    <a href="dashboard_2.html"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
-                </li>
-                <li class="menu-title">Quản lý</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý giày</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Giày</a></li>
-                        <li><i class="fa fa-gear" style="color: #03a9f3;"></i><a href="ui-badges.html" style="color: #03a9f3;">Chất liệu</a></li>
-                        <li><i class="fa fa-eraser"></i><a href="ui-tabs.html">Màu sắc</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Thương hiệu</a></li>
-                        <li><i class="fa fa-arrows-h"></i><a href="ui-tabs.html">Kích cỡ</a></li>
-                        <li><i class="fa fa-inbox"></i><a href="ui-tabs.html" >Kiểu dáng</a></li>
-                        <li><i class="fa fa-suitcase"></i><a href="ui-tabs.html">NSX</a></li>
-                        <li ><i class="fa fa-sun-o" ></i><a  href="ui-tabs.html">Dòng sản phẩm</a></li>
-                    </ul>
-
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-print" ></i>Quản lý hóa đơn</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Xuất hóa đơn</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Quản lý hóa đơn</a></li>
-                    </ul>
-                </li>
-
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil-square-o" ></i>Quản lý khách hàng</a>
-                </li>
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users" ></i>Quản lý nhân viên</a>
-                </li>
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
-                </li>
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user" ></i>Quản lý tài khoản</a>
-                </li>
-                <li class="menu-title">Thống kê</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Hàng ngày</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Hàng tháng</a></li>
-                        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Hàng năm</a></li>
-                    </ul>
-                </li>
-                <li class="menu-title">Bán hàng</li><!-- /.menu-title -->
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy</a>
-                </li>
-                <li class="menu-title">UI elements</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Components</a>
-                    <ul class="sub-menu children dropdown-menu">                            <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Buttons</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Badges</a></li>
-                        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Tabs</a></li>
-
-                        <li><i class="fa fa-id-card-o"></i><a href="ui-cards.html">Cards</a></li>
-                        <li><i class="fa fa-exclamation-triangle"></i><a href="ui-alerts.html">Alerts</a></li>
-                        <li><i class="fa fa-spinner"></i><a href="ui-progressbar.html">Progress Bars</a></li>
-                        <li><i class="fa fa-fire"></i><a href="ui-modals.html">Modals</a></li>
-                        <li><i class="fa fa-book"></i><a href="ui-switches.html">Switches</a></li>
-                        <li><i class="fa fa-th"></i><a href="ui-grids.html">Grids</a></li>
-                        <li><i class="fa fa-file-word-o"></i><a href="ui-typgraphy.html">Typography</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tables</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-table"></i><a href="tables-basic.html">Basic Table</a></li>
-                        <li><i class="fa fa-table"></i><a href="tables-data.html">Data Table</a></li>
-                    </ul>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Forms</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Basic Form</a></li>
-                        <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Advanced Form</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-title">Icons</li><!-- /.menu-title -->
-
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Icons</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Font Awesome</a></li>
-                        <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Themefy Icons</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="widgets.html"> <i class="menu-icon ti-email"></i>Widgets </a>
-                </li>
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Charts</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-line-chart"></i><a href="charts-chartjs.html">Chart JS</a></li>
-                        <li><i class="menu-icon fa fa-area-chart"></i><a href="charts-flot.html">Flot Chart</a></li>
-                        <li><i class="menu-icon fa fa-pie-chart"></i><a href="charts-peity.html">Peity Chart</a></li>
-                    </ul>
-                </li>
-
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-area-chart"></i>Maps</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-map-o"></i><a href="maps-gmap.html">Google Maps</a></li>
-                        <li><i class="menu-icon fa fa-street-view"></i><a href="maps-vector.html">Vector Maps</a></li>
-                    </ul>
-                </li>
-                <li class="menu-title">Extras</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-glass"></i>Pages</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="menu-icon fa fa-sign-in"></i><a href="page-login.html">Login</a></li>
-                        <li><i class="menu-icon fa fa-sign-in"></i><a href="page-register.html">Register</a></li>
-                        <li><i class="menu-icon fa fa-paper-plane"></i><a href="pages-forget.html">Forget Pass</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </nav>
-</aside>
-<!-- /#left-panel -->
-
-<!-- Left Panel -->
+<jsp:include page="/WEB-INF/view/admin/layout/left_menu_admin.jsp"></jsp:include>
+<!-- /Left Panel -->
 
 <!-- Right Panel -->
 
 <div id="right-panel" class="right-panel">
-
     <!-- Header-->
-    <header id="header" class="header">
-        <div class="top-left">
-            <div class="navbar-header">
-                <a class="navbar-brand" href=""><img src="/admin/images/logo.png" alt="Logo"></a>
-                <a class="navbar-brand hidden" href=""><img src="/admin/images/logo2.png" alt="Logo"></a>
-                <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
-            </div>
-        </div>
-        <div class="top-right">
-            <div class="header-menu">
-                <div class="header-left">
-                    <div class="for-message" style="margin-top: 15px;">
-                        <p>Tên người dùng</p>
-                    </div>
-                </div>
-
-                <div class="user-area dropdown float-right">
-                    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="user-avatar rounded-circle" src="/admin/images/admin.jpg" alt="User Avatar">
-                    </a>
-
-                    <div class="user-menu dropdown-menu">
-                        <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
-
-                        <a class="nav-link" href="#"><i class="fa fa-bell-o"></i>Notifications <span class="count">13</span></a>
-
-                        <a class="nav-link" href="#"><i class="fa fa-cog"></i>Settings</a>
-
-                        <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header><!-- /header -->
+    <jsp:include page="/WEB-INF/view/admin/layout/header_admin.jsp"></jsp:include>
     <!-- Header-->
 
     <div class="breadcrumbs">
@@ -222,7 +61,7 @@
                             <ol class="breadcrumb text-right">
                                 <li><a href="#">Dashboard</a></li>
                                 <li><a href="#">Quản lý giày</a></li>
-                                <li class="active">Kiểu Dáng</li>
+                                <li class="active">Lót Giày</li>
                             </ol>
                         </div>
                     </div>
@@ -231,10 +70,75 @@
         </div>
     </div>
 
-
     <div class="content">
+        <div class="animated fadeIn">
+            <div class="card col-lg-12">
+                <div class="card-header">
+                    <div>
+                        <strong class="card-title" ><h3>Thêm mới lót giày</h3></strong>
+                    </div>
 
+                </div>
+                <div class="card-body">
+                    <sf:form action="/lot-giay/them" method="post" modelAttribute="lotGiay" class="row">
+                        <div class="col-lg-6">
+                            <span>Mã (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input path="ma" type="text" style="margin-top: 5px;" class="form-control"/>
+                            <sf:errors path="ma" cssClass="text-danger" />
+                            <c:if test="${trungMa==true}">
+                                <p class="text-danger">Mã này đã tồn tại, vui lòng nhập mã mới</p>
+                            </c:if>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Tên lót giày(<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input path="ten" type="text" style="margin-top: 5px;" class="form-control"/>
+                            <sf:errors path="ten" cssClass="text-danger" />
+                            <c:if test="${trungTen==true}">
+                                <p class="text-danger">Tên này đã tồn tại, vui lòng nhập tên mới</p>
+                            </c:if>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Mô tả (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <sf:input id="moTa" path="moTa" style="margin-top: 5px;"  type="text" class="form-control"/>
+                            <sf:errors path="moTa" cssClass="text-danger" />
 
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 20px;">
+                            <span>Trạng thái (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
+                            <br>
+                            <sf:radiobutton path="trangThai"  value="1" checked="true" />    Hoạt động
+                            <sf:radiobutton path="trangThai"  value="0"/>    Ngưng hoạt động
+                            <sf:errors path="trangThai" cssClass="text-danger" />
+
+                        </div>
+                        <div class="col-lg-8" style="margin-top: 20px;"  >
+                            <c:if test="${messageSuccess==true}">
+                                <%--                                style="z-index: 9999; position: fixed; top: 10px; right: 10px; width: 350px;"--%>
+                                <div id="messageAlertSuccess" class="alert alert-primary alert-dismissible "  style="width: 300px;" >
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <i class="menu-icon fa fa-check"></i> Thêm mới dữ liệu thành công!
+                                </div>
+
+                                <script>
+                                    // Lấy thẻ alert
+                                    var alert = document.getElementById('messageAlertSuccess');
+
+                                    // Ẩn thẻ alert sau 3 giây
+                                    setTimeout(function() {
+                                        alert.style.display = 'none';
+                                    }, 3000); // 3000 milliseconds tương ứng với 3 giây
+                                </script>
+                            </c:if>
+                        </div>
+                        <div class="col-lg-4" style="margin-top: 20px; ">
+                            <button class="btn btn-success"> <i class="menu-icon fa fa-plus"></i></a> Thêm mới    </button>
+                            <a href="/lot-giay/hien-thi" class="btn btn-secondary" style="margin-left: 10px;" > <i class="menu-icon fa fa-undo"></i> Quay lại</a>
+                        </div>
+                    </sf:form>
+
+                </div>
+            </div>
+        </div><!-- .animated -->
     </div><!-- .content -->
 
     <div class="content" style="margin-top: -55px;">
@@ -243,84 +147,17 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-lg-10">
-                            <strong class="card-title" ><h3>Danh sách Kiểu Dáng</h3></strong>
-                        </div>
-                        <div class="col-lg-10" style="margin-left: 1100px">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Thêm
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Thêm Kiểu Dáng</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form:form modelAttribute="lotGiay" action="/lot-giay/add" method="post">
-                                                <div class="form-group">
-                                                    <label>Mã</label>
-                                                    <form:input path="ma" cssClass="form-control" />
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>Tên</label>
-                                                    <form:input path="ten" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Mô tả</label>
-                                                    <form:input path="moTa" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ngày tạo</label>
-                                                    <form:input path="ngayTao" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ngày sửa</label>
-                                                    <form:input path="ngaySua" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Người tạo</label>
-                                                    <form:input path="nguoiTao" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Người sửa</label>
-                                                    <form:input path="nguoiSua" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Trạng thái</label>
-                                                    <form:radiobutton path="trangThai"  value="1"/>Còn hàng
-                                                    <form:radiobutton path="trangThai"  value="0"/>Hết hàng
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary">Add</button>
-                                            </form:form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            <strong class="card-title" ><h3>Danh sách lót giày</h3></strong>
                         </div>
                     </div>
                     <br>
-                    <div class="row d-flex" style=" margin-left: 3px;">
-                        <input  class="form-control col-lg-4" id="textsearch" name="textsearch" type="text" placeholder="Nhập nội dung tìm kiếm" >
-                        <select name="" class="form-control col-lg-3" style="margin-left: 10px;">
-                            <option value="">Tất cả</option>
-                            <option value="">Hoạt động</option>
-                            <option value="">Ngưng hoạt động</option>
-                        </select>
-                        <a href="" class="btn btn-secondary" style="margin-left: 10px;"> Tìm kiếm </a>
-                    </div>
-
+                    <form action="/lot-giay/hien-thi" method="get">
+                        <div class="row d-flex" style=" margin-left: 3px;">
+                            <input  class="form-control col-lg-4" id="textsearch" name="textsearch" type="text" placeholder="Nhập nội dung tìm kiếm" >
+                            <span style="margin: 0px 5px;"></span>
+                            <button class="btn btn-secondary" type="submit" > <i class="menu-icon fa fa-search"></i> Tìm kiếm</button>
+                        </div>
+                    </form>
 
                 </div>
                 <div class="card-body">
@@ -332,82 +169,88 @@
                                 <th scope="col">Mã</th>
                                 <th scope="col">Tên</th>
                                 <th scope="col">Mô tả</th>
+                                <th scope="col">Tạo bởi</th>
+                                <th scope="col">Sửa bởi</th>
                                 <th scope="col">Ngày tạo</th>
                                 <th scope="col">Ngày sửa</th>
-                                <th scope="col">Người tạo</th>
-                                <th scope="col">Người sửa </th>
-                                <th scope="col">Trạng thái </th>
-                                <th scope="col" colspan="2" >Hành động</th>
-
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col" colspan="2" >Tác động</th>
                             </tr>
                             </thead>
                             <tbody>
-
                             <c:forEach items="${listLG}" var="lg" varStatus="i">
                                 <tr>
-                                    <td>${i.count}</td>
-                                    <td>${lg.ma}</td>
-                                    <td>${lg.ten}</td>
-                                    <td>${lg.moTa}</td>
-                                    <td>${lg.ngayTao}</td>
-                                    <td>${lg.ngaySua}</td>
-                                    <td>${lg.nguoiTao}</td>
-                                    <td>${lg.nguoiSua}</td>
-                                    <td>${lg.trangThai == 1? "Còn hàng" :"Hết hàng"}</td>
-
-                                    <td>  <a href="/lot-giay/detail/${lg.id}" class="btn btn-success"> <i class="menu-icon fa fa-pencil-square-o"></i></a></td>
-
-                                    <td>
-                                        <a href="/lot-giay/delete/${lg.id}" class="btn btn-warning" onclick="return confirm('Ban chac chan muon xoa  ${lg.ten}?')"><i class="menu-icon fa fa-trash-o"></i></a>
-                                    </td>
+                                    <th scope="row">${i.index +1}</th>
+                                    <td > ${lg.ma}</td>
+                                    <td > ${lg.ten}</td>
+                                    <td > ${lg.moTa}</td>
+                                    <td > ${lg.nguoiTao}</td>
+                                    <td > ${lg.nguoiSua}</td>
+                                    <td > ${lg.ngayTao}</td>
+                                    <td > ${lg.ngaySua}</td>
+                                    <td > ${lg.trangThai == 1 ? 'Hoạt động': 'Ngưng hoạt động'}</td>
+                                    <td > <a href="/lot-giay/view-sua/${lg.id}" class="btn btn-success">Xem <i class="menu-icon fa fa-pencil-square-o"></i> </a> </td>
+                                    <td > <a href="/lot-giay/xoa/${lg.id}" class="btn btn-warning"
+                                             onclick="return confirm('Bạn chắc chắn muốn xóa  lót giày ${lg.ten} ?')"> <i class="menu-icon fa fa-trash-o"></i> Xóa</a> </td>
                                 </tr>
                             </c:forEach>
-
-
                             </tbody>
                         </table>
                     </div>
                     <div class="row" style="margin-top: 20px;">
-
                         <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-8"  style="text-align: center;">
                             <nav aria-label="...">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="/lot-giay/hien-thi?page=0" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <c:forEach begin="0" end="${totalPage - 1}" varStatus="loop">
-                                        <li class="page-item" aria-current="page">
-                                            <a name="page" class="page-link" href="/lot-giay/hien-thi?page=${loop.index}">${loop.index + 1}</a>
-                                        </li>
-                                    </c:forEach>
+                                <c:if test="${totalPage>0}">
+                                    <ul class="pagination justify-content-end">
+                                        <c:if test="${pageChoosedNumber > 0}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="/lot-giay/hien-thi?page=${pageChoosedNumber-1}" tabindex="-1" aria-disabled="true">Previous</a>
+                                            </li>
+                                        </c:if>
 
-                                    <li class="page-item">
-                                        <a class="page-link" href="/lot-giay/hien-thi?page=${totalPage-1}">Next</a>
-                                    </li>
-                                </ul>
+                                        <c:forEach begin="0" end="${totalPage - 1}" varStatus="loop">
+                                            <c:choose>
+                                                <c:when test="${pageChoosedNumber==loop.index}">
+                                                    <li class="page-item active" aria-current="page" >
+                                                        <a name="page" class="page-link"   href="/lot-giay/hien-thi?page=${loop.index}">${loop.index + 1}</a>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="page-item" aria-current="page">
+                                                        <a name="page" class="page-link" href="/lot-giay/hien-thi?page=${loop.index}">${loop.index + 1}</a>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                        <c:if test="${pageChoosedNumber < (totalPage - 1)}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="/lot-giay/hien-thi?page=${pageChoosedNumber+1}">Next</a>
+                                            </li>
+                                        </c:if>
+                                        <li class="page-item">
+                                        </li>
+                                    </ul>
+                                </c:if>
                             </nav>
                         </div>
                     </div>
+
+
                 </div>
             </div>
         </div><!-- .animated -->
     </div><!-- .content -->
 
-
     <div class="clearfix"></div>
 
-    <footer class="site-footer">
-        <div class="footer-inner bg-white">
-            <div class="row">
-                <div class="col-sm-6">
-                    NiceStore 2024
-                </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="https://colorlib.com">Team SD-09</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- footer -->
+    <jsp:include page="/WEB-INF/view/admin/layout/footer.jsp"></jsp:include>
+    <!--/ footer -->
+
+
+
 
 </div><!-- /#right-panel -->
 
@@ -423,6 +266,35 @@
 <script>
     // Sử dụng JavaScript để đặt giá trị của trường ngày thành ngày hôm nay
     document.getElementById('dateToday').valueAsDate = new Date();
+
+    // function validation
+    function myValidationFormBeforeAdd(){
+        let lg = document.getElementById("lg").value;
+        let ma = document.getElementById("maMuiGiay").value;
+        let moTa = document.getElementById("moTa").value;
+        let check=true;
+
+        // kiem tra ma
+        if(ma===null || ma.trim()===""){
+            document.getElementById("messagemaKieuDang").innerHTML = "Vui lòng nhập mã";
+            return  false;
+        }else{
+            document.getElementById("messagemaKieuDang").innerHTML = "";
+        }
+
+
+        // kiem tra size giay - rong, null, ko phai so, trung du lieu
+
+
+
+
+        alert("Dữ liệu bạn nhập hợp lệ, sẽ được thêm vào csdl");
+
+        return check;
+    }
+
+
+
 </script>
 
 </body>

@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class HoaDonChiTiet extends BaseModel {
+public class
+HoaDonChiTiet extends BaseModel {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IdHoaDon",referencedColumnName = "Id")

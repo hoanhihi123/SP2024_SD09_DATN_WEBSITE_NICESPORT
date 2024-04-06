@@ -17,6 +17,10 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
     @Autowired
     PhieuGiamGiaRepository phieuGiamGiaRepository;
 
+    public List<PhieuGiamGia> layDanhSach() {
+        return phieuGiamGiaRepository.getAll();
+    }
+
     @Override
     public List<PhieuGiamGia> getAll() {
         return phieuGiamGiaRepository.getAll();

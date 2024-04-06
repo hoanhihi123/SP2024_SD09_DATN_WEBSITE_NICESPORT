@@ -77,16 +77,7 @@ public class HoaDon  {
     private String hinhThucTT;
 
     @Column(name = "TrangThai")
-    private String trangThai;
-
-//    ALTER TABLE HoaDon
-//    ADD tinh_thanhPho nvarchar(50);
-//
-//    ALTER TABLE HoaDon
-//    ADD quan_huyen nvarchar(50);
-//
-//    ALTER TABLE HoaDon
-//    ADD phuong_xa nvarchar(50);
+    private Integer trangThai;
 
     @Column(name = "tinh_thanhPho")
     private String tinh_thanhPho;
@@ -96,6 +87,4 @@ public class HoaDon  {
 
     @Column(name = "phuong_xa")
     private String phuong_xa;
-
-
 }

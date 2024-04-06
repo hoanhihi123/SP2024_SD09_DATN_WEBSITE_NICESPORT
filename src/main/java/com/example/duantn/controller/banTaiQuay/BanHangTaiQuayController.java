@@ -1,13 +1,15 @@
 package com.example.duantn.controller.banTaiQuay;
 
-import com.example.duantn.dto.Constant;
-import com.example.duantn.model.*;
+import com.example.duantn.model.ChiTietSanPham;
+import com.example.duantn.model.HoaDon;
+import com.example.duantn.model.KhachHang;
+import com.example.duantn.model.PhieuGiamGia;
 import com.example.duantn.request.GioHang;
+import com.example.duantn.request.PhanTrangRequest;
 import com.example.duantn.request.SanPhamTrongGioHang;
 import com.example.duantn.service.HoaDonService;
-import com.example.duantn.service.PhieuGiamGiaService;
-import com.example.duantn.service.SanPhamCTService;
 import com.example.duantn.service.impl.ChiTietSPServiceImpl;
+import com.example.duantn.service.impl.HoaDonServiceImpl;
 import com.example.duantn.service.impl.KhachHangServiceImpl;
 import com.example.duantn.service.impl.PhieuGiamGiaServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,13 +22,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/ban-hang")   // /ban-hang/view
@@ -40,61 +42,137 @@ public class BanHangTaiQuayController {
     PhieuGiamGiaServiceImpl phieuGiamGiaService;
 
     @Autowired
-    HoaDonService hoaDonService;
+    HoaDonServiceImpl hoaDonService;
 
     @Autowired
     KhachHangServiceImpl khachHangService;
 
+
     @GetMapping("view")
     public String xemBanHangTaiQuay(
             Model model,
-            @RequestParam(name = "page",defaultValue = "0") int currentPage ,
             HttpServletRequest httpServletRequest
     ){
         // ds hoa don
         HttpSession session = httpServletRequest.getSession();
 
-        // danh sach san pham chi tiet
-        String textSearch = httpServletRequest.getParameter("textsearch");
 
-        Pageable pageable = PageRequest.of(currentPage, Constant.pageNumber);
-        Page<ChiTietSanPham> pageSanPhamCT =  sanPhamCTService.layDanhSach(textSearch, pageable);
-        List<ChiTietSanPham> sanPhamCTs = pageSanPhamCT.getContent();
-
-        // danh sach phieu giam gia
-        String textSearchPhieuGiam = httpServletRequest.getParameter("textSearchPhieuGiam");
-
-        Pageable pageable2 = PageRequest.of(currentPage, Constant.pageNumber);
-        Page<PhieuGiamGia> pageKhuyenMai =  phieuGiamGiaService.layDanhSach(textSearchPhieuGiam, pageable);
-        List<PhieuGiamGia> khuyenMais = pageKhuyenMai.getContent();
+//        Pageable pageable2 = PageRequest.of(currentPage, Constant.pageNumber);
+//        Page<PhieuGiamGia> pageKhuyenMai =  phieuGiamGiaService.layDanhSach(textSearchPhieuGiam, pageable);
+//        List<PhieuGiamGia> khuyenMais = pageKhuyenMai.getContent();
 
 //        // danh sach khách hàng
-        String textSearchKhachHang = httpServletRequest.getParameter("textSearchKhachHang");
 
-        Pageable pageable3 = PageRequest.of(currentPage, Constant.pageNumber);
-        Page<KhachHang> pageKhachHang =  khachHangService.layDanhSach(textSearch, pageable);
-        List<KhachHang> khachHangs = pageKhachHang.getContent();
-
-        GioHang hoaDon1 = new GioHang();
-        List<SanPhamTrongGioHang> dsSanPhamTrongHoaDon1 = new ArrayList<>();
-        if(session.getAttribute("hoaDon1")!=null){
-            hoaDon1 = (GioHang) session.getAttribute("hoaDon1");
-            dsSanPhamTrongHoaDon1 = hoaDon1.getDs_SanPhamTrongGioHang();
-        }
-
-        model.addAttribute("dsSanPhamTrongHoaDon1",dsSanPhamTrongHoaDon1);
-
-        model.addAttribute("dsSanPhamChiTiet",sanPhamCTs);
-        model.addAttribute("tongSL",pageSanPhamCT.getNumberOfElements());
-        model.addAttribute("totalPage",pageSanPhamCT.getTotalPages());
-        model.addAttribute("pageChoosedNumber",currentPage);
-
-
-        model.addAttribute("dsKhuyenMai",khuyenMais);
-        model.addAttribute("dsKhachHang",khachHangs);
+//        Pageable pageable3 = PageRequest.of(currentPage, Constant.pageNumber);
+//        Page<KhachHang> pageKhachHang =  khachHangService.layDanhSach(textSearch, pageable);
+//        List<KhachHang> khachHangs = pageKhachHang.getContent();
 
         return "admin/banHangTaiQuay/banHang2";
     }
+
+    @PostMapping("/phan-trang-sanPhamChiTiet")
+    public ResponseEntity<Map<String, Object>> phanTrangSanPhamChiTiet(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody PhanTrangRequest phanTrang
+            ) throws IOException {
+        int currentPage = 0;
+        int pageLimit = phanTrang.getPageLimit()==null?4:phanTrang.getPageLimit();
+        currentPage = phanTrang.getCurrentPage()==null?0:phanTrang.getCurrentPage();
+//        System.out.println("Current page: " + currentPage);
+
+        Pageable pageable = PageRequest.of(currentPage, pageLimit);
+        Page<ChiTietSanPham> pageChiTietSP =  sanPhamCTService.layDanhSach(pageable);
+        List<ChiTietSanPham> chiTietSanPhams = pageChiTietSP.getContent();
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("danhSachSanPhamChiTiet", chiTietSanPhams);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/phan-trang-thongTinKhachHang")
+    public ResponseEntity<Map<String, Object>> phanTrang_thongTinKhachHang(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody PhanTrangRequest phanTrang
+    ) throws IOException {
+        int currentPage = 0;
+        int pageLimit = phanTrang.getPageLimit()==null?4:phanTrang.getPageLimit();
+        currentPage = phanTrang.getCurrentPage()==null?0:phanTrang.getCurrentPage();
+//        System.out.println("Current page: " + currentPage);
+
+        Pageable pageable = PageRequest.of(currentPage, pageLimit);
+        Page<KhachHang> pageKhachHang =  khachHangService.layDanhSach(pageable);
+        List<KhachHang> khachHangs = pageKhachHang.getContent();
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("danhSachKhachHang", khachHangs);
+
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+
+
+    @PostMapping("/phan-trang-phieuGiamGia")
+    public ResponseEntity<Map<String, Object>> phanTrang_phieuGiamGia(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody PhanTrangRequest phanTrang
+    ) throws IOException {
+        int currentPage = 0;
+        int pageLimit = phanTrang.getPageLimit()==null?4:phanTrang.getPageLimit();
+        currentPage = phanTrang.getCurrentPage()==null?0:phanTrang.getCurrentPage();
+//        System.out.println("Current page: " + currentPage);
+
+
+        Pageable pageable = PageRequest.of(currentPage, pageLimit);
+        Page<PhieuGiamGia> pagePhieuGiamGia =  phieuGiamGiaService.layDanhSach(pageable);
+        List<PhieuGiamGia> phieuGiamGias = pagePhieuGiamGia.getContent();
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("danhSachPhieuGiamGia", phieuGiamGias);
+
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+
+    // api tự động tạo 1 hóa đơn chờ khi ko có hóa đơn chờ nào trong hệ thống
+    @PostMapping("/tuDongTao1HoaDonCho")
+    public ResponseEntity<?> tuDongTao1HoaDonCho(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+    ) throws IOException {
+
+        HoaDon hoaDon_status_waitForPay = new HoaDon();
+        hoaDon_status_waitForPay.setTrangThai(0);
+
+        HoaDon hoaDonTaoMoi = hoaDonService.themMoi(hoaDon_status_waitForPay);
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("idHoaDon", hoaDonTaoMoi.getId());
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
 
     @PostMapping("/add-to-hoaDonCho")
     public ResponseEntity<Map<String, Object>> addToCart(
