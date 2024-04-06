@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý sản phẩm chi tiết </title>
+    <title>Quản lý hoá đơn </title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -218,44 +218,13 @@
                     <hr>
                 </div>
                 <div class="row">
-                    <form class="row g-3">
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" placeholder="Nhập tên sản phẩm" required>
-                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                            <button class="btn btn-primary" style="margin-right: 1000px"  type="submit">Làm mới</button>
-
-
-                        </div>
-
-                        <div class="col-md-4">
-                            <label for="validationDefault01" class="form-label">Mã khuyến mãi</label>
-                            <input type="text" class="form-control" id="validationDefault01" placeholder="Tìm kiếm" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label  class="form-label">Số lượng tồn</label>
-                            <input type="text" class="form-control"  placeholder="Tìm kiếm" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Từ ngày</label>
-                            <input  class="form-control" type="date"  required>
-                        </div>
-                        <div class="col-md-4">
-                            <label  class="form-label">Giá trị giảm</label>
-                            <input type="text" class="form-control" placeholder="Tìm kiếm" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label  class="form-label">Trạng thái</label>
-                            <input type="text" class="form-control" placeholder="Tìm kiếm" required>
-                        </div>
-                        <div class="col-md-4">
-                            <label  class="form-label">Đến ngày</label>
-                            <input type="date" class="form-control"  required>
-                        </div>
-
-
-
-
+                    <form method="get" action="/hoa-don/tim-kiem">
+                        <input type="search" name="ma" class="form-control" placeholder="Tìm kiếm mã.."/>
+                        <span class="input-group-btn">
+                  <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    </span>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -263,136 +232,19 @@
 
     <div class="content" style="margin-top: -50px;">
         <div class="animated fadeIn">
-            <div class="card col-lg-12">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-lg-10">
-                            <strong class="card-title" ><h3>Danh sách sản phẩm chi tiết</h3></strong>
-                            <hr>
-                        </div>
-                        <div class="col-lg-10" style="margin-left: 1100px">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                Thêm
-                            </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm chi tiết</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <form:form modelAttribute="hoaDon" action="/hoa-don/add" method="post">
-                                                <div class="form-group">
-                                                    <label>Mã</label>
-                                                    <form:input path="ma" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tên phiếu giảm giá</label>
-                                                    <form:select path="phieuGiamGia.id" class="form-control">
-                                                        <c:forEach var="pg" items="${listPG}">
-                                                            <form:option value="${pg.id}">${pg.tenPhieu}</form:option>
-                                                        </c:forEach>
-                                                    </form:select>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>Ngày mua</label>
-                                                    <form:input path="ngayMua" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ngày nhận</label>
-                                                    <form:input path="ngayNhan" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ngày giao</label>
-                                                    <form:input path="ngayGiao" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ngày thanh toán</label>
-                                                    <form:input path="ngayThanhToan" type="date" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tổng tiền thanh toán</label>
-                                                    <form:input path="tongTienThanhToan" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tiền vận chuyển</label>
-                                                    <form:input path="tienVanChuyen" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tổng tiền giảm giá</label>
-                                                    <form:input path="tongTienGiamGia" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Tên khách hàng</label>
-                                                    <form:input path="tenKH" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Địa chỉ</label>
-                                                    <form:input path="diaChi" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Số điện thoại</label>
-                                                    <form:input path="soDT" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Ghi chú</label>
-                                                    <form:input path="ghiChu" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Hình thức thanh toán</label>
-                                                    <form:input path="hinhThucTT" cssClass="form-control" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Trạng thái</label>
-                                                    <form:radiobutton path="trangThai"  value="1"/>Đã thanh toán
-                                                    <form:radiobutton path="trangThai"  value="0"/>Chờ thanh toán
-                                                </div>
-
-                                                <button type="submit" class="btn btn-primary">Add</button>
-                                            </form:form>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <br>
-
-
-
-            </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover no-wrap">
                         <thead>
                         <tr style="text-align: center;">
                             <th scope="col">Mã </th>
-                            <th scope="col">Tên phiếu giảm giá</th>
                             <th scope="col">Ngày mua </th>
-                            <th scope="col">Ngày nhận</th>
-                            <th scope="col">Ngày giao</th>
-                            <th scope="col">Ngày thanh toán</th>
-                            <th scope="col">Tổng tiền </th>
-                            <th scope="col">Tiền vận chuyển </th>
-                            <th scope="col">Tổng tiền giảm</th>
                             <th scope="col">Tên khách hàng </th>
                             <th scope="col">Địa chỉ </th>
                             <th scope="col">Số điện thoại </th>
-                            <th scope="col">Ghi chú </th>
                             <th scope="col">Hình thức thanh toán </th>
+                            <th scope="col">Tổng tiền </th>
                             <th scope="col">Trạng thái </th>
                             <th scope="col" colspan="2">Hành động</th>
 
@@ -400,29 +252,21 @@
                         </thead>
                         <tbody>
 
-                        <c:forEach items="${listHD}" var="hd">
+                        <c:forEach items="${listHD.content}" var="hd">
                             <tr>
                                 <td>${hd.ma}</td>
-                                <td>${hd.phieuGiamGia.tenPhieu}</td>
                                 <td>${hd.ngayMua}</td>
-                                <td>${hd.ngayNhan}</td>
-                                <td>${hd.ngayGiao}</td>
-                                <td>${hd.ngayThanhToan}</td>
-                                <td>${hd.tongTienThanhToan}</td>
-                                <td>${hd.tienVanChuyen}</td>
-                                <td>${hd.tongTienGiamGia}</td>
                                 <td>${hd.tenKH}</td>
                                 <td>${hd.diaChi}</td>
                                 <td>${hd.soDT}</td>
-                                <td>${hd.ghiChu}</td>
                                 <td>${hd.hinhThucTT}</td>
+                                <td>${hd.tongTienThanhToan}</td>
                                 <td>${hd.trangThai == 1? "Đã thanh toán" :"Chờ thanh toán"}</td>
 
-                                <td>  <a href="/hoa-don/detail/${hd.id}" class="btn btn-success"><i class="menu-icon fa fa-pencil-square-o"></i></a></td>
+                                <td>  <a href="/hoa-donct/detail/${hd.id}" class="btn btn-success"><i class="menu-icon fa fa-pencil-square-o"></i></a></td>
 
-                                <td>
-                                    <a href="/hoa-don/delete/${hd.id}" class="btn btn-warning"  onclick="return confirm('Bạn chắc chắn muốn xóa không? ${hd.ma}?')"><i class="menu-icon fa fa-trash-o"></i> </a>
-                                </td>
+                                <td> <a href="/hoa-don/detail/${hd.id}" class="btn btn-warning"  ><i class="fa-thin fa-eye fa-xs"></i></a> </td>
+
                             </tr>
                         </c:forEach>
 
@@ -430,36 +274,25 @@
                         </tbody>
                     </table>
                 </div>
+
                 <div class="row" style="margin-top: 20px;">
                     <div class="col-lg-4">
                     </div>
                     <div class="col-lg-8"  style="text-align: center;">
-                        <nav aria-label="...">
-                            <c:if test="${totalPage>0}">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item">
-                                        <a class="page-link" href="/hoa-don/hien-thi?page=0" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <c:forEach begin="0" end="${totalPage - 1}" varStatus="loop">
-                                        <c:choose>
-                                            <c:when test="${pageChoosedNumber==loop.index}">
-                                                <li class="page-item active" aria-current="page" >
-                                                    <a name="page" class="page-link"   href="/hoa-don/hien-thi?page=${loop.index}">${loop.index + 1}</a>
-                                                </li>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <li class="page-item" aria-current="page">
-                                                    <a name="page" class="page-link" href="/hoa-don/hien-thi?page=${loop.index}">${loop.index + 1}</a>
-                                                </li>
-                                            </c:otherwise>
-                                        </c:choose>
+
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <c:forEach begin="1" end="${listHD.totalPages}" varStatus="loop">
+                                        <a class="page-links" href="/hoa-don/hien-thi?page=${loop.begin + loop.count -2}">
+                                                ${loop.begin + loop.count - 1}
+                                        </a>
                                     </c:forEach>
-                                    <li class="page-item">
-                                        <a class="page-link" href="/hoa-don/hien-thi?page=${totalPage-1}">Next</a>
-                                    </li>
-                                </ul>
-                            </c:if>
+                                </li>
+                            </ul>
                         </nav>
+
+
                     </div>
                 </div>
             </div>

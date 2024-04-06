@@ -82,7 +82,7 @@ public class DangNhapController {
             if (khachHang != null) {
                 // Lưu thông tin tài khoản vào session
                 session.setAttribute("taiKhoan", taiKhoan);
-                session.setAttribute("ten", khachHang.getTen());
+                session.setAttribute("ten", khachHang.getHoTen());
                 model.addAttribute("khachHang", khachHang);
                 model.addAttribute("success", "đăng nhập thành công"); // Thêm thông báo đăng nhập thành công vào model
                 return "redirect:/welcome"; // Redirect to welcome page upon successful login
@@ -101,7 +101,7 @@ public class DangNhapController {
             if (khachHang != null) {
                 // Lưu thông tin tài khoản vào session
                 session.setAttribute("taiKhoan", taiKhoan);
-                session.setAttribute("ten", khachHang.getTen());
+                session.setAttribute("ten", khachHang.getHoTen());
                 model.addAttribute("khachHang", khachHang);
                 model.addAttribute("success", "đăng nhập thành công"); // Thêm thông báo đăng nhập thành công vào model
                 return "redirect:/trangChu"; // Redirect to welcome page upon successful login

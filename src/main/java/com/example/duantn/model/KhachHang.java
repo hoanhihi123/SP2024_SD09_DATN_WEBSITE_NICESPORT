@@ -15,10 +15,8 @@ import lombok.NoArgsConstructor;
 public class KhachHang extends BaseModel {
     @Column(name = "Ma")
     private String ma;
-
     @Column(name = "HoTen")
-    private String ten;
-
+    private String hoTen;
     @Column(name = "TaiKhoan")
     private String taiKhoan;
 
@@ -33,5 +31,8 @@ public class KhachHang extends BaseModel {
 
     @Column(name = "Email")
     private String email;
+
+//    @Column(name = "diaChi")
+//    private String diaChi;
 
 }

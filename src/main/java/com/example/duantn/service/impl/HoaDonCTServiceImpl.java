@@ -1,10 +1,10 @@
 package com.example.duantn.service.impl;
 
-import com.example.duantn.model.HoaDon;
 import com.example.duantn.model.HoaDonChiTiet;
+import com.example.duantn.record.OrderDetailRecord;
 import com.example.duantn.repository.HoaDonCTRepository;
+import com.example.duantn.repository.HoaDonRepository;
 import com.example.duantn.service.BaseService;
-import com.example.duantn.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +17,8 @@ import java.util.UUID;
 public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
     @Autowired
     HoaDonCTRepository hoaDonCTRepository;
+    @Autowired
+    private HoaDonRepository hoaDonRepository;
 
 //    @Override
 //    public List<HoaDonChiTiet> getAll() {
@@ -58,6 +60,11 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
 //    }
 
     @Override
+    public List<HoaDonChiTiet> layDanhSach() {
+        return null;
+    }
+
+    @Override
     public Page<HoaDonChiTiet> layDanhSach(Pageable pageable) {
         return null;
     }
@@ -83,9 +90,10 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         hoaDonCTRepository.save(entity);
     }
 
+
     @Override
-    public void capNhat( HoaDonChiTiet entity) {
-        HoaDonChiTiet hoaDon1 = hoaDonCTRepository.save(entity);
+    public void capNhat( HoaDonChiTiet hoaDonChiTiet) {
+         hoaDonCTRepository.save(hoaDonChiTiet);
     }
 
     public void capNhat(UUID id, HoaDonChiTiet entity) {
@@ -97,13 +105,12 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         return null;
     }
 
-    @Override
-    public List<HoaDonChiTiet> layDanhSachTheoTen(String ten) {
-        return null;
+    public List<OrderDetailRecord> findByOrderId(UUID id) {
+        return hoaDonRepository.findByOrderId(id);
     }
 
     @Override
-    public List<HoaDonChiTiet> layDanhSach() {
+    public List<HoaDonChiTiet> layDanhSachTheoTen(String ten) {
         return null;
     }
 }

@@ -14,69 +14,48 @@
 
     <div class="form-group">
         <label>Mã</label>
-        <form:input path="ma" cssClass="form-control" value="${hoaDon.ma}" />
+        <form:input path="ma" cssClass="form-control" readonly="true" value="${hoaDon.ma}" />
     </div>
-    <div class="form-group">
-        <label>Tên phiếu giảm giá</label>
-        <form:select path="phieuGiamGia.id" class="form-control">
-            <c:forEach var="pg" items="${listPG}">
-                <form:option value="${pg.id}">${pg.tenPhieu}</form:option>
-            </c:forEach>
-        </form:select>
-    </div>
+
 
     <div class="form-group">
         <label>Ngày mua</label>
-        <form:input path="ngayMua" type="date" cssClass="form-control"  value="${hoaDon.ngayMua}"/>
+        <form:input path="ngayMua" type="date" cssClass="form-control"  readonly="true" value="${hoaDon.ngayMua}"/>
     </div>
     <div class="form-group">
-        <label>Ngày nhận</label>
-        <form:input path="ngayNhan" type="date" cssClass="form-control" value="${hoaDon.ngayNhan}" />
+        <label>Ngày mua</label>
+        <form:input path="ngayThanhToan" type="date" cssClass="form-control"  readonly="true" value="${hoaDon.ngayThanhToan}"/>
     </div>
-    <div class="form-group">
-        <label>Ngày giao</label>
-        <form:input path="ngayGiao" type="date" cssClass="form-control" value="${hoaDon.ngayGiao}" />
-    </div>
-    <div class="form-group">
-        <label>Ngày thanh toán</label>
-        <form:input path="ngayThanhToan" type="date" cssClass="form-control" value="${hoaDon.ngayThanhToan}" />
-    </div>
+
     <div class="form-group">
         <label>Tổng tiền thanh toán</label>
-        <form:input path="tongTienThanhToan" cssClass="form-control" value="${hoaDon.tongTienThanhToan}" />
-    </div>
-    <div class="form-group">
-        <label>Tiền vận chuyển</label>
-        <form:input path="tienVanChuyen" cssClass="form-control" value="${hoaDon.tienVanChuyen}" />
-    </div>
-    <div class="form-group">
-        <label>Tổng tiền giảm </label>
-        <form:input path="tongTienGiamGia" cssClass="form-control" value="${hoaDon.tongTienGiamGia}" />
+        <form:input path="tongTienThanhToan" cssClass="form-control" readonly="true" value="${hoaDon.tongTienThanhToan}" />
     </div>
     <div class="form-group">
         <label>Tên khách hàng</label>
-        <form:input path="tenKH" cssClass="form-control" value="${hoaDon.tenKH}" />
+        <form:input path="tenKH" cssClass="form-control" readonly="true" value="${hoaDon.tenKH}" />
     </div>
     <div class="form-group">
         <label>Địa chỉ</label>
-        <form:input path="diaChi" cssClass="form-control" value="${hoaDon.diaChi}" />
+        <form:input path="diaChi" cssClass="form-control" readonly="true" value="${hoaDon.diaChi}" />
     </div>
     <div class="form-group">
         <label>Số điện thoại</label>
-        <form:input path="soDT" cssClass="form-control" value="${hoaDon.soDT}" />
+        <form:input path="soDT" cssClass="form-control" readonly="true" value="${hoaDon.soDT}" />
     </div>
-    <div class="form-group">
-        <label>Ghi chú</label>
-        <form:input path="ghiChu" cssClass="form-control" value="${hoaDon.ghiChu}" />
-    </div>
+
     <div class="form-group">
         <label>Hình thức thanh toán</label>
-        <form:input path="hinhThucTT" cssClass="form-control" value="${hoaDon.hinhThucTT}" />
+        <form:input path="hinhThucTT" cssClass="form-control"  value="${hoaDon.hinhThucTT}" />
     </div>
+<%--    <div class="form-group">--%>
+<%--        <label>Trạng thái</label>--%>
+<%--        <form:radiobutton path="trangThai"  readonly="true" value="1"/>Đã thanh toán--%>
+<%--        <form:radiobutton path="trangThai"  readonly="true" value="0"/>Chờ thanh toán--%>
+<%--    </div>--%>
     <div class="form-group">
         <label>Trạng thái</label>
-        <form:radiobutton path="trangThai"  value="1"/>Đã thanh toán
-        <form:radiobutton path="trangThai"  value="0"/>Chờ thanh toán
+        <form:input path="trangThai" cssClass="form-control" readonly="true"   value="${hoaDon.trangThai}"  />
     </div>
 
     <button type="submit" class="btn btn-primary">Update</button>

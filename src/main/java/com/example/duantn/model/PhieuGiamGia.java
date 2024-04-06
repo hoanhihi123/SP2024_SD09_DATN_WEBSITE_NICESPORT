@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Table(name = "PhieuGiamGia")
 @Entity
 @NoArgsConstructor
@@ -24,12 +26,18 @@ public class PhieuGiamGia extends BaseModel{
     private Double giaTriGiam;
 
     @Column(name = "HinhThucGiam")
-    private String HinhThucGiam;
+    private String hinhThucGiam;
 
     @Column(name = "DieuKienGiam")
-    private String DieuKienGiam;
+    private String dieuKienGiam;
 
     @Column(name = "GiaTienXetDieuKien")
     private Double giaTienXetDieuKien;
+
+    @Column(name = "NgayBatDau")
+    private Date ngayBatDauApDung;
+
+    @Column(name = "NgayKetThuc")
+    private Date ngayKetThucApDung;
 
 }

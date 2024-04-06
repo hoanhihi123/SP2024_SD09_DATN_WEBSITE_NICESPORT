@@ -1,9 +1,13 @@
 package com.example.duantn.service.impl;
 
 import com.example.duantn.model.HoaDon;
+import com.example.duantn.model.HoaDonChiTiet;
 import com.example.duantn.repository.HoaDonRepository;
 import com.example.duantn.service.HoaDonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,10 @@ public class HoaDonServiceImpl implements HoaDonService {
         return hoaDonRepository.getAll();
     }
 
+    public  List<HoaDon> layDanhSachHoaDon_theoTrangThai(Integer trangThai){
+        return hoaDonRepository.getHoaDonBy_status(trangThai);
+    }
+
     @Override
     public void delete(UUID id) {
         hoaDonRepository.deleteById(id);
@@ -32,7 +40,7 @@ public class HoaDonServiceImpl implements HoaDonService {
     }
 
     public HoaDon themMoi(HoaDon hoaDon) {
-      return hoaDonRepository.save(hoaDon);
+        return hoaDonRepository.save(hoaDon);
     }
 
     @Override
@@ -47,8 +55,17 @@ public class HoaDonServiceImpl implements HoaDonService {
         return hoaDon1;
     }
 
-    public HoaDon layHoaDonTheoMa(String ma){
-        HoaDon hoaDon = hoaDonRepository.getHoaDonBy_ma(ma);
-        return hoaDon;
+
+    public Page<HoaDon> searchByMa(String ma, Integer pageNum, Integer pageSize) {
+        Page pageable = (Page) PageRequest.of(pageNum,pageSize);
+        return hoaDonRepository.findByMa(ma, (Pageable) pageable);
     }
+
+
+    public Page<HoaDon> phanTrangHoaDon(Integer pageNum, Integer pageNo) {
+        Pageable pageable = PageRequest.of(pageNum,pageNo);
+        return hoaDonRepository.findAll(pageable);
+    }
+
+
 }
