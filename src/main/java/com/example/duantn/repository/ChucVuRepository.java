@@ -31,4 +31,10 @@ public interface ChucVuRepository extends JpaRepository<ChucVu, UUID> {
     public List<ChucVu> getAllTheoTen(@Param("textSearch") String textSearch);
 
 
+    @Query(value = "select * from ChucVu where Ma =:textSearch  order by ten desc",
+            countQuery = "select count(*) from ChucVu where Ma =:textSearch ", nativeQuery = true)
+    public List<ChucVu> getAllTheoMa(@Param("textSearch") String textSearch);
+
+
+
 }

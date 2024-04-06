@@ -18,8 +18,12 @@ import java.util.UUID;
 
 @Repository
 public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, UUID> {
-    @Query(value = "select * from ChiTietSanPham ", nativeQuery = true)
+    @Query(value = "select * from SanPhamCT ", nativeQuery = true)
     public List<ChiTietSanPham> getAll();
+
+    @Query(value = "select  * from SanPhamCT ",
+            countQuery = "select  count(*) from SanPhamCT", nativeQuery = true)
+    public List<ChiTietSanPham> getAllList( Pageable pageable);
 
     @Query(value = "select  * from SanPhamCT ",
             countQuery = "select  count(*) from SanPhamCT", nativeQuery = true)

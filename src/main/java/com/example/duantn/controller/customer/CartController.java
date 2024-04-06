@@ -206,7 +206,7 @@ public class CartController {
 //        System.out.println("tong tien don hang : " + datHangRequest.getTongTienDonHang());
 //        System.out.println("phi ship : " + datHangRequest.getPhiShip());
 
-        hoaDon.setTrangThai("1");
+        hoaDon.setTrangThai(1);
 //        hoaDon.setMa(maHoaDon);
 
         // thêm thông tin đơn hàng vào hóa đơn - trong database
@@ -1002,7 +1002,7 @@ public class CartController {
 
         hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
         hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());
-        hoaDon.setTrangThai("1");
+        hoaDon.setTrangThai(1);
 //        hoaDon.setMa(maHoaDon);
 
         // thêm thông tin đơn hàng vào hóa đơn - trong database
