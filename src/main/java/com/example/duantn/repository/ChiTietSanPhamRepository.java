@@ -87,4 +87,10 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     public List<ChiTietSanPham> getListSanPhamCT_theoIdMauSac_IdSanPham(@Param("idSanPham") UUID idSanPham,
                                                                         @Param("idMauSac") UUID idMauSac);
 
+    // lay ra so luong trong kho cua san pham chi tiet theo idSanPhamChiTiet
+    @Query(value = "select SoLuong from SanPhamCT where Id =:idSanPhamCT "
+            , nativeQuery = true)
+    public Integer getSoLuong_byIdSanPhamChiTiet(@Param("idSanPhamCT") UUID idSanPham);
+
+
 }

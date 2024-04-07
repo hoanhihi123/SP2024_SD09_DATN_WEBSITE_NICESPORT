@@ -216,7 +216,7 @@
                                             <div class="col-lg-2" style="margin-left: -40px;">
                                                 <strong class="card-title" >
                                                     <a href="#" class="btn btn-success" data-toggle="modal"
-                                                       data-target="#chonSanPhamVaoHoaDonCho"> <i class="menu-icon fa fa-plus"></i> Thêm sản phẩm</a>
+                                                       data-target="#chonSanPhamVaoHoaDonCho" onclick="updateDataFromCallAPI_sanPhamChiTiet();"> <i class="menu-icon fa fa-plus"></i> Thêm sản phẩm</a>
                                                 </strong>
                                             </div>
 
@@ -1003,10 +1003,10 @@
     });
 
     // lấy idHoaDon khi click vào myTab - thành công khi click vào nó
-    document.getElementById("myTab").addEventListener("click", function(event) {
-        var idHoaDon_active = layIDCuaButtonTabPane_active();
-        console.log("id hóa dơn đang active : " + idHoaDon_active);
-    });
+    // document.getElementById("myTab").addEventListener("click", function(event) {
+    //     var idHoaDon_active = layIDCuaButtonTabPane_active();
+    //     console.log("id hóa dơn đang active : " + idHoaDon_active);
+    // });
 
     // lấy id của button tabpane đang active => thành công
     function layIDCuaButtonTabPane_active() {
@@ -1107,11 +1107,12 @@
                 "<td>Size: " + item.kichCo.ten + " - màu: " + item.mauSac.ten + "</td>" +
                 "<td>" + item.soLuong + "</td>" +
                 "<td>" + item.giaTriSanPham + "</td>" +
-                "<td><input type='number' id='" + item.id + "' value='1' min='1' class='form-control' style='width: 50%; margin: 0px auto;'></td>" +
-                "<td><a href='#' class='btn btn-success' onclick='addToBill(\"" + item.id + "\");'>Chọn mua</a></td>" +
+                "<td><input type='number' data-id='" + item.id + "' value='1' min='1' class='form-control' style='width: 50%; margin: 0px auto;'></td>" +
+                "<td><a href='#' class='btn btn-success' onclick='themSanPhamVaoHoaDonHienTai(\"" + item.id + "\", this.parentNode.previousElementSibling.querySelector(\"input\").value);'>Chọn mua</a></td>" +
                 "</tr>";
             tableBody.append(row);
         });
+
     }
 
     // sanPhamChiTiet
@@ -1145,6 +1146,15 @@
 
         });
     }
+
+    // thực hiện những hàm này khi click button thêm sản phẩm
+    function updateDataFromCallAPI_sanPhamChiTiet(){
+        // fill data to table list product detail
+        fetchDataAndFillTable_danhSachSPCT();
+        // pagination for list product detail
+        phanTrangSanPhamCT_trongChonSanPham();
+    }
+
 
 
 
@@ -1411,10 +1421,153 @@
 </script>
 
 <script>
-    function taoHoaDonChoMoi(){
-        // lấy ra số lượng tab để xác định nội dung cho tab tiếp theo
+    function themSanPhamVaoHoaDonHienTai(idSanPhamChiTiet, soLuongMua) {
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        console.log("Id sản phẩm chi tiết được chọn : " + idSanPhamChiTiet);
+        console.log("IdHoaDon_active : " + idHoaDon_active);
 
+        kiemTraSoLuongMuaHopLeKhong(idHoaDon_active, idSanPhamChiTiet, soLuongMua)
+            .then(result => {
+                if (result.ketQuaKiemTra === false) { // trường hợp thêm sản phẩm bị vượt quá trong hóa đơn
+                    // trường hợp vượt quá số lượng trong kho : gợi ý số lượng có thể mua được
+                    if(result.soLuongDaChonVaoHoaDon>0){ // trường hợp dã thêm sản phẩm vào hóa đơn
+                        if(result.soLuongCoTheThemVaoHoaDon===0){
+                            alert("Số lượng sản phẩm trong kho không đủ bán \n\nSố lượng sản phẩm này bạn đã thêm vào hóa đơn: " + result.soLuongDaChonVaoHoaDon + "\nSố lượng bạn có thể thêm vào hóa đơn: " + result.soLuongCoTheThemVaoHoaDon + "\n\nVui lòng chọn sản phẩm khác" );
+                            return;
+                        }
+
+                        var muaSanPham = confirm("Số lượng mua vượt quá số lượng trong kho \n Số lượng đã chọn vào hóa đơn " + result.soLuongDaChonVaoHoaDon + "\n Bạn có thể mua thêm : " + result.soLuongCoTheThemVaoHoaDon + " \n Bạn có muốn mua không ?" );
+                        if (!muaSanPham) {
+                            console.log("Tôi không mua thêm");
+                            return;
+                        }else{
+                            // thêm sản phẩm vào hóa đơn = cập nhật số lượng sản phẩm trong hóa đơn chi tiết
+                            themSanPham_VaoHoaDonChiTiet(idHoaDon_active, idSanPhamChiTiet, result.soLuongCoTheThemVaoHoaDon)
+                                .then(result => {
+                                    if (result.ketQuaSauThemThanhCong) {
+                                        alert("Thêm sản phẩm vào hóa đơn thành công  "); // - check 1
+                                    } else {
+                                        alert("Thêm sản phẩm vào hóa đơn thất bại");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log("Đã xảy ra lỗi khi thêm sản phẩm vào hóa đơn chi tiết - check 1 : " + error);
+                                });
+
+                            console.log("Tôi muốn mua thêm");
+                        }
+
+                    }else{  // trường hợp chưa thêm sản phẩm vào hóa đơn
+                        if(result.soLuongCoTheThemVaoHoaDon===0){
+                            alert("Số lượng sản phẩm trong kho không đủ bán \n\nSố lượng sản phẩm này bạn đã thêm vào hóa đơn: " + result.soLuongDaChonVaoHoaDon + "\nSố lượng bạn có thể thêm vào hóa đơn: " + result.soLuongCoTheThemVaoHoaDon + "\n\nVui lòng chọn sản phẩm khác" );
+                            return;
+                        }
+
+                        var muaSanPham = confirm("Số lượng mua vượt quá số lượng trong kho \n"+"\n Bạn có thể mua : " + result.soLuongCoTheThemVaoHoaDon + " sản phẩm \n Bạn có muốn mua không ?" );
+                        if (!muaSanPham) {
+                            console.log("Tôi không mua thêm");
+
+                            return;
+                        }else{
+                            // thêm mới sản phẩm vào hóa đơn chi tiêt
+                            console.log("Tôi muốn mua thêm");
+                            themSanPham_VaoHoaDonChiTiet(idHoaDon_active, idSanPhamChiTiet, result.soLuongCoTheThemVaoHoaDon)
+                                .then(result => {
+                                    if (result.ketQuaSauThemThanhCong) {
+
+                                        alert("Thêm sản phẩm vào hóa đơn thành công "); // - check 2
+                                    } else {
+                                        alert("Thêm sản phẩm vào hóa đơn thất bại");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log("Đã xảy ra lỗi khi thêm sản phẩm vào hóa đơn chi tiết - check 2 : " + error);
+                                });
+                        }
+                    }
+                }else{
+                    var muaSanPham = confirm("Bạn muốn mua " + soLuongMua + " sản phẩm ?");
+                    if (!muaSanPham) {
+                        console.log("Tôi không mua ");
+                        return;
+                    }else{
+                        // thêm mới sản phẩm vào hóa đơn chi tiêt
+                        console.log("Tôi muốn mua ");
+                        themSanPham_VaoHoaDonChiTiet(idHoaDon_active, idSanPhamChiTiet, soLuongMua)
+                            .then(result => {
+                                if (result.ketQuaSauThemThanhCong) {
+                                    alert("Thêm sản phẩm vào hóa đơn thành công "); // - không vượt quá số lượng trong kho
+                                } else {
+                                    alert("Thêm sản phẩm vào hóa đơn thất bại");
+                                }
+                            })
+                            .catch(error => {
+                                console.log("Đã xảy ra lỗi khi thêm sản phẩm vào hóa đơn chi tiết - không vượt quá số lượng trong kho : " + error);
+                            });
+                    }
+                }
+                // console.log("Thực hiện thêm sản phẩm vào hóa đơn chi tiết - hợp lệ");
+            })
+            .catch(error => {
+                console.log("Đã xảy ra lỗi khi kiểm tra số lượng mua: " + error);
+            });
     }
+
+
+    function kiemTraSoLuongMuaHopLeKhong(idHoaDon, idSanPhamCT, soLuongMua) {
+        return new Promise((resolve, reject) => {
+            let data = {
+                idHoaDon: idHoaDon,
+                idSanPhamCT: idSanPhamCT,
+                soLuong_sanPhamMua: soLuongMua
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/api/ban-hang/kiemTraSoLuongMuaBiVuotQuaKhong",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    resolve({
+                        ketQuaKiemTra: data.ketQuaKiemTraSL_muaHopLe,
+                        soLuongDaChonVaoHoaDon: data.soLuongDaChonVaoHoaDon,
+                        soLuongCoTheThemVaoHoaDon: data.soLuongCoTheThemVaoHoaDon
+                    });
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function themSanPham_VaoHoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua) {
+        return new Promise((resolve, reject) => {
+            let data = {
+                idHoaDon: idHoaDon,
+                idSanPhamCT: idSanPhamCT,
+                soLuong_sanPhamMua: soLuongMua
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/api/ban-hang/themSanPhamVaoHoaDonChiTiet",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    resolve({
+                        ketQuaSauThemThanhCong: data.ketQuaThemSPVaoHoaDonCT
+                    });
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
 </script>
 
 

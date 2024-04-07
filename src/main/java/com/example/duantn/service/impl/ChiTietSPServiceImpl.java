@@ -25,16 +25,6 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     @Autowired
     LoaiSanPhamRepository repo_loaiSanPham;
 
-//    @Override
-//    public List<ChiTietSanPham> layDanhSach() {
-//        return repo_chiTietSanPham.getAll();
-//    }
-//
-//    @Override
-//    public List<ChiTietSanPham> findByCondition(ChiTietSanPham entity) {
-//        return null;
-//    }
-
     @Override
     public Page<ChiTietSanPham> layDanhSach(Pageable pageable) {
         return repo_chiTietSanPham.getAll(pageable);
@@ -49,10 +39,6 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.getAll(pageable);
     }
 
-//    @Override
-//    public Page<ChiTietSanPham> findPage(ChiTietSanPham entity, Pageable pageable) {
-//        return null;
-//    }
 
     @Override
     public void xoa(UUID id) {
@@ -131,6 +117,11 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     // getListUUID_SanPham_fromChiTietSP
     public  List<UUID> layDanhSach_IdSanPham_trongSanPhamCT(){
         return repo_chiTietSanPham.getListUUID_SanPham_fromChiTietSP();
+    }
+
+    // lay so luong trong kho bang idSanPhamChiTiet
+    public Integer laySoLuongTrongKho(UUID idSanPhamCT){
+        return  repo_chiTietSanPham.getSoLuong_byIdSanPhamChiTiet(idSanPhamCT);
     }
 
 }

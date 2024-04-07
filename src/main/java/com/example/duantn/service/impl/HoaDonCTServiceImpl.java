@@ -20,44 +20,23 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
     @Autowired
     private HoaDonRepository hoaDonRepository;
 
-//    @Override
-//    public List<HoaDonChiTiet> getAll() {
-//        return hoaDonCTRepository.getAll();
-//    }
-//
-//    @Override
-//    public void delete(UUID id) {
-//
-//        hoaDonCTRepository.deleteById(id);
-//    }
+    // hoan code
+    public Integer getSoLuongSanPhamTrongHoaDonCT(UUID idHoaDon, UUID idSanPham){
+        Integer soLuong = hoaDonCTRepository.getSoLuongSanPham_trongHoaDonCT(idHoaDon, idSanPham);
+        return  soLuong;
+    }
 
-//    @Override
-//    public void add(HoaDonChiTiet hoaDonCT) {
-//        hoaDonCTRepository.save(hoaDonCT);
-//
-//    }
+    // cập nhật số lượng sản phẩm trong hóa đơn chi tiết
+    public void capNhatSoLuongSanPhamMua_HDCT(UUID idHoaDon, UUID idSanPhamCT, Integer soLuongMua){
+         hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua);
+    }
 
-//    @Override
-//    public HoaDonChiTiet detail(UUID id) {
-//        HoaDonChiTiet hoaDonCT = hoaDonCTRepository.findById(id).get();
-//        return hoaDonCT;
-//    }
-//
-//    @Override
-//    public HoaDonChiTiet update(UUID id, HoaDonChiTiet hoaDonCT) {
-//        HoaDonChiTiet hoaDonCT1 = hoaDonCTRepository.save(hoaDonCT);
-//        return hoaDonCT1;
-//    }
+    public HoaDonChiTiet themMoi2(HoaDonChiTiet entity) {
+        return hoaDonCTRepository.save(entity);
+    }
+    // hoan code
 
-//    @Override
-//    public List<HoaDon> layDanhSach() {
-//        return null;
-//    }
 
-//    @Override
-//    public List<HoaDonChiTiet> findByCondition(HoaDon entity) {
-//        return null;
-//    }
 
     @Override
     public List<HoaDonChiTiet> layDanhSach() {
@@ -74,10 +53,7 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         return null;
     }
 
-//    @Override
-//    public Page<HoaDonChiTiet> findPage(HoaDon entity, Pageable pageable) {
-//        return null;
-//    }
+
 
     @Override
     public void xoa(UUID id) {
@@ -89,6 +65,8 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
     public void themMoi(HoaDonChiTiet entity) {
         hoaDonCTRepository.save(entity);
     }
+
+
 
 
     @Override
