@@ -1,18 +1,12 @@
 package com.example.duantn.controller.banTaiQuay;
 
-import com.example.duantn.model.ChiTietSanPham;
-import com.example.duantn.model.HoaDon;
-import com.example.duantn.model.KhachHang;
-import com.example.duantn.model.PhieuGiamGia;
+import com.example.duantn.model.*;
 import com.example.duantn.request.GioHang;
 import com.example.duantn.request.MuaHangTaiQuay;
 import com.example.duantn.request.PhanTrangRequest;
 import com.example.duantn.request.SanPhamTrongGioHang;
 import com.example.duantn.service.HoaDonService;
-import com.example.duantn.service.impl.ChiTietSPServiceImpl;
-import com.example.duantn.service.impl.HoaDonServiceImpl;
-import com.example.duantn.service.impl.KhachHangServiceImpl;
-import com.example.duantn.service.impl.PhieuGiamGiaServiceImpl;
+import com.example.duantn.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -44,6 +38,9 @@ public class BanHangTaiQuayController {
 
     @Autowired
     HoaDonServiceImpl hoaDonService;
+
+    @Autowired
+    HoaDonCTServiceImpl hoaDonCTService;
 
     @Autowired
     KhachHangServiceImpl khachHangService;
@@ -92,6 +89,35 @@ public class BanHangTaiQuayController {
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
         jsonResult.put("danhSachSanPhamChiTiet", chiTietSanPhams);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/phan-trang-hoaDonCho")
+    public ResponseEntity<Map<String, Object>> phanTrangChoHoaDonCho(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody PhanTrangRequest phanTrang
+    ) throws IOException {
+        UUID idHoaDon = phanTrang.getIdHoaDon();
+        int currentPage = 0;
+        int pageLimit = phanTrang.getPageLimit()==null?2:phanTrang.getPageLimit();
+        currentPage = phanTrang.getCurrentPage()==null?0:phanTrang.getCurrentPage();
+
+        System.out.println("IdHoa don hien tại trong /phan-trang-hoaDonCho :  " + idHoaDon);
+
+        Pageable pageable = PageRequest.of(currentPage, pageLimit);
+        Page<HoaDonChiTiet> pageHoaDonChiTiet =  hoaDonCTService.layDanhSachHoaDonChiTiet_va_PhanTrang(idHoaDon, pageable);
+        List<HoaDonChiTiet> hoaDonChiTiets = pageHoaDonChiTiet.getContent();
+
+
+        System.out.println("Danh sách hóa đơn lấy được trong phân trang : " + hoaDonChiTiets.size());
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("danhSachHoaDonChiTiet", hoaDonChiTiets);
 
         return ResponseEntity.ok(jsonResult);
     }

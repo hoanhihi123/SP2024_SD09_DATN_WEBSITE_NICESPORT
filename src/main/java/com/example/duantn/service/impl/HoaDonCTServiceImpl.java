@@ -26,6 +26,10 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         return  soLuong;
     }
 
+    public Page<HoaDonChiTiet> layDanhSachHoaDonChiTiet_va_PhanTrang(UUID idHoaDon, Pageable pageable){
+        return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon_phanTrang(idHoaDon, pageable);
+    }
+
     // cập nhật số lượng sản phẩm trong hóa đơn chi tiết
     public void capNhatSoLuongSanPhamMua_HDCT(UUID idHoaDon, UUID idSanPhamCT, Integer soLuongMua){
          hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua);
@@ -34,19 +38,28 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
     public HoaDonChiTiet themMoi2(HoaDonChiTiet entity) {
         return hoaDonCTRepository.save(entity);
     }
-    // hoan code
 
-
-
-    @Override
-    public List<HoaDonChiTiet> layDanhSach() {
-        return null;
+    // lay danh sach hoa don chi tiet theo idHoaDon
+    public List<HoaDonChiTiet> layDanhSachHoaDonChiTiet_theoIdHoaDon(UUID idHoaDon){
+        return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon(idHoaDon);
     }
 
     @Override
     public Page<HoaDonChiTiet> layDanhSach(Pageable pageable) {
-        return null;
+        return hoaDonCTRepository.findAll(pageable);
     }
+
+    @Override
+    public List<HoaDonChiTiet> layDanhSach() {
+        return hoaDonCTRepository.getAll();
+    }
+
+    // hoan code
+
+
+
+
+
 
     @Override
     public Page<HoaDonChiTiet> layDanhSach(String textSearch, Pageable pageable) {

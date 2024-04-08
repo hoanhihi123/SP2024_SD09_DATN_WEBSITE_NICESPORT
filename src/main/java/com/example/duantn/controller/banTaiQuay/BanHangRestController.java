@@ -5,6 +5,7 @@ import com.example.duantn.model.ChiTietSanPham;
 import com.example.duantn.model.HoaDon;
 import com.example.duantn.model.HoaDonChiTiet;
 import com.example.duantn.request.MuaHangTaiQuay;
+import com.example.duantn.request.PhanTrangRequest;
 import com.example.duantn.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/ban-hang")   // /api/ban-hang/getDanhSachSanPham
@@ -67,6 +65,16 @@ public class BanHangRestController {
             Model model
     ){
         return ResponseEntity.of(Optional.ofNullable(phieuGiamGiaService.layDanhSach()));
+    }
+
+    // api lấy ra danh sách hoa don cho
+    @PostMapping("/getDanhSachHoaDonCho_theoIDHoaDonActive")
+    public ResponseEntity<?> getDanhSachHoaDonChiTiet(
+            Model model,
+            @RequestBody PhanTrangRequest phanTrangRequest
+            ){
+        System.out.println("Id hóa đơn lấy được trong getDanhSachHoaDonCho_theoIDHoaDonActive : " + phanTrangRequest.getIdHoaDon());
+        return ResponseEntity.of(Optional.ofNullable(hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(phanTrangRequest.getIdHoaDon())));
     }
 
     // api lấy ra danh sách phieu giảm giá
@@ -190,6 +198,24 @@ public class BanHangRestController {
         jsonResult.put("ketQuaThemSPVaoHoaDonCT", checkThemSanPhamVaoHDCT);
 
 //        jsonResult.put("ketQuaSauThemHoaDonCT",checkSoLuongHoaDon);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/layDanhSachHoaDon_theoIDHoaDon")
+    public ResponseEntity<Map<String, Object>> layDanhSachHoaDonChiTietTheoIDHoaDon(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody MuaHangTaiQuay muaHangTaiQuay
+    ) throws IOException {
+        List<HoaDonChiTiet> dsHoaDonChiTiet = hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(muaHangTaiQuay.getIdHoaDon());
+//        System.out.println("Số lượng hóa đơn chi tiết lấy được " + dsHoaDonChiTiet.size());
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("dsHoaDonChiTiet",dsHoaDonChiTiet);
 
         return ResponseEntity.ok(jsonResult);
     }

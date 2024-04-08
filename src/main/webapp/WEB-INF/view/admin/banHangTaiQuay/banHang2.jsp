@@ -234,36 +234,12 @@
                                                     <th scope="col">Tên</th>
                                                     <th scope="col">Size - màu sắc</th>
                                                     <th scope="col">Số lượng mua</th>
+                                                    <th scope="col">Tổng tiền</th>
                                                     <th scope="col">xóa sản phẩm</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="danhSachSanPham_duocChonVaoHoaDon">
-<%--                                                    <tr style="text-align: center;">--%>
-<%--                                                        <th scope="row">1</th>--%>
-<%--                                                        <td > <img width="80px" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/40e9a096-e6cc-4c39-aec8-46a330f80681/invincible-3-road-running-shoes-jkhK7v.png" alt=""></td>--%>
-<%--                                                        <td >Nike Invincible 3</td>--%>
-<%--                                                        <td >Size: 34 - màu: trắng viền đen</td>--%>
-<%--                                                        <td ><input type="number" value="1" min="1" class="form-control" style="width: 50%; margin: 0px auto;"></td>--%>
-<%--                                                        <td > <a href="#" class="btn btn-warning"> <i class="menu-icon fa fa-trash-o" style="margin-right: 5px;"></i>Xóa</a> </td>--%>
-<%--                                                    </tr>--%>
 
-
-<%--                                                    <tr style="text-align: center;">--%>
-<%--                                                        <th scope="row">1</th>--%>
-<%--                                                        <td > <img width="80px" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/40e9a096-e6cc-4c39-aec8-46a330f80681/invincible-3-road-running-shoes-jkhK7v.png" alt=""></td>--%>
-<%--                                                        <td >Nike Invincible 3</td>--%>
-<%--                                                        <td >Size: 34 - màu: trắng viền đen</td>--%>
-<%--                                                        <td ><input type="number" value="1" min="1" class="form-control" style="width: 50%; margin: 0px auto;"></td>--%>
-<%--                                                        <td > <a href="#" class="btn btn-warning"> <i class="menu-icon fa fa-trash-o" style="margin-right: 5px;"></i>Xóa</a> </td>--%>
-<%--                                                    </tr>--%>
-<%--                                                    <tr style="text-align: center;">--%>
-<%--                                                        <th scope="row">1</th>--%>
-<%--                                                        <td > <img width="80px" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/40e9a096-e6cc-4c39-aec8-46a330f80681/invincible-3-road-running-shoes-jkhK7v.png" alt=""></td>--%>
-<%--                                                        <td >Nike Invincible 3</td>--%>
-<%--                                                        <td >Size: 34 - màu: trắng viền đen</td>--%>
-<%--                                                        <td ><input type="number" value="1" min="1" class="form-control" style="width: 50%; margin: 0px auto;"></td>--%>
-<%--                                                        <td > <a href="#" class="btn btn-warning"> <i class="menu-icon fa fa-trash-o" style="margin-right: 5px;"></i>Xóa</a> </td>--%>
-<%--                                                    </tr>--%>
 
                                                 </tbody>
                                             </table>
@@ -478,18 +454,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody id="table-body-chiTietSP">
-<%--                                                    <c:forEach items="${dsSanPhamChiTiet}" var="sanPhamCT" varStatus="SPCT">--%>
-<%--                                                        <tr style="text-align: center;">--%>
-<%--                                                                <th scope="row">${SPCT.index+1}</th>--%>
-<%--                                                                <td > <img width="80px" src="${sanPhamCT.hinhAnh}" alt=""></td>--%>
-<%--                                                                <td >${sanPhamCT.sanPham.ten}</td>--%>
-<%--                                                                <td >Size: ${sanPhamCT.kichCo.ten} - màu: ${sanPhamCT.mauSac.ten}</td>--%>
-<%--                                                                <td>${sanPhamCT.soLuong}</td>--%>
-<%--                                                                <td>${sanPhamCT.giaTriSanPham}</td>--%>
-<%--                                                                <td ><input type="number" id="${sanPhamCT.id}" value="1" min="1" class="form-control" style="width: 50%; margin: 0px auto;"></td>--%>
-<%--                                                                <td > <a href="#" class="btn btn-success" onclick="addToBill('${sanPhamCT.id}');"> Chọn mua</a> </td>--%>
-<%--                                                        </tr>--%>
-<%--                                                    </c:forEach>--%>
+
                                                 </tbody>
                                             </table>
 
@@ -673,9 +638,15 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="/admin/assets/js/main.js"></script>
 
+
+<%--Tạo dữ liệu và phân trang cho hóa đơn chờ --%>
 <script>
+
+    var pageLimit = 2; // Số lượng sản phẩm trên mỗi trang
+
     // lấy ra danh sách hóa dơn chờ
     function getListHoaDonCho() {
+        console.log("chạy vào getListHoaDonCho()");
         $.ajax({
             url: "http://localhost:8080/api/ban-hang/getDanhSachHoaDonTheoTrangThai_hoaDonCho",
             type: "GET",
@@ -731,18 +702,20 @@
                         button.appendChild(span);
                         li.appendChild(button);
                         tabContainer.appendChild(li);
+
                     });
 
-
-
-                    // tạo sự kiện xử lý mỗi khi click vào tabpane
-                    // lấy ra sự kiện đang được active cuối cùng
-                    // list ra các thông tin tương ứng với idHoaDonCho của tabpane đó
-
-                    // hàm lấy ra id của tabpane đang actice
-
                     // var idHoaDon_active = layIDCuaButtonTabPane_active();
-                    // console.log("id hóa dơn đang active : " + idHoaDon_active);
+                    // console.log("Id hoa don active : " + idHoaDon_active);
+                    // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+
+                    // lấy idHoaDon_active
+                    var idHoaDon_active = layIDCuaButtonTabPane_active();
+
+
+                    fetchDataAndFillTable_danhSachHoaDonCho();
+                    phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+
 
                 }else{
                     console.log("Không có hóa đơn chờ nào");
@@ -759,6 +732,144 @@
                 console.log("Error: " + error);
             }
         });
+    }
+
+    // hoaDonCho
+    // tạo phân trang
+    function createPagination_choDanhSach_HoaDonCho(totalPages) {
+        console.log("Tạo phân trang cho danh sách hóa đơn chờ");
+        var paginationContainer = $("<ul>").addClass("pagination justify-content-end");
+
+        // hoaDonCho
+        // Tạo các nút trang
+        for (var i = 1; i <= totalPages; i++) {
+            var pageItem = $("<li>").addClass("page-item");
+            var pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
+            if (i === 1) {
+                pageItem.addClass("active");
+            }
+            pageItem.append(pageLink);
+            paginationContainer.append(pageItem);
+        }
+
+        // hoaDonCho
+        // Thêm sự kiện click cho các nút trang
+        paginationContainer.find(".page-link").not("[aria-disabled='true']").click(function (e) {
+            e.preventDefault();
+            // Lấy số trang tương ứng khi click
+            var currentPage = parseInt($(this).text());
+            // Xóa lớp active khỏi tất cả các thẻ <li>
+            paginationContainer.find("li").removeClass("active");
+            // Thêm lớp active cho thẻ <li> của trang được chọn
+            $(this).parent().addClass("active");
+
+            // lấy idHoaDon_active
+            var idHoaDon_active = layIDCuaButtonTabPane_active();
+
+            // Gọi hàm để lấy dữ liệu cho trang mới
+            phanTrangSanPhamCT_trongChonHoaDonCho((currentPage-1), pageLimit,idHoaDon_active);
+        });
+
+        // hoaDonCho
+        // Thêm phân trang vào DOM
+        $("#phanTrangChoSanPhamDuocChonVaoHoaDon").empty().append(paginationContainer);
+    }
+
+
+    // hoaDonCho
+    // lấy dữ liệu từ API để tính tổng số trang
+    // => chạy hàm tạo phân trang cho danh sách sản phẩm
+    function fetchDataAndFillTable_danhSachHoaDonCho() {
+        console.log("Chạy vào fetchDataAndFillTable_danhSachHoaDonCho");
+        // lấy idHoaDon_active
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        console.log("IdHoaDon_active : " + idHoaDon_active);
+        let data = {
+            idHoaDon : idHoaDon_active
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/api/ban-hang/getDanhSachHoaDonCho_theoIDHoaDonActive",
+            type: "POST",
+            contentType: "application/json",
+            data : JSON.stringify(data),
+            dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+            success: function(data) {
+
+                var totalPages = Math.ceil(data.length / pageLimit);
+                console.log("Tổng số trang trong danh sách hóa đơn chờ : " + totalPages);
+                // Tạo phân trang
+                createPagination_choDanhSach_HoaDonCho(totalPages);
+
+                // hiển thị mặc định trang đầu tiên là 1
+                currentPage = 1;
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            }
+        });
+    }
+
+
+
+    // hoaDonCho
+    // đổ lại dữ liệu vào bảng sau khi chọn phân trang
+    phanTrangSanPhamCT_trongChonHoaDonCho = function( currentPage , pageLimit, idHoaDong) {
+        let data = {
+            currentPage: currentPage ,
+            pageLimit: pageLimit ,
+            idHoaDon : idHoaDong
+        };
+
+        //$ === jQuery
+        jQuery.ajax({
+            url : "/ban-hang/phan-trang-hoaDonCho",
+            type : "POST",
+            contentType: "application/json",
+            data : JSON.stringify(data),
+            dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+            success : function(jsonResult) {
+
+                var dsHoaDonChiTiet = jsonResult.danhSachHoaDonChiTiet;
+                console.log("Chạy vào hàm : phanTrangSanPhamCT_trongChonHoaDonCho");
+                console.log(dsHoaDonChiTiet);
+
+                // Điền dữ liệu vào bảng
+                fillTableWithData_choHoaDonChiTiet(dsHoaDonChiTiet);
+            },
+
+            error : function(jqXhr, textStatus, errorMessage) {
+                //alert(jsonResult.code + ': Luu thanh cong...!')
+            }
+
+        });
+    }
+
+    // do du lieu len bang danh sach hoa don chi tiet
+    function fillTableWithData_choHoaDonChiTiet(data) {
+        console.log("Chạy vào hàm fillTableWithData_choHoaDonChiTiet");
+        console.log(data);
+        // lấy ra content của tBody trong table => xóa content trong đó đi
+        var tableBody = $("#danhSachSanPham_duocChonVaoHoaDon");
+        tableBody.empty();
+
+        // set lại nội dung cho tbody
+        data.forEach(function(item, index) {
+            var row =
+                "<tr style='text-align: center;'>" +
+                "<td>" + (index + 1) + "</td>" +
+                "<td><img width='80px' src='" + item.chiTietSanPham.hinhAnh + "' alt=''></td>" +
+                "<td>" + item.chiTietSanPham.sanPham.ten + "</td>" +
+                "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
+                "<td>" + item.soLuong + "</td>" +
+                "<td>" + item.donGia + "</td>" +
+                "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.id + "\", this.parentNode.previousElementSibling.querySelector(\"input\").value);'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>"
+            "</tr>";
+            tableBody.append(row);
+        });
+
     }
 
     function layIDCuaButtonTabPane_active() {
@@ -848,81 +959,49 @@
     }
 
 
-
     // hàm thực hiện mỗi lần load trang sẽ thực hiện các hàm bên trong
     document.addEventListener("DOMContentLoaded", function() {
         // lấy ra hóa đơn chờ
         getListHoaDonCho();
     });
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //
+    //     var idHoaDon_active = layIDCuaButtonTabPane_active();
+    //     // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+    //     console.log("id hóa dơn đang active : " + idHoaDon_active);
+    //
+    //     if(idHoaDon_active !== "home-tab"){
+    //         console.log("Id hóa đơn hợp lệ để chạy 2 function load hóa đơn chi tiết");
+    //         fetchDataAndFillTable_danhSachHoaDonCho();
+    //         phanTrangSanPhamCT_trongChonHoaDonCho();
+    //     }
+    //
+    //
+    // });
+
+
+
+    // lấy idHoaDon khi click vào myTab - thành công khi click vào nó
+    document.getElementById("myTab").addEventListener("click", function(event) {
+
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+        // console.log("id hóa dơn đang active : " + idHoaDon_active);
+
+        fetchDataAndFillTable_danhSachHoaDonCho();
+        phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+    });
+
+
+
 </script>
+
+
 <script>
     // Sử dụng JavaScript để đặt giá trị của trường ngày thành ngày hôm nay
     document.getElementById('dateToday').valueAsDate = new Date();
 
-    // lấy ra tab hiện tại
-    function currentTab(){
-
-    }
-
-    // thêm sản phẩm vào hóa đơn chờ
-    function addToBill(sanPhamId) {
-
-
-        // lấy ra tên tabpane đang được chọn để setSession, thêm sản phẩm vào hoaDonCho cho chuẩn của tabPane đó
-        var activeTab = document.querySelector(".tab-pane.fade.show.active");
-        if (activeTab) {
-            var tabName = activeTab.getAttribute("id");
-            var tabNameInput = document.getElementById("tabNameCurrent");
-            tabNameInput.value = tabName;
-            // console.log("Current Tab Name:", tabName);
-            // console.log("Current Tab Name current hidden:", tabNameInput);
-        } else {
-            console.log("No active tab found.");
-        }
-
-        // Lấy giá trị của số lượng mua từ trường nhập liệu
-        var soLuongMua = document.getElementById(sanPhamId).value;
-        let idSanPhamCTDuocChon = sanPhamId;
-        var tabNameCurrentPage = document.getElementById("tabNameCurrent").value;
-
-        // console.log("ID sản phẩm:", sanPhamId);
-        // console.log("Số lượng mua:", soLuongMua);
-        // console.log("tabNameCurrentPage : " + tabNameCurrentPage);
-
-
-        //id="sizeGiayDuocChon"
-        let data = {
-            idSanPhamCT: idSanPhamCTDuocChon, //lay theo id
-            soLuong: soLuongMua ,
-            tenHoaDon: tabNameCurrentPage
-        };
-
-        $ === jQuery
-        jQuery.ajax({
-            url : "/ban-hang/add-to-hoaDonCho",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
-
-            success : function(jsonResult) {
-                / alert(jsonResult.code + ": " + jsonResult.message); /
-                let totalProducts = jsonResult.totalCartProducts;
-                let totalPrice = jsonResult.totalPriceResult;
-                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                $("#totalCartProductsId").html(totalProducts);
-                // $("#totalPriceInCart").html(totalPrice);
-                if(soLuongMuaVuotQua===true){
-                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
-                }
-            },
-
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
-            }
-
-        });
-    }
 
 </script>
 
@@ -1015,6 +1094,11 @@
             return activeTabBtn.getAttribute("id");
         }
         return null;
+
+        // làm sao để set active cho tab đang active ?
+        // chuyển active giữa các tab => oke
+        // tab hiển thị hiện tại khi load trang => lấy ra tabpane đang active => load ra sản phẩm ra hóa dơn chi tiết
+
     }
 
 
@@ -1023,7 +1107,7 @@
 
 <%--<script src="/admin/assets/js/fillDataFromAPI.js"></script>--%>
 
-
+<%-- phân trang sản phẩm chi tiết --%>
 <script>
     <%-- đổ dữ liệu và phân trang SanPhamChiTiet   --%>
     // xử lý phân trang final khi lấy dữ liệu được call từ API
@@ -1147,6 +1231,7 @@
         });
     }
 
+
     // thực hiện những hàm này khi click button thêm sản phẩm
     function updateDataFromCallAPI_sanPhamChiTiet(){
         // fill data to table list product detail
@@ -1168,6 +1253,10 @@
         phanTrangSanPhamCT_trongChonSanPham();
     });
 
+</script>
+
+<%--đổ dữ liệu và phân trang cho khách hàng --%>
+<script>
     <%-- đổ dữ liệu và phân trang KhachHang   --%>
     // khach hang
     // đổ lại dữ liệu vào bảng sau khi chọn phân trang
@@ -1289,126 +1378,127 @@
         // pagination for list product detail
         phanTrangSanPhamCT_trongChonKhachHang();
     });
+</script>
 
-
-
+<%--đổ dữ liệu và phân trang cho phiếu giảm giá --%>
+<script>
     <%-- đổ dữ liệu và phân trang PhieuGiamGia   --%>
-    // phieu giam gia
-    // đổ lại dữ liệu vào bảng sau khi chọn phân trang
-    phanTrangSanPhamCT_trongChonPhieuGiamGia = function( currentPage , pageLimit) {
-        let data = {
-            currentPage: currentPage ,
-            pageLimit: pageLimit
-        };
+        // phieu giam gia
+        // đổ lại dữ liệu vào bảng sau khi chọn phân trang
+        phanTrangSanPhamCT_trongChonPhieuGiamGia = function( currentPage , pageLimit) {
+            let data = {
+                currentPage: currentPage ,
+                pageLimit: pageLimit
+            };
 
-        //$ === jQuery
-        jQuery.ajax({
-            url : "/ban-hang/phan-trang-phieuGiamGia",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
+            //$ === jQuery
+            jQuery.ajax({
+                url : "/ban-hang/phan-trang-phieuGiamGia",
+                type : "POST",
+                contentType: "application/json",
+                data : JSON.stringify(data),
+                dataType : "json", //Kieu du lieu tra ve tu controller la json
 
-            success : function(jsonResult) {
+                success : function(jsonResult) {
 
-                var danhSachPhieuGiamGia = jsonResult.danhSachPhieuGiamGia;
-                // console.log(danhSachPhieuGiamGia);
+                    var danhSachPhieuGiamGia = jsonResult.danhSachPhieuGiamGia;
+                    // console.log(danhSachPhieuGiamGia);
 
-                // Điền dữ liệu vào bảng
-                fillTableWithData_chonPhieuGiamGia(danhSachPhieuGiamGia);
-            },
+                    // Điền dữ liệu vào bảng
+                    fillTableWithData_chonPhieuGiamGia(danhSachPhieuGiamGia);
+                },
 
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
-            }
+                error : function(jqXhr, textStatus, errorMessage) {
+                    //alert(jsonResult.code + ': Luu thanh cong...!')
+                }
 
-        });
-    }
-
-    // phieu giam gia
-    // tạo ra phân trang và tạo sự kiện xử lý phân trang khi click
-    function createPagination_choDanhSacPhieuGiamGia(totalPages) {
-        var paginationContainer = $("<ul>").addClass("pagination justify-content-end");
-
-        // Tạo các nút trang
-        for (var i = 1; i <= totalPages; i++) {
-            var pageItem = $("<li>").addClass("page-item");
-            var pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
-            if (i === 1) {
-                pageItem.addClass("active");
-            }
-            pageItem.append(pageLink);
-            paginationContainer.append(pageItem);
+            });
         }
 
-        // Thêm sự kiện click cho các nút trang
-        paginationContainer.find(".page-link").not("[aria-disabled='true']").click(function (e) {
-            e.preventDefault();
-            // Lấy số trang tương ứng khi click
-            var currentPage = parseInt($(this).text());
-            // Xóa lớp active khỏi tất cả các thẻ <li>
-            paginationContainer.find("li").removeClass("active");
-            // Thêm lớp active cho thẻ <li> của trang được chọn
-            $(this).parent().addClass("active");
+        // phieu giam gia
+        // tạo ra phân trang và tạo sự kiện xử lý phân trang khi click
+        function createPagination_choDanhSacPhieuGiamGia(totalPages) {
+            var paginationContainer = $("<ul>").addClass("pagination justify-content-end");
 
-            // Gọi hàm để lấy dữ liệu cho trang mới
-            phanTrangSanPhamCT_trongChonPhieuGiamGia((currentPage-1), pageLimit);
-        });
-
-        // Thêm phân trang vào DOM
-        $("#pagination-container-phieuGiamGia").empty().append(paginationContainer);
-    }
-
-    // phieu giam gia
-    // lấy dữ liệu từ API để tính tổng số trang
-    // => chạy hàm tạo phân trang cho danh sách sản phẩm
-    function fetchDataAndFillTable_danhSachPhieuGiamGia() {
-        $.ajax({
-            url: "http://localhost:8080/api/ban-hang/getDanhSachPhieuGiamGia",
-            type: "GET",
-            success: function(data) {
-
-                var totalPages = Math.ceil(data.length / pageLimit);
-
-                // Tạo phân trang
-                createPagination_choDanhSacPhieuGiamGia(totalPages);
-
-                // hiển thị mặc định trang đầu tiên là 1
-                currentPage = 1;
-            },
-            error: function(error) {
-                console.log("Error: " + error);
+            // Tạo các nút trang
+            for (var i = 1; i <= totalPages; i++) {
+                var pageItem = $("<li>").addClass("page-item");
+                var pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
+                if (i === 1) {
+                    pageItem.addClass("active");
+                }
+                pageItem.append(pageLink);
+                paginationContainer.append(pageItem);
             }
-        });
-    }
 
-    // phieu giam gia
-    // Function để điền dữ liệu vào bảng
-    function fillTableWithData_chonPhieuGiamGia(data) {
-        // lấy ra content của tBody trong table => xóa content trong đó đi
-        var tableBody = $("#table-body-phieuGiamGia");
-        tableBody.empty();
+            // Thêm sự kiện click cho các nút trang
+            paginationContainer.find(".page-link").not("[aria-disabled='true']").click(function (e) {
+                e.preventDefault();
+                // Lấy số trang tương ứng khi click
+                var currentPage = parseInt($(this).text());
+                // Xóa lớp active khỏi tất cả các thẻ <li>
+                paginationContainer.find("li").removeClass("active");
+                // Thêm lớp active cho thẻ <li> của trang được chọn
+                $(this).parent().addClass("active");
+
+                // Gọi hàm để lấy dữ liệu cho trang mới
+                phanTrangSanPhamCT_trongChonPhieuGiamGia((currentPage-1), pageLimit);
+            });
+
+            // Thêm phân trang vào DOM
+            $("#pagination-container-phieuGiamGia").empty().append(paginationContainer);
+        }
+
+        // phieu giam gia
+        // lấy dữ liệu từ API để tính tổng số trang
+        // => chạy hàm tạo phân trang cho danh sách sản phẩm
+        function fetchDataAndFillTable_danhSachPhieuGiamGia() {
+            $.ajax({
+                url: "http://localhost:8080/api/ban-hang/getDanhSachPhieuGiamGia",
+                type: "GET",
+                success: function(data) {
+
+                    var totalPages = Math.ceil(data.length / pageLimit);
+
+                    // Tạo phân trang
+                    createPagination_choDanhSacPhieuGiamGia(totalPages);
+
+                    // hiển thị mặc định trang đầu tiên là 1
+                    currentPage = 1;
+                },
+                error: function(error) {
+                    console.log("Error: " + error);
+                }
+            });
+        }
+
+        // phieu giam gia
+        // Function để điền dữ liệu vào bảng
+        function fillTableWithData_chonPhieuGiamGia(data) {
+            // lấy ra content của tBody trong table => xóa content trong đó đi
+            var tableBody = $("#table-body-phieuGiamGia");
+            tableBody.empty();
 
 
-        // set lại nội dung cho tbody
-        data.forEach(function(item, index) {
-            var gioiTinh = item === 0 ? "Nam":"Nữ";
-            var row =
-                "<tr style='text-align: center;'>" +
-                "<td>" + (index + 1) + "</td>" +
-                "<td>" +  item.ten + "</td>" +
-                "<td>" +  item.ngayBatDauApDung + "</td>" +
-                "<td>" +  item.ngayKetThucApDung + "</td>" +
-                "<td>" +  item.giaTriGiam + "</td>" +
-                "<td>" +  item.hinhThucGiam + "</td>" +
-                "<td>" +  item.dieuKienGiam + "</td>" +
-                "<td>" +  item.giaTienXetDieuKien + "</td>" +
-                "<td><a href='#' class='btn btn-success' onclick='chonKhachHang(\"" + item.id + "\");'>Chọn </a></td>" +
-                "</tr>";
-            tableBody.append(row);
-        });
-    }
-    <%--/ đổ dữ liệu và phân trang KhachHang   --%>
+            // set lại nội dung cho tbody
+            data.forEach(function(item, index) {
+                var gioiTinh = item === 0 ? "Nam":"Nữ";
+                var row =
+                    "<tr style='text-align: center;'>" +
+                    "<td>" + (index + 1) + "</td>" +
+                    "<td>" +  item.ten + "</td>" +
+                    "<td>" +  item.ngayBatDauApDung + "</td>" +
+                    "<td>" +  item.ngayKetThucApDung + "</td>" +
+                    "<td>" +  item.giaTriGiam + "</td>" +
+                    "<td>" +  item.hinhThucGiam + "</td>" +
+                    "<td>" +  item.dieuKienGiam + "</td>" +
+                    "<td>" +  item.giaTienXetDieuKien + "</td>" +
+                    "<td><a href='#' class='btn btn-success' onclick='chonKhachHang(\"" + item.id + "\");'>Chọn </a></td>" +
+                    "</tr>";
+                tableBody.append(row);
+            });
+        }
+    <%--/ đổ dữ liệu và phân trang phieu giảm giá  --%>
 
     // hàm thực hiện mỗi lần load trang sẽ thực hiện các hàm bên trong
     document.addEventListener("DOMContentLoaded", function() {
@@ -1420,7 +1510,10 @@
 
 </script>
 
+
 <script>
+
+    // hàm xử lý thêm sản phẩm vào hóa đơn hiện tại => và kiểm tra số lượng có bị vượt quá trước khi thêm hay không ?
     function themSanPhamVaoHoaDonHienTai(idSanPhamChiTiet, soLuongMua) {
         var idHoaDon_active = layIDCuaButtonTabPane_active();
         console.log("Id sản phẩm chi tiết được chọn : " + idSanPhamChiTiet);
@@ -1446,6 +1539,11 @@
                                 .then(result => {
                                     if (result.ketQuaSauThemThanhCong) {
                                         alert("Thêm sản phẩm vào hóa đơn thành công  "); // - check 1
+                                        // fetch data ra bill current
+                                        // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+                                        fetchDataAndFillTable_danhSachHoaDonCho();
+                                        phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+
                                     } else {
                                         alert("Thêm sản phẩm vào hóa đơn thất bại");
                                     }
@@ -1460,6 +1558,10 @@
                     }else{  // trường hợp chưa thêm sản phẩm vào hóa đơn
                         if(result.soLuongCoTheThemVaoHoaDon===0){
                             alert("Số lượng sản phẩm trong kho không đủ bán \n\nSố lượng sản phẩm này bạn đã thêm vào hóa đơn: " + result.soLuongDaChonVaoHoaDon + "\nSố lượng bạn có thể thêm vào hóa đơn: " + result.soLuongCoTheThemVaoHoaDon + "\n\nVui lòng chọn sản phẩm khác" );
+                            // fetch data ra bill current
+                            // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+                            fetchDataAndFillTable_danhSachHoaDonCho();
+                            phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
                             return;
                         }
 
@@ -1470,13 +1572,20 @@
                             return;
                         }else{
                             // thêm mới sản phẩm vào hóa đơn chi tiêt
+
                             console.log("Tôi muốn mua thêm");
                             themSanPham_VaoHoaDonChiTiet(idHoaDon_active, idSanPhamChiTiet, result.soLuongCoTheThemVaoHoaDon)
                                 .then(result => {
                                     if (result.ketQuaSauThemThanhCong) {
 
                                         alert("Thêm sản phẩm vào hóa đơn thành công "); // - check 2
+                                        // fetch data ra bill current
+                                        // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+                                        fetchDataAndFillTable_danhSachHoaDonCho();
+                                        phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+
                                     } else {
+
                                         alert("Thêm sản phẩm vào hóa đơn thất bại");
                                     }
                                 })
@@ -1493,10 +1602,16 @@
                     }else{
                         // thêm mới sản phẩm vào hóa đơn chi tiêt
                         console.log("Tôi muốn mua ");
+
                         themSanPham_VaoHoaDonChiTiet(idHoaDon_active, idSanPhamChiTiet, soLuongMua)
                             .then(result => {
                                 if (result.ketQuaSauThemThanhCong) {
                                     alert("Thêm sản phẩm vào hóa đơn thành công "); // - không vượt quá số lượng trong kho
+
+                                    // fetch data ra bill current
+                                    // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
+                                    fetchDataAndFillTable_danhSachHoaDonCho();
+                                    phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
                                 } else {
                                     alert("Thêm sản phẩm vào hóa đơn thất bại");
                                 }
@@ -1512,7 +1627,6 @@
                 console.log("Đã xảy ra lỗi khi kiểm tra số lượng mua: " + error);
             });
     }
-
 
     function kiemTraSoLuongMuaHopLeKhong(idHoaDon, idSanPhamCT, soLuongMua) {
         return new Promise((resolve, reject) => {
@@ -1567,6 +1681,48 @@
             });
         });
     }
+
+
+
+    // lấy danh sách hóa đơn chi tiết theo idHoaDon
+    function layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon) {
+        return new Promise((resolve, reject) => {
+            let data = {
+                idHoaDon: idHoaDon
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/api/ban-hang/layDanhSachHoaDon_theoIDHoaDon",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    console.log("Danh sách hóa đơn theo id hóa đơn - kết quả :");
+                    console.log(data);
+
+                    // chỉ đổ được dữ liệu: danh sách các sản phẩm trong hóa đơn chi tiết theo id Hóa Đơn
+                    // chưa xử lý được phân trang đoạn này
+                    fillTableWithData_choHoaDonChiTiet(data.dsHoaDonChiTiet);
+
+
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    // mk cần nắm được việc tạo 1 danh sách hóa đơn và thực hiện phân trang cần có những bước nào ?
+    // cần có hàm nào tác động để thực thi được function tương ứng
+
+
+
+
+
+
+
 
 </script>
 
