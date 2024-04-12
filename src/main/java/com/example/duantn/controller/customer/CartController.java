@@ -200,6 +200,7 @@ public class CartController {
         hoaDon.setQuan_huyen(datHangRequest.getQuan_huyen());
         hoaDon.setPhuong_xa(datHangRequest.getPhuong_xa());
         hoaDon.setHinhThucTT("Thanh toán khi nhận hàng");
+        hoaDon.setLoaiHoaDon("Mua hàng online");
 
         hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
         hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());
@@ -999,6 +1000,7 @@ public class CartController {
         hoaDon.setQuan_huyen(datHangRequest.getQuan_huyen());
         hoaDon.setPhuong_xa(datHangRequest.getPhuong_xa());
         hoaDon.setHinhThucTT("Thanh toán chuyển khoản qua VNPay");
+        hoaDon.setLoaiHoaDon("Mua hàng online");
 
         hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
         hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());

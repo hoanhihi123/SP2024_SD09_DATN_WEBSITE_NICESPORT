@@ -17,6 +17,32 @@ public class KhachHangServiceImpl implements BaseService<KhachHang> {
     @Autowired
     KhachHangRepository repo_khachHang;
 
+    // hoan code
+        public List<KhachHang> layDanhSachKhachHang_theoSDT(String sdt){
+            return repo_khachHang.getAllBySDT_Customer(sdt);
+        }
+
+        public Page<KhachHang> layDanhSachKhachHang_theoSDT_phanTrang(String sdt, Pageable pageable){
+            return repo_khachHang.getAllBySDT_Customer_phanTrang(sdt, pageable);
+        }
+
+//        public Optional<KhachHang> getThongTinKhachHangById(UUID idKhachHang){
+//            return repo_khachHang.findById(idKhachHang);
+//        }
+
+        public KhachHang layKhachHangTheoId(UUID idKhachHang){
+            Optional<KhachHang> khachHangOptional = repo_khachHang.findById(idKhachHang);
+            return khachHangOptional.get();
+        }
+
+        // lay thong tin khach hang chi voi SDT
+        public  KhachHang layThongTinKhachHang_voiSDT(String phoneNumber){
+            return repo_khachHang.getCustomerOnlyByPhoneNumber(phoneNumber);
+        }
+
+
+    // hoan code
+
     public boolean isValidDangNhap(String taiKhoan, String matKhau) {
         // Thực hiện xác thực thông tin đăng nhập của khách hàng
         KhachHang khachHang = repo_khachHang.findByTaiKhoan(taiKhoan);
@@ -74,7 +100,6 @@ public class KhachHangServiceImpl implements BaseService<KhachHang> {
     @Override
     public List<KhachHang> layDanhSachTheoTen(String ten) {
         return repo_khachHang.getAllTheoTen(ten);
-
     }
 
     public boolean kiemTraTrungMaKhong(String maMoi, String maCu) {

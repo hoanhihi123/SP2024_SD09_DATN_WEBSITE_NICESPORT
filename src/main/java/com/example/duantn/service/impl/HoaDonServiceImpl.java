@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,5 +68,15 @@ public class HoaDonServiceImpl implements HoaDonService {
         return hoaDonRepository.findAll(pageable);
     }
 
+    // hoan code
+        public void capNhatThongTinHoaDon_laThongTinKhachHang(UUID idHoaDon, UUID idKhachHang){
+            hoaDonRepository.capNhatThonTinHoaDon_voiThongTinKhachHang(idHoaDon, idKhachHang);
+        }
+
+        public void xoaHoaDonBangIdHoaDon(UUID idHoaDon){
+            hoaDonRepository.xoaHoaDonCho_bangIdHoaDon(idHoaDon);
+        }
+
+    // hoan code
 
 }

@@ -28,9 +28,6 @@ public class PhieuGiamGia extends BaseModel{
     @Column(name = "HinhThucGiam")
     private String hinhThucGiam;
 
-    @Column(name = "DieuKienGiam")
-    private String dieuKienGiam;
-
     @Column(name = "GiaTienXetDieuKien")
     private Double giaTienXetDieuKien;
 

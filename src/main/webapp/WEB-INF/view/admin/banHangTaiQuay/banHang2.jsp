@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="/admin/assets/css/cs-skin-elastic.css">
+     <link rel="stylesheet" href="/admin/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="/admin/assets/css/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
@@ -184,8 +184,8 @@
         <!-- Nút để tạo tab mới -->
         <div class="row" style="margin-bottom: 20px;">
             <div class="col-lg-10"></div>
-            <div class="col-lg-2" style="margin-right: -5px;">
-                <button id="createTabBtn" class="btn btn-primary">Tạo hóa đơn</button>
+            <div class="col-lg-2" >
+                <button id="createTabBtn" class="btn btn-primary"><i class="menu-icon fa fa-plus"></i> Tạo hóa đơn</button>
             </div>
         </div>
 
@@ -193,7 +193,7 @@
             <div class="col-lg-12">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#hoaDon1" type="button" role="tab" aria-controls="home" aria-selected="true">Hóa đơn 1
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#hoaDon1" type="button" role="tab" aria-controls="home" aria-selected="true">Hóa đơn 1
                             <span><a href=""  class="btn"><i class="menu-icon fa fa-times fa-lg" style="margin-left: 10px"></i></a></span>
                         </button>
                     </li>
@@ -210,13 +210,13 @@
                                 <div class="card ">
                                     <div class="card-header">
                                         <div class="row">
-                                            <div class="col-lg-10">
+                                            <div class="col-lg-9">
                                                 <strong class="card-title" style="font-size: 20px;">Danh sách sản phẩm trong hóa đơn</strong>
                                             </div>
-                                            <div class="col-lg-2" style="margin-left: -40px;">
+                                            <div class="col-lg-3 text-right" >
                                                 <strong class="card-title" >
                                                     <a href="#" class="btn btn-success" data-toggle="modal"
-                                                       data-target="#chonSanPhamVaoHoaDonCho" onclick="updateDataFromCallAPI_sanPhamChiTiet();"> <i class="menu-icon fa fa-plus"></i> Thêm sản phẩm</a>
+                                                       data-target="#chonSanPhamVaoHoaDonCho" onclick="updateDataFromCallAPI_sanPhamChiTiet();"> <i class="menu-icon fa  fa-check-square-o"></i> Chọn sản phẩm</a>
                                                 </strong>
                                             </div>
 
@@ -262,7 +262,6 @@
 
 
                     </div>
-
                 </div>
             </div>
             <div class="col-lg-12">
@@ -271,13 +270,16 @@
                         <div class="card col-lg-12">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-lg-11">
+                                    <div class="col-lg-7">
                                         <strong class="card-title" style="font-size: 20px;">Thông tin khách hàng</strong>
                                     </div>
-                                    <div class="col-lg-1" style="margin-left: -30px;" >
+                                    <div class="col-lg-5 text-right" style="margin-left: 0px;" >
                                         <strong class="card-title" >
+                                            <a href="#" class="btn btn-primary" data-toggle="modal"
+                                               data-target="#formThemMoiKhachHang"> <i class="menu-icon fa fa-plus"></i> Thêm mới</a>
                                             <a href="#" class="btn btn-success" data-toggle="modal"
-                                               data-target="#chonThongTinKhachHang"> <i class="menu-icon fa fa-plus"></i> Chọn</a>
+                                               data-target="#chonThongTinKhachHang"> <i class="menu-icon fa  fa-check-square-o"></i> Chọn khách hàng</a>
+
                                         </strong>
                                     </div>
 
@@ -289,15 +291,18 @@
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <span>Họ và tên:</span>
-                                        <input type="text" placeholder="Khách hàng vãng lai" class="form-control" readonly="true">
+                                        <input type="text" id="hoVaTenKhachHangDuocChon" placeholder="Khách hàng vãng lai" class="form-control" readonly="true">
                                     </div>
                                     <div class="col-lg-3">
                                         <span>SĐT:</span>
-                                        <input type="text" placeholder="" class="form-control" readonly="true">
+                                        <input type="text" id="SDT_KhachHangDuocChon" placeholder="" class="form-control" readonly="true">
                                     </div>
                                     <div class="col-lg-3">
                                         <span>Email:</span>
-                                        <input type="text" placeholder="" class="form-control"  readonly="true">
+                                        <input type="text" id="email_KhachHangDuocChon" placeholder="" class="form-control"  readonly="true">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-secondary" style="margin-top: 24px;">Set mặc định</button>
                                     </div>
                                 </div>
                             </div>
@@ -331,21 +336,13 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <span>Mã giảm giá</span>
-                                        <!-- <strong class="card-title" >
-                                            <a href="#" class="btn btn-success" data-toggle="modal"
-                                            data-target="#chonThongTinKhachHang"> <i class="menu-icon fa fa-plus"></i> Chọn</a>
-                                        </strong>
-                                    </div>
-                                    <div class="container">
-                                        <div class="modal fade" id="chonThongTinKhachHang" tabindex="-1" role="dialog"
-                                            aria-labelledby="createDiscountModalLabel" aria-hidden="true"> -->
+
                                         <div class="row">
                                             <div class="col-lg-9">
                                                 <input type="text" placeholder="Nhập mã giảm giá" class="form-control">
                                             </div>
                                             <a href="#" class="btn btn-success" data-toggle="modal"
-                                               data-target="#chonMaGiamGia"> Chọn</a>
-
+                                               data-target="#chonMaGiamGia"> <i class="menu-icon fa  fa-check-square-o"></i> Chọn</a>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
@@ -368,9 +365,9 @@
                                             <div class="col-lg-2">
                                                 <button class="btn btn-primary">Xuất hóa đơn</button>
                                             </div>
-                                            <div class="col-lg-2" style="margin-left: 10px;">
-                                                <button class="btn btn-warning">Hủy hóa đơn</button>
-                                            </div>
+<%--                                            <div class="col-lg-2" style="margin-left: 10px;">--%>
+<%--                                                <button class="btn btn-warning">Hủy hóa đơn</button>--%>
+<%--                                            </div>--%>
                                             <div class="col-lg-9">
                                             </div>
                                         </div>
@@ -488,15 +485,14 @@
                             <div class="animated fadeIn row">
                                 <div class="card col-lg-12">
                                     <div class="card-header"  style="background-color: #F7F7F7; padding-bottom: 35px;">
-                                        <form action="" class="row justify-content-center">
+                                        <div class="row justify-content-center">
                                             <div class="col-lg-5">
-                                                <input type="text" class="form-control" placeholder="Nhập SĐT của khách hàng">
+                                                <input type="text" id="searchBySDT" class="form-control" placeholder="Nhập SĐT của khách hàng">
                                             </div>
                                             <div class="col-lg-2" style="margin-top: -24px;">
-                                                <button class="form-control btn btn-primary" style="margin-top: 24px;">Tìm kiếm</button>
-
+                                                <button onclick="fetchDataToTable_and_pagination_findNumberPhoneOfCustomer();" class="form-control btn btn-primary" style="margin-top: 24px;">Tìm kiếm</button>
                                             </div>
-                                        </form>
+                                        </div>
 
 
                                     </div>
@@ -522,7 +518,7 @@
                                         </div>
                                         <div class="row" style="margin-top: 20px;">
                                             <div class="col-lg-8">
-                                                <a href="" class="btn btn-success">Thêm mới khách hàng</a>
+                                                <button class="btn btn-primary" onclick="handleClearKhachHang();">Làm mới</button>
                                             </div>
                                             <div class="col-lg-4">
                                                 <div id="pagination-container-khachHang">
@@ -580,7 +576,6 @@
                                                         <th scope="col">Ngày kết thúc</th>
                                                         <th scope="col">Giá trị giảm</th>
                                                         <th scope="col">Hình thức giảm</th>
-                                                        <th scope="col">Điều kiện giảm</th>
                                                         <th scope="col">Giá tiền xét điều kiện</th>
                                                         <th scope="col">Chọn</th>
                                                     </tr>
@@ -600,6 +595,75 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div><!-- .animated -->
+                        </div><!-- .content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="modal fade" id="formThemMoiKhachHang" tabindex="-1" role="dialog"
+             aria-labelledby="createDiscountModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="max-width: 800px;">
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <h4 class="modal-title"  style="  margin-left: 10px; font-size: 25px;"><b>Tạo thông tin khách hàng mới</b></h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 50px; margin-top: -70px;" >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="content" >
+                            <div class="animated fadeIn row">
+                                <div class="card col-lg-12">
+                                    <div class="card-header"  style="background-color: #F7F7F7; padding-top:10px;">
+                                        <h3>Nhập thông tin khách hàng</h3>
+                                    </div>
+                                    <div class=" card-body" style="">
+                                        <form class="row" method="post" action="">
+                                            <div class="col-lg-6">
+                                                <span>Tên khách hàng <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <input type="text" id="tenKhachHang" class="form-control">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <span>Số điện thoại <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <input type="text" id="sdtKhachHang" class="form-control">
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <span>Email <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <input type="text" id="emailKhachHang" class="form-control">
+                                            </div>
+                                            <div class="col-lg-6" style="margin-top: 10px; margin-bottom: 10px;">
+                                                <span style="margin-right: 10px;">Giới tính: <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i> </span>
+                                                <input id="gioiTinh1" style="transform: scale(1.5); margin-right: 10px;" name="gioiTinh" checked="true" type="radio" value="1" > Nữ <span style="margin-right: 10px;"></span>
+                                                <input id="gioiTinh2" style="transform: scale(1.5); margin-right: 10px;"  name="gioiTinh" checked="true" type="radio" value="1"> Nam <br>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <span>Địa chỉ cụ thể <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <input type="text" id="diaChiCuTheKhachHang" class="form-control">
+                                            </div>
+
+                                            <div class="col-lg-4" style="margin-top: 10px;">
+                                                <span>Tỉnh/Thành phố <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <select name="" id="province" class="form-control"></select>
+                                            </div>
+                                            <div class="col-lg-4" style="margin-top: 10px;">
+                                                <span>Quận/huyện <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <select name="" id="district" class="form-control"></select>
+                                            </div>
+                                            <div class="col-lg-4" style="margin-top: 10px;">
+                                                <span>Phường/xã <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
+                                                <select name="" id="ward" class="form-control"></select>
+                                            </div>
+
+                                            <div class="col-lg-12 text-right" style="margin-top: 20px;">
+                                                <button class="btn btn-success"> <i class="menu-icon fa fa-plus"></i> Thêm mới</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div><!-- .animated -->
@@ -637,12 +701,13 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
 <script src="/admin/assets/js/main.js"></script>
+<script src="/user/js/callAPIAdress.js"></script>
 
 
 <%--Tạo dữ liệu và phân trang cho hóa đơn chờ --%>
 <script>
 
-    var pageLimit = 2; // Số lượng sản phẩm trên mỗi trang
+    var pageLimit = 4; // Số lượng sản phẩm trên mỗi trang
 
     // lấy ra danh sách hóa dơn chờ
     function getListHoaDonCho() {
@@ -662,6 +727,8 @@
                     var tabContainer = document.getElementById("myTab");
                     tabContainer.innerHTML = ""; // Xóa các tab cũ trước khi tạo mới
 
+                    var lastIndex = data.length - 1;
+
                     data.forEach(function(item, index) {
                         var idHoaDonCho = item.id;
                         console.log(idHoaDonCho);
@@ -674,7 +741,11 @@
 
                         var button = document.createElement("button");
                         button.classList.add("nav-link");
-                        if ((index + 1) === 1) {
+                        // if ((index + 1) === 1) {
+                        //     button.classList.add("active");
+                        // }
+                        // kiểm tra index = phần tử cuối cùng của mảng => set active
+                        if (index === lastIndex) {
                             button.classList.add("active");
                         }
 
@@ -689,25 +760,26 @@
                         button.textContent = tabName;
 
                         var span = document.createElement("span");
-                        var a = document.createElement("a");
-                        a.setAttribute("href", "#");
-                        a.classList.add("btn");
+                        var div = document.createElement("div"); // Thay thế thẻ a bằng thẻ div
+                        div.classList.add("btn");
 
                         var iElement = document.createElement("i");
                         iElement.classList.add("menu-icon", "fa", "fa-times", "fa-lg");
                         iElement.style.marginLeft = "10px";
 
-                        a.appendChild(iElement);
-                        span.appendChild(a);
+                        // Thêm sự kiện click vào thẻ div
+                        div.addEventListener("click", function() {
+                            huyHoaDon(idHoaDonCho); // Gọi hàm huyHoaDon và truyền tham số là idHoaDonCho
+                        });
+
+                        div.appendChild(iElement);
+                        span.appendChild(div);
                         button.appendChild(span);
                         li.appendChild(button);
                         tabContainer.appendChild(li);
 
                     });
 
-                    // var idHoaDon_active = layIDCuaButtonTabPane_active();
-                    // console.log("Id hoa don active : " + idHoaDon_active);
-                    // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
 
                     // lấy idHoaDon_active
                     var idHoaDon_active = layIDCuaButtonTabPane_active();
@@ -833,11 +905,14 @@
             success : function(jsonResult) {
 
                 var dsHoaDonChiTiet = jsonResult.danhSachHoaDonChiTiet;
+                var khachHangCuaHoaDon = jsonResult.khachHangOfHoaDon;
+
                 console.log("Chạy vào hàm : phanTrangSanPhamCT_trongChonHoaDonCho");
                 console.log(dsHoaDonChiTiet);
 
                 // Điền dữ liệu vào bảng
                 fillTableWithData_choHoaDonChiTiet(dsHoaDonChiTiet);
+                fetchData_khachHang_lenFormThongTinKhachHang(khachHangCuaHoaDon.hoTen,khachHangCuaHoaDon.soDT, khachHangCuaHoaDon.email);
             },
 
             error : function(jqXhr, textStatus, errorMessage) {
@@ -865,10 +940,11 @@
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
                 "<td>" + item.soLuong + "</td>" +
                 "<td>" + item.donGia + "</td>" +
-                "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.id + "\", this.parentNode.previousElementSibling.querySelector(\"input\").value);'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>"
+                "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
             "</tr>";
             tableBody.append(row);
         });
+
 
     }
 
@@ -965,20 +1041,6 @@
         getListHoaDonCho();
     });
 
-    // document.addEventListener("DOMContentLoaded", function() {
-    //
-    //     var idHoaDon_active = layIDCuaButtonTabPane_active();
-    //     // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
-    //     console.log("id hóa dơn đang active : " + idHoaDon_active);
-    //
-    //     if(idHoaDon_active !== "home-tab"){
-    //         console.log("Id hóa đơn hợp lệ để chạy 2 function load hóa đơn chi tiết");
-    //         fetchDataAndFillTable_danhSachHoaDonCho();
-    //         phanTrangSanPhamCT_trongChonHoaDonCho();
-    //     }
-    //
-    //
-    // });
 
 
 
@@ -1040,9 +1102,6 @@
 
                 // Thêm class "active" cho tab mới
                 button.classList.add("active");
-
-
-
                 button.setAttribute("id", idHoaDonCho );
 
                 // console.log("Id hóa đơn chờ được set vào TABPANE : " + idHoaDonCho);
@@ -1055,25 +1114,31 @@
                 button.textContent = tabName;
 
                 var span = document.createElement("span");
-                var a = document.createElement("a");
-                a.setAttribute("href", "#");
-                a.classList.add("btn");
+                var div = document.createElement("div"); // Thay thế thẻ a bằng thẻ div
+
+                div.classList.add("btn");
 
                 var iElement = document.createElement("i");
                 iElement.classList.add("menu-icon", "fa", "fa-times", "fa-lg");
                 iElement.style.marginLeft = "10px";
 
-                a.appendChild(iElement);
-                span.appendChild(a);
+                // Thêm sự kiện click vào thẻ div
+                div.addEventListener("click", function() {
+                    huyHoaDon(idHoaDonCho); // Gọi hàm huyHoaDon và truyền tham số là idHoaDonCho
+                });
+
+                div.appendChild(iElement);
+                span.appendChild(div);
                 button.appendChild(span);
                 li.appendChild(button);
                 tabContainer.appendChild(li);
 
-                // Đảm bảo rằng tab mới được kích hoạt
-                // var newTabBtn = document.getElementById(tabId + "-tab");
-                // newTabBtn.click();
 
-                // console.log("Button tabpane vừa được tạo id của nó là " + layIDCuaButtonTabPane_active());
+                var idHoaDon_active = layIDCuaButtonTabPane_active();
+
+                fetchDataAndFillTable_danhSachHoaDonCho();
+                phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+
             },
             error: function(error) {
                 console.log("Error: " + error);
@@ -1356,7 +1421,7 @@
 
         // set lại nội dung cho tbody
         data.forEach(function(item, index) {
-            var gioiTinh = item === 0 ? "Nam":"Nữ";
+            var gioiTinh = item.gioiTinh === 0 ? "Nam":"Nữ";
             var row =
                 "<tr style='text-align: center;'>" +
                 "<td>" + (index + 1) + "</td>" +
@@ -1364,7 +1429,7 @@
                 "<td>" +  gioiTinh + "</td>" +
                 "<td>" +  item.soDT + "</td>" +
                 "<td>" +  item.email + "</td>" +
-                "<td><a href='#' class='btn btn-success' onclick='chonKhachHang(\"" + item.id + "\");'>Chọn </a></td>" +
+                "<td><a href='#' class='btn btn-success' onclick='layIDKhachHangDuocChon(\"" + item.id + "\");'>Chọn </a></td>" +
                 "</tr>";
             tableBody.append(row);
         });
@@ -1491,9 +1556,8 @@
                     "<td>" +  item.ngayKetThucApDung + "</td>" +
                     "<td>" +  item.giaTriGiam + "</td>" +
                     "<td>" +  item.hinhThucGiam + "</td>" +
-                    "<td>" +  item.dieuKienGiam + "</td>" +
                     "<td>" +  item.giaTienXetDieuKien + "</td>" +
-                    "<td><a href='#' class='btn btn-success' onclick='chonKhachHang(\"" + item.id + "\");'>Chọn </a></td>" +
+                    "<td><a href='#' class='btn btn-success' onclick='layIDKhachHangDuocChon(\"" + item.id + "\");'>Chọn </a></td>" +
                     "</tr>";
                 tableBody.append(row);
             });
@@ -1713,16 +1777,250 @@
             });
         });
     }
+</script>
 
-    // mk cần nắm được việc tạo 1 danh sách hóa đơn và thực hiện phân trang cần có những bước nào ?
-    // cần có hàm nào tác động để thực thi được function tương ứng
+<script>
+    // giả sử sdt mỗi tài khoản là duy nhất
+    function fetchDataToTable_and_pagination_findNumberPhoneOfCustomer(){
+        var searchByPhoneNumber = document.getElementById("searchBySDT").value;
+        // console.log("SDT search : " + phoneNumber);
+
+        // truyền data = number lấy ra Object Customer
+        return new Promise((resolve, reject) => {
+            let data = {
+                sdt_KhachHang : searchByPhoneNumber
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/ban-hang/getListKhachHangBySDT",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    console.log(" kết quả trả về của hàm findNumberPhoneOfCustomer :");
+                    console.log(data);
+
+                    var totalPages = Math.ceil(data.danhSachKhacHang.length / pageLimit);
+                    var paginationContainer = $("<ul>").addClass("pagination justify-content-end");
+
+                    // Tạo các nút phân trang khách hàng
+                    for (var i = 1; i <= totalPages; i++) {
+                        var pageItem = $("<li>").addClass("page-item");
+                        var pageLink = $("<a>").addClass("page-link").attr("href", "#").text(i);
+                        if (i === 1) {
+                            pageItem.addClass("active");
+                        }
+                        pageItem.append(pageLink);
+                        paginationContainer.append(pageItem);
+                    }
+
+                    // Thêm sự kiện click cho các nút trang
+                    paginationContainer.find(".page-link").not("[aria-disabled='true']").click(function (e) {
+                        e.preventDefault();
+                        // Lấy số trang tương ứng khi click
+                        var currentPage = parseInt($(this).text());
+                        // Xóa lớp active khỏi tất cả các thẻ <li>
+                        paginationContainer.find("li").removeClass("active");
+                        // Thêm lớp active cho thẻ <li> của trang được chọn
+                        $(this).parent().addClass("active");
+
+                        // Gọi hàm để lấy dữ liệu cho trang mới
+                        console.log("Console - searchByPhone " + searchByPhoneNumber);
+                        // phanTrangSanPhamCT_trong_findKhachHang((currentPage-1), 4,searchByPhoneNumber);
+                    });
+
+                    fillTableWithData_choKhachHang(data.danhSachKhacHang);
+
+                    // Thêm phân trang vào DOM
+                    $("#pagination-container-khachHang").empty().append(paginationContainer);
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+        });
+    }
 
 
 
 
+    // fetch lại dữ liệu lên bảng danh sách khách hàng
+    // set dữ liệu rỗng cho ô search
+    function handleClearKhachHang(){
+        console.log("Chạy vào hàm xử lý handleClearKhachHang")
+
+        // fill data to table list product detail
+        fetchDataAndFillTable_danhSachKhachHang();
+        // pagination for list product detail
+        phanTrangSanPhamCT_trongChonKhachHang();
+
+        // set lại dữ liệu lên nhập sdt khách hàng
+        document.getElementById("searchBySDT").value = "";
+
+    }
+
+    // hàm set thông tin khách hàng được chọn vào hóa đơn
+    function setInfoCustomerToBill(idHoaDon, idKhachHang){
+        let data = {
+            idHoaDon: idHoaDon,
+            idKhachHang: idKhachHang
+        };
+
+        jQuery.ajax({
+            url: "http://localhost:8080/ban-hang/setIdKhachHangVaoHoaDonCho",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function(data) {
+                console.log("Kết quả của hàm - hàm set thông tin khách hàng được chọn vào hóa đơn :");
+                console.log(data);
+
+                alert("set idKhachHang vào hóa đơn thành công");
+            },
+            error: function(error) {
+                reject(error);
+            }
+        });
+    }
+
+    // hàm lấy ra id khách hàng được chọn
+    function layIDKhachHangDuocChon(idKhachHang){
+        var idKhachHangDuocChon = idKhachHang;
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+
+        var xacNhanChon = confirm("Bạn muốn chọn khách hàng này đúng không ?");
+        if(xacNhanChon){
+            // console.log("Id khách hàng được chọn : " + idKhachHang);
+
+            // hàm xử lý cập nhật Id khách hàng vào hóa đơn chờ
+            let data = {
+                idKhachHangChon : idKhachHangDuocChon ,
+                idHoaDon : idHoaDon_active
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/ban-hang/capNhatIdKhachHangTrongHoaDonChoDuocChon",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    // console.log(data.khachHangDuocChon);
+
+                    fetchData_khachHang_lenFormThongTinKhachHang(data.khachHangDuocChon.hoTen, data.khachHangDuocChon.soDT, data.khachHangDuocChon.email);
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+
+        }else{
+            // console.log("Xác nhận ko lấy khách hàng này");
+        }
+    }
+
+    // ham set lai du lieu form khachHang moi khi chuyen tab hoa don
+    function fetchData_khachHang_lenFormThongTinKhachHang(hoTenKH, soDT, email){
+        document.getElementById("hoVaTenKhachHangDuocChon").value= hoTenKH;
+        document.getElementById("SDT_KhachHangDuocChon").value= soDT ;
+        document.getElementById("email_KhachHangDuocChon").value= email ;
+    }
+
+    // ham xoa san pham khoi hoa don bang idHoaDon, idSanPhamChiTiet
+
+    function xoaSanPhamKhoiHoaDonCT(idHoaDon, idSanPhamCT, tenSanPhamCT){
+        console.log("Chạy tới hàm xoaSanPhamKhoiHoaDonCT");
+        // console.log("Id hóa đơn: "+ idHoaDon);
+        // console.log("Id sản phẩm CT: " + idSanPhamCT);
+        // console.log("Tên sản phẩm CT: " + tenSanPhamCT);
+
+        var xacNhanChon = confirm("Bạn muốn xóa sản phẩm "+ tenSanPhamCT +" ?");
+        if(xacNhanChon){
+            // hàm xử lý xóa sản phẩm khỏi hóa đơn chi tiết tương ứng
+            let data = {
+                idHoaDon : idHoaDon ,
+                idSanPhamCT : idSanPhamCT
+            };
+
+            jQuery.ajax({
+                url: "http://localhost:8080/ban-hang/xoaSanPhamKhoiHoaDonChiTiet",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    if(data.xacNhanXoa === true){
+
+                        fetchDataAndFillTable_danhSachHoaDonCho();
+                        phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon);
+
+                        alert('Xóa dữ liệu thành công');
+                        // getListHoaDonCho();
+
+                    }
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+
+        }else{
+            // console.log("Xác nhận không xóa sản phẩm này");
+        }
 
 
+    }
 
+    // xóa hóa đơn chờ và hóa đơn chờ chi tiết tương ứng
+    function huyHoaDon(idHoaDon){
+        console.log(">>>>>>>>>>>>>>>>>>>>>> Id hóa đơn được chọn xóa : " + idHoaDon);
+
+        let data = {
+            idHoaDon : idHoaDon
+        };
+
+        var xacNhanXoa = confirm("Bạn muốn chắc chắn muốn xóa hóa đơn chờ này ?");
+        if(xacNhanXoa){
+            jQuery.ajax({
+                url: "http://localhost:8080/ban-hang/xoaHoaDonCho_vaHoaDonChiTiet",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+                success: function(data) {
+                    // xoa thanh cong
+                    if(data.xacNhanXoa==true){
+                        // lam sao de lay idHoaDonDauTien
+                        // var idHoaDonChoDauTien = layIDCuaButtonTabFirst();
+                        //
+                        // fetchDataAndFillTable_danhSachHoaDonCho();
+                        // phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDonChoDauTien);
+                        getListHoaDonCho();
+                        alert('Xóa hóa đơn chờ thành công');
+                    }
+                },
+                error: function(error) {
+                    reject(error);
+                }
+            });
+
+        }
+    }
+
+    function layIDCuaButtonTabFirst() {
+        // Lấy danh sách tất cả các button trong tab
+        var buttons = document.querySelectorAll('.nav-link');
+
+        // Duyệt qua từng button để tìm button có class active
+        for (var i = 0; i < buttons.length; i++) {
+            return buttons[0].getAttribute('id');
+        }
+
+        // Nếu không tìm thấy button nào có class active, trả về null
+        return null;
+    }
 
 </script>
 

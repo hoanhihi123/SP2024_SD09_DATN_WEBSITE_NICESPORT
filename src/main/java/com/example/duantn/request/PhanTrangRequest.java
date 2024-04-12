@@ -13,5 +13,6 @@ public class PhanTrangRequest {
     private Integer currentPage;
     private Integer pageLimit;
     private UUID idHoaDon;
+    private String textSearch_SDT_KhachHang;
 
 }

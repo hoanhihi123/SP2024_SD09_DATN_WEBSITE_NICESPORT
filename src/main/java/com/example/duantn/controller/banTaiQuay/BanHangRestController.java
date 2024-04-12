@@ -73,7 +73,7 @@ public class BanHangRestController {
             Model model,
             @RequestBody PhanTrangRequest phanTrangRequest
             ){
-        System.out.println("Id hóa đơn lấy được trong getDanhSachHoaDonCho_theoIDHoaDonActive : " + phanTrangRequest.getIdHoaDon());
+//        System.out.println("Id hóa đơn lấy được trong getDanhSachHoaDonCho_theoIDHoaDonActive : " + phanTrangRequest.getIdHoaDon());
         return ResponseEntity.of(Optional.ofNullable(hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(phanTrangRequest.getIdHoaDon())));
     }
 
@@ -84,25 +84,6 @@ public class BanHangRestController {
     ){
         return ResponseEntity.of(Optional.ofNullable(hoaDonService.layDanhSachHoaDon_theoTrangThai(0)));
     }
-
-//    @PostMapping("/laySoLuongSanPhamTrongKho")
-//    public ResponseEntity<Map<String, Object>> laySoLuongSanPhamTrongKho(
-//            final Model model
-//            , final HttpServletRequest request
-//            , final HttpServletResponse response
-//            , @RequestBody MuaHangTaiQuay muaHangTaiQuay
-//    ) throws IOException {
-//        UUID idSanPhamChiTiet_chonMua = muaHangTaiQuay.getIdSanPhamCT();
-//        Integer soLuongSanPhamTrongKho = sanPhamCTService.laySoLuongTrongKho(idSanPhamChiTiet_chonMua);
-//        System.out.println("ID sản phẩm chi tiết chọn mua " + idSanPhamChiTiet_chonMua);
-//        System.out.println("Số lượng sản phẩm trong kho : " + soLuongSanPhamTrongKho);
-//
-//        Map<String, Object> jsonResult = new HashMap<String, Object>();
-//        jsonResult.put("code", 200);
-//        jsonResult.put("status", "Success");
-//        jsonResult.put("soLuongSPTrongKho", soLuongSanPhamTrongKho);
-//        return ResponseEntity.ok(jsonResult);
-//    }
 
     @PostMapping("/kiemTraSoLuongMuaBiVuotQuaKhong")
     public ResponseEntity<Map<String, Object>> kiemTraSoLuongMuaVuotQuaTrongKho(

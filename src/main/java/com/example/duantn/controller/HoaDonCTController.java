@@ -69,4 +69,10 @@ public class HoaDonCTController {
         hoaDonCtService.capNhat(UUID.fromString(id), hoaDonCT);
         return "redirect:/hoa-donct/hien-thi";
     }
+
+    // hoan code
+
+
+
+    // hoan code
 }

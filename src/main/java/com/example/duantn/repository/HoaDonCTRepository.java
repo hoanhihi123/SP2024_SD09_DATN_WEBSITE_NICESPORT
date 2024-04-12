@@ -40,15 +40,29 @@ public interface HoaDonCTRepository extends JpaRepository<HoaDonChiTiet, UUID> {
                     @Param("soLuongMuaThem") Integer soLuongMuaThem);
 
 
-
-            @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon "
+            @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon"
                     , nativeQuery = true)
             List<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon(@Param("idHoaDon") UUID idHoaDon);
 
-    @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon ",
-            countQuery = "select count(*) from HoaDonCT where IdHoaDon =:idHoaDon", nativeQuery = true)
-    Page<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon_phanTrang(@Param("idHoaDon") UUID idHoaDon,
-                                                                    Pageable pageable);
+        @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon ",
+                countQuery = "select count(*) from HoaDonCT where IdHoaDon =:idHoaDon", nativeQuery = true)
+        Page<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon_phanTrang(@Param("idHoaDon") UUID idHoaDon,
+                                                                        Pageable pageable);
+
+        @Transactional
+        @Modifying
+        @Query(value = "delete from HoaDonCT where IdHoaDon =:idHoaDon and IdSanPhamCT =:idSanPhamCT"
+                , nativeQuery = true)
+        void xoaSanPhamKhoiHoaDonCT_byIdHoaDon_IdSanPhamCT(
+                @Param("idHoaDon") UUID idHoaDon ,
+                @Param("idSanPhamCT") UUID idSanPhamCT);
+
+        @Transactional
+        @Modifying
+        @Query(value = "delete from HoaDonCT where IdHoaDon=:idHoaDon", nativeQuery = true)
+        void xoaHoaDonChiTiet_bangIdHoaDon(@Param("idHoaDon") UUID idHoaDon );
+
+
     // hoan code
 
 }

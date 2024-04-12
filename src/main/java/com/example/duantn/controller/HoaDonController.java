@@ -23,18 +23,6 @@ public class HoaDonController {
     @Autowired
     PhieuGiamGiaServiceImpl phieuGiamGiaService;
 
-    //hienthi
-//    @GetMapping("/hien-thi")
-//    public String getAll(Model model,
-//                         @RequestParam(value = "page",defaultValue = "0")int page){
-//        Integer size = 5;
-//        Pageable pageable = PageRequest.of(page,size);
-//        model.addAttribute("hoaDon",new HoaDon());
-//        model.addAttribute("listHD",hoaDonRepository.findAll(pageable).getContent());
-//        model.addAttribute("totalPage",hoaDonRepository.findAll(pageable).getTotalElements());
-//        model.addAttribute("listPG",phieuGiamGiaService.getAll());
-//        return "admin/HoaDonForm/trangChu";
-//    }
     @GetMapping("/hien-thi")
     public String getAllLoaiGhe(
             Model model,

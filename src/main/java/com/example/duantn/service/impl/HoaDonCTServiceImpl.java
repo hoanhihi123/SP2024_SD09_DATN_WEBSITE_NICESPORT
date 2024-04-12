@@ -21,39 +21,46 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
     private HoaDonRepository hoaDonRepository;
 
     // hoan code
-    public Integer getSoLuongSanPhamTrongHoaDonCT(UUID idHoaDon, UUID idSanPham){
-        Integer soLuong = hoaDonCTRepository.getSoLuongSanPham_trongHoaDonCT(idHoaDon, idSanPham);
-        return  soLuong;
-    }
+        public Integer getSoLuongSanPhamTrongHoaDonCT(UUID idHoaDon, UUID idSanPham){
+            Integer soLuong = hoaDonCTRepository.getSoLuongSanPham_trongHoaDonCT(idHoaDon, idSanPham);
+            return  soLuong;
+        }
 
-    public Page<HoaDonChiTiet> layDanhSachHoaDonChiTiet_va_PhanTrang(UUID idHoaDon, Pageable pageable){
-        return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon_phanTrang(idHoaDon, pageable);
-    }
+        public Page<HoaDonChiTiet> layDanhSachHoaDonChiTiet_va_PhanTrang(UUID idHoaDon, Pageable pageable){
+            return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon_phanTrang(idHoaDon, pageable);
+        }
 
-    // cập nhật số lượng sản phẩm trong hóa đơn chi tiết
-    public void capNhatSoLuongSanPhamMua_HDCT(UUID idHoaDon, UUID idSanPhamCT, Integer soLuongMua){
-         hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua);
-    }
+        // cập nhật số lượng sản phẩm trong hóa đơn chi tiết
+        public void capNhatSoLuongSanPhamMua_HDCT(UUID idHoaDon, UUID idSanPhamCT, Integer soLuongMua){
+             hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua);
+        }
 
-    public HoaDonChiTiet themMoi2(HoaDonChiTiet entity) {
-        return hoaDonCTRepository.save(entity);
-    }
+        public HoaDonChiTiet themMoi2(HoaDonChiTiet entity) {
+            return hoaDonCTRepository.save(entity);
+        }
 
-    // lay danh sach hoa don chi tiet theo idHoaDon
-    public List<HoaDonChiTiet> layDanhSachHoaDonChiTiet_theoIdHoaDon(UUID idHoaDon){
-        return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon(idHoaDon);
-    }
+        // lay danh sach hoa don chi tiet theo idHoaDon
+        public List<HoaDonChiTiet> layDanhSachHoaDonChiTiet_theoIdHoaDon(UUID idHoaDon){
+            return hoaDonCTRepository.getListHoaDonChiTiet_theoIdHoaDon(idHoaDon);
+        }
 
-    @Override
-    public Page<HoaDonChiTiet> layDanhSach(Pageable pageable) {
-        return hoaDonCTRepository.findAll(pageable);
-    }
+        @Override
+        public Page<HoaDonChiTiet> layDanhSach(Pageable pageable) {
+            return hoaDonCTRepository.findAll(pageable);
+        }
 
-    @Override
-    public List<HoaDonChiTiet> layDanhSach() {
-        return hoaDonCTRepository.getAll();
-    }
+        @Override
+        public List<HoaDonChiTiet> layDanhSach() {
+            return hoaDonCTRepository.getAll();
+        }
 
+        public void xoaSanPhamCTKhoiHoaDonChiTiet(UUID idHoaDon, UUID idSanPhamCT){
+            hoaDonCTRepository.xoaSanPhamKhoiHoaDonCT_byIdHoaDon_IdSanPhamCT(idHoaDon, idSanPhamCT);
+        }
+
+        public void xoaHoaDonChiTietBangIDHoaDon(UUID idHoaDon){
+            hoaDonCTRepository.xoaHoaDonChiTiet_bangIdHoaDon(idHoaDon);
+        }
     // hoan code
 
 

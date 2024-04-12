@@ -87,4 +87,10 @@ public class HoaDon  {
 
     @Column(name = "phuong_xa")
     private String phuong_xa;
+
+    // hoan them
+    @Column(name = "loaiHoaDon")
+    private String loaiHoaDon;
+
+    // hoan them
 }
