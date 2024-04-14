@@ -21,8 +21,6 @@ HoaDonChiTiet extends BaseModel {
     @JoinColumn(name = "IdSanPhamCT",referencedColumnName = "Id")
     private ChiTietSanPham chiTietSanPham;
 
-    @Column(name = "MaHoaDonCT")
-    private String maHoaDonCT;
 
     @Column(name = "DonGia")
     private Double donGia;

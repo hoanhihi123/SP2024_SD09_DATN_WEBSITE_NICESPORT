@@ -2,11 +2,8 @@ package com.example.duantn.controller.banTaiQuay;
 
 import com.example.duantn.dto.Constant;
 import com.example.duantn.model.*;
-import com.example.duantn.request.GioHang;
 import com.example.duantn.request.MuaHangTaiQuay;
 import com.example.duantn.request.PhanTrangRequest;
-import com.example.duantn.request.SanPhamTrongGioHang;
-import com.example.duantn.service.HoaDonService;
 import com.example.duantn.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -107,9 +104,13 @@ public class BanHangTaiQuayController {
         // có idHoaDon => lấy ra hóa dơn
         // từ hóa dơn => lấy ra khách hàng
         // từ khách hàng => set thông tin khách hàng vào kết quả trả về
-        HoaDon hoaDonCurrent = hoaDonService.detail(idHoaDon);
-        KhachHang khachHangOfHoaDon = khachHangService.layKhachHangTheoId(hoaDonCurrent.getKhachHang().getId());
-
+        HoaDon hoaDonCurrent = hoaDonService.chiTietTheoId(idHoaDon);
+        KhachHang khachHangOfHoaDon = khachHangService.layThongTinKhachHang_voiSDT("0000000000");
+        if(hoaDonCurrent!=null){
+//            System.out.println("Hoa đơn current - /phan-trang-hoaDonCho " + hoaDonCurrent.toString());
+             khachHangOfHoaDon = khachHangService.layKhachHangTheoId(hoaDonCurrent.getKhachHang().getId());
+        }
+//        System.out.println("Size of hoa đơn chi tiết - /phan-trang-hoaDonCho : " + hoaDonChiTiets.size());
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
@@ -136,6 +137,8 @@ public class BanHangTaiQuayController {
         List<KhachHang> khachHangs = pageKhachHang.getContent();
 
 
+
+
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
@@ -144,8 +147,6 @@ public class BanHangTaiQuayController {
 
         return ResponseEntity.ok(jsonResult);
     }
-
-
 
     @PostMapping("/phan-trang-phieuGiamGia")
     public ResponseEntity<Map<String, Object>> phanTrang_phieuGiamGia(
@@ -157,23 +158,134 @@ public class BanHangTaiQuayController {
         int currentPage = 0;
         int pageLimit = phanTrang.getPageLimit()==null?4:phanTrang.getPageLimit();
         currentPage = phanTrang.getCurrentPage()==null?0:phanTrang.getCurrentPage();
-//        System.out.println("Current page: " + currentPage);
-
 
         Pageable pageable = PageRequest.of(currentPage, pageLimit);
-        Page<PhieuGiamGia> pagePhieuGiamGia =  phieuGiamGiaService.layDanhSach(pageable);
+        Page<PhieuGiamGia> pagePhieuGiamGia =  phieuGiamGiaService.layDanhSach_voiTongTienDonHang(pageable,phanTrang.getTongTienDonHang());
         List<PhieuGiamGia> phieuGiamGias = pagePhieuGiamGia.getContent();
 
+        Double tongTienDonHang = phanTrang.getTongTienDonHang();
+//        System.out.println("Tổng tiền đơn hàng - tại /phan-trang-phieuGiamGia : " + tongTienDonHang);
+
+        List<PhieuGiamGia> dsPhieuGiamGiaHopLe = new ArrayList<>();
+        int count = 0;
+        if(tongTienDonHang!=null){
+            for(PhieuGiamGia phieuGiamGia : phieuGiamGias){
+                if(tongTienDonHang >= phieuGiamGia.getGiaTienXetDieuKien()){
+                    dsPhieuGiamGiaHopLe.add(phieuGiamGia);
+                    count++;
+                }
+            }
+        }
+
+//        System.out.println("Count - tại /phan-trang-phieuGiamGia : " + count);
+//        System.out.println("Danh sách phiếu giảm giá hợp lệ - tại /phan-trang-phieuGiamGia : " + dsPhieuGiamGiaHopLe.size());
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("danhSachPhieuGiamGia", phieuGiamGias);
+        jsonResult.put("danhSachPhieuGiamGia", dsPhieuGiamGiaHopLe);
 
 
         return ResponseEntity.ok(jsonResult);
     }
 
+    @PostMapping("/capNhatThongTinHoaDon_apDungPhieuGiamGiaNao")
+    public ResponseEntity<Map<String, Object>> capNhatThongTinPhieuGiamGia(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody MuaHangTaiQuay muaHangTaiQuay
+    ) throws IOException {
+        UUID idHoaDon = muaHangTaiQuay.getIdHoaDon();
+        UUID idPhieuGiamGia = muaHangTaiQuay.getIdPhieuGiamGia();
+
+        hoaDonService.capNhatPhieuGiamGiaApDungCho_hoaDonCho(idHoaDon, idPhieuGiamGia);
+
+        // tinh tong tien duoc giam
+        HoaDon hoaDonCurrent = hoaDonService.detail(idHoaDon);
+        Double tongTienDonHang = hoaDonCurrent.getTongTienThanhToan();
+            Double tongTienDonHangSauGiam = 0.0;
+
+            PhieuGiamGia phieuGiamGia = phieuGiamGiaService.detail(idPhieuGiamGia);
+            if(phieuGiamGia.getHinhThucGiam().equalsIgnoreCase("tiền mặt")){
+                tongTienDonHangSauGiam = tongTienDonHang - phieuGiamGia.getGiaTriGiam();
+            }else {
+                tongTienDonHangSauGiam = tongTienDonHang - tongTienDonHang*(phieuGiamGia.getGiaTriGiam()/100);
+            }
+            
+            Double tienDuocGiam = tongTienDonHang - tongTienDonHangSauGiam;
+
+            hoaDonCurrent.setTongTienDuocGiamGia(tienDuocGiam);
+
+            hoaDonService.update(idHoaDon, hoaDonCurrent);
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("tongTienDonHang", hoaDonCurrent.getTongTienThanhToan());
+        jsonResult.put("tienDuocGiam", tienDuocGiam);
+        jsonResult.put("tongTienDonHangSauGiam", tongTienDonHangSauGiam);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/capNhatTongTienDonHang_cuaHoaDonCurrent")
+    public ResponseEntity<Map<String, Object>> capNhatTongTienDonHangHoaDonCurrent(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody PhanTrangRequest phanTrangRequest
+    ) throws IOException {
+        List<HoaDonChiTiet> dsHoaDonChiTiet = hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(phanTrangRequest.getIdHoaDon());
+        UUID idHoaDon = phanTrangRequest.getIdHoaDon();
+
+        Double tongTienDonHang = 0.0;
+        Double  tongTienSauGiam = 0.0;
+        Double tienDuocGiam = 0.0;
+            for(HoaDonChiTiet hoaDonChiTiet : dsHoaDonChiTiet){
+                if (hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() > 0 && hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() != null) {
+                    tongTienDonHang += (hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() * hoaDonChiTiet.getSoLuong());
+                } else {
+                    tongTienDonHang += (hoaDonChiTiet.getChiTietSanPham().getGiaTriSanPham() * hoaDonChiTiet.getSoLuong());
+                }
+            }
+
+            HoaDon hoaDonCurrent = hoaDonService.chiTietTheoId(phanTrangRequest.getIdHoaDon());
+            if(hoaDonCurrent!=null){
+//                System.out.println("Hoa đơn current - capNhatTongTienDonHang_cuaHoaDonCurrent :  " + hoaDonCurrent.toString());
+                hoaDonCurrent.setTongTienThanhToan(tongTienDonHang);
+                if(hoaDonCurrent.getTongTienDuocGiamGia()==null){
+                    hoaDonCurrent.setTongTienDuocGiamGia(0.0);
+                }
+
+            //            System.out.println("Hoa don current : " + hoaDonCurrent.toString());
+
+                hoaDonService.capNhat(hoaDonCurrent);
+
+
+            //        System.out.println("Tổng tiền đơn hàng : " + tongTienDonHang);
+                tienDuocGiam = hoaDonCurrent.getTongTienDuocGiamGia();
+                tongTienSauGiam  = tongTienDonHang - tienDuocGiam;
+            }
+
+        // tại sao phần tổng tiền sau giảm ko được tính
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("tongTienDonHang", tongTienDonHang);
+        if(hoaDonCurrent!=null) {
+            jsonResult.put("tienDuocGiam", tienDuocGiam);
+            jsonResult.put("tongTienDonHangSauGiam", tongTienSauGiam);
+        }
+
+
+//        System.out.println("Tổng tiền đơn hàng - " + tongTienDonHang);
+//        System.out.println("Tiền được giảm - " + tienDuocGiam);
+//        System.out.println("Tổng tiền sau giảm - " + tongTienSauGiam);
+        return ResponseEntity.ok(jsonResult);
+    }
 
     // api tự động tạo 1 hóa đơn chờ khi ko có hóa đơn chờ nào trong hệ thống
     @PostMapping("/tuDongTao1HoaDonCho")

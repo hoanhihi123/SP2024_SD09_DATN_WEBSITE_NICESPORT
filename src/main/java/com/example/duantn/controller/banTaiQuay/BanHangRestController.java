@@ -4,6 +4,7 @@ import com.example.duantn.dto.Constant;
 import com.example.duantn.model.ChiTietSanPham;
 import com.example.duantn.model.HoaDon;
 import com.example.duantn.model.HoaDonChiTiet;
+import com.example.duantn.model.PhieuGiamGia;
 import com.example.duantn.request.MuaHangTaiQuay;
 import com.example.duantn.request.PhanTrangRequest;
 import com.example.duantn.service.impl.*;
@@ -60,11 +61,32 @@ public class BanHangRestController {
     }
 
     // api lấy ra danh sách phieu giảm giá
-    @GetMapping("/getDanhSachPhieuGiamGia")
+    @PostMapping("/getDanhSachPhieuGiamGia")
     public ResponseEntity<?> getListDiscount(
-            Model model
+            Model model ,
+            @RequestBody MuaHangTaiQuay muaHangTaiQuay
     ){
-        return ResponseEntity.of(Optional.ofNullable(phieuGiamGiaService.layDanhSach()));
+
+        // lay danh sach phieu giam gia
+        List<PhieuGiamGia> dsPhieuGiamGia = phieuGiamGiaService.layDanhSach_voiTongTienDonHang(muaHangTaiQuay.getTongTienDonHang());
+
+        Double tongTienDonHang = muaHangTaiQuay.getTongTienDonHang();
+//        System.out.println("Tổng tiền đơn hàng - getDanhSachPhieuGiamGia: " + tongTienDonHang);
+
+        int count = 0;
+        List<PhieuGiamGia> dsPhieuGiamGiaHopLe = new ArrayList<>();
+        if(tongTienDonHang!=null){
+            for(PhieuGiamGia phieuGiamGia : dsPhieuGiamGia){
+                if(tongTienDonHang >= phieuGiamGia.getGiaTienXetDieuKien()){
+                    count++;
+                    dsPhieuGiamGiaHopLe.add(phieuGiamGia);
+                }
+            }
+        }
+//        System.out.println("ds phiếu giảm giá hợp lệ - getDanhSachPhieuGiamGia : " + dsPhieuGiamGiaHopLe.size());
+//        System.out.println("Count - getDanhSachPhieuGiamGia : " + count);
+
+        return ResponseEntity.of(Optional.ofNullable(dsPhieuGiamGiaHopLe));
     }
 
     // api lấy ra danh sách hoa don cho
@@ -73,8 +95,7 @@ public class BanHangRestController {
             Model model,
             @RequestBody PhanTrangRequest phanTrangRequest
             ){
-//        System.out.println("Id hóa đơn lấy được trong getDanhSachHoaDonCho_theoIDHoaDonActive : " + phanTrangRequest.getIdHoaDon());
-        return ResponseEntity.of(Optional.ofNullable(hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(phanTrangRequest.getIdHoaDon())));
+         return ResponseEntity.of(Optional.ofNullable(hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(phanTrangRequest.getIdHoaDon())));
     }
 
     // api lấy ra danh sách phieu giảm giá
@@ -159,11 +180,14 @@ public class BanHangRestController {
             HoaDonChiTiet hoaDonChiTietMoi = new HoaDonChiTiet();
             HoaDon hoaDonThem = new HoaDon();
             hoaDonThem.setId(idHoaDon);
-            ChiTietSanPham sanPhamChiTietThem = sanPhamCTService.chiTietTheoId(idSanPhamChiTiet);
             hoaDonChiTietMoi.setHoaDon(hoaDonThem);
+
+            ChiTietSanPham sanPhamChiTietThem = sanPhamCTService.chiTietTheoId(idSanPhamChiTiet);
             hoaDonChiTietMoi.setChiTietSanPham(sanPhamChiTietThem);
+
             hoaDonChiTietMoi.setSoLuong(soLuongMua);
-            hoaDonChiTietMoi.setDonGia(soLuongMua*sanPhamChiTietThem.getGiaTriSanPham());
+            Double thanhTien = sanPhamChiTietThem.getGiaTriGiam()>0?(soLuongMua * sanPhamChiTietThem.getGiaTriGiam()) : (soLuongMua * sanPhamChiTietThem.getGiaTriSanPham());
+            hoaDonChiTietMoi.setDonGia(thanhTien);
             hoaDonChiTietMoi.setNgayTao(Constant.getDateNow());
             hoaDonChiTietMoi.setTrangThai(0);
 

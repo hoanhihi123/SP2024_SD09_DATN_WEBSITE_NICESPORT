@@ -14,8 +14,10 @@ public class MuaHangTaiQuay {
     UUID idSanPhamCT;
     UUID idHoaDon;
     UUID idKhachHangChon;
+    UUID idPhieuGiamGia;
     Integer soLuong_sanPhamMua;
     Integer soLuong_sanPhamKho;
     String sdt_KhachHang;
+    Double tongTienDonHang;
 
 }

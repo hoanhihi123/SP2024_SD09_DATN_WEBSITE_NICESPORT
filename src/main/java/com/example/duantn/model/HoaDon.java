@@ -44,7 +44,6 @@ public class HoaDon  {
     @Column(name = "NgayGiao")
     private Date ngayGiao;
 
-
     @Column(name = "NgayThanhToan")
     private Date ngayThanhToan;
 
@@ -54,9 +53,8 @@ public class HoaDon  {
     @Column(name = "TienVanChuyen")
     private Double tienVanChuyen;
 
-
-    @Column(name = "TongTienGiamGia")
-    private Double tongTienGiamGia;
+    @Column(name = "TongTienDuocGiamGia")
+    private Double tongTienDuocGiamGia;
 
     @Column(name = "TenKH")
     private String tenKH;

@@ -233,6 +233,7 @@
                                                     <th scope="col">Ảnh</th>
                                                     <th scope="col">Tên</th>
                                                     <th scope="col">Size - màu sắc</th>
+                                                    <th scope="col">Đơn giá</th>
                                                     <th scope="col">Số lượng mua</th>
                                                     <th scope="col">Tổng tiền</th>
                                                     <th scope="col">xóa sản phẩm</th>
@@ -342,34 +343,33 @@
                                                 <input type="text" placeholder="Nhập mã giảm giá" class="form-control">
                                             </div>
                                             <a href="#" class="btn btn-success" data-toggle="modal"
-                                               data-target="#chonMaGiamGia"> <i class="menu-icon fa  fa-check-square-o"></i> Chọn</a>
+                                               data-target="#chonMaGiamGia" onclick="chonMaGiamGia();"> <i class="menu-icon fa  fa-check-square-o" ></i> Chọn</a>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
-                                            <span class="col-lg-4">Tổng tiền hàng: </span> <span class="col-lg-3">6.500.000</span>
+                                            <span class="col-lg-4">Tổng tiền hàng: </span> <span class="col-lg-3" id="tongTienHang">6.500.000</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
-                                            <span class="col-lg-4">Tiền được giảm: </span> <span class="col-lg-3">500.000</span>
+                                            <span class="col-lg-4">Tiền được giảm: </span> <span class="col-lg-3" id="tienDuocGiam" >0</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
-                                            <span class="col-lg-4">Tổng thanh toán: </span> <span class="col-lg-3">6.000.000</span>
+                                            <span class="col-lg-4">Tổng thanh toán: </span> <span class="col-lg-3" id="tongTienThanhToan">0</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
                                             <div class="col-lg-2">
-                                                <button class="btn btn-primary">Xuất hóa đơn</button>
+                                                <button class="btn btn-primary">Thanh toán</button>
                                             </div>
-<%--                                            <div class="col-lg-2" style="margin-left: 10px;">--%>
-<%--                                                <button class="btn btn-warning">Hủy hóa đơn</button>--%>
-<%--                                            </div>--%>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-2" style="margin-left:-40px;">
+                                                <button class="btn btn-warning">Hủy hóa đơn</button>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -447,7 +447,7 @@
                                                     <th scope="col">Số lượng kho</th>
                                                     <th scope="col">Giá</th>
                                                     <th scope="col">Số lượng mua</th>
-                                                    <th scope="col">Chọn</th>
+                                                    <th scope="col">Thao tác</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="table-body-chiTietSP">
@@ -507,7 +507,7 @@
                                                     <th scope="col">Giới tính</th>
                                                     <th scope="col">SĐT</th>
                                                     <th scope="col">Email</th>
-                                                    <th scope="col">Chọn</th>
+                                                    <th scope="col">Thao tác</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody id="table-body-khachHang">
@@ -551,33 +551,25 @@
                         <div class="content" >
                             <div class="animated fadeIn row">
                                 <div class="card col-lg-12">
-                                    <div class="card-header"  style="background-color: #F7F7F7; padding-bottom: 35px;">
-                                        <form action="" class="row justify-content-center">
-                                            <div class="col-lg-5">
-                                                <input type="text" class="form-control" placeholder="Nhập mã, tên mã giảm giá">
-                                            </div>
-                                            <div class="col-lg-2" style="margin-top: -24px;">
-                                                <button class="form-control btn btn-primary" style="margin-top: 24px;">Tìm kiếm</button>
+                                    <div class="card-header"  style="background-color: #F7F7F7; padding-bottom: 20px;">
 
-                                            </div>
-                                        </form>
-
-
+                                         <h3>Danh sách mã giảm giá phù hợp</h3>
                                     </div>
                                     <div class="card-body" style="">
-                                        <p>Danh sách mã giảm giá phù hợp</p>
+
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover no-wrap" >
                                                 <thead>
                                                     <tr style="text-align: center;">
                                                         <th scope="col">STT</th>
                                                         <th scope="col">Tên</th>
+                                                        <th scope="col">Số lượng</th>
                                                         <th scope="col">Ngày bắt đầu</th>
                                                         <th scope="col">Ngày kết thúc</th>
                                                         <th scope="col">Giá trị giảm</th>
                                                         <th scope="col">Hình thức giảm</th>
                                                         <th scope="col">Giá tiền xét điều kiện</th>
-                                                        <th scope="col">Chọn</th>
+                                                        <th scope="col">Thao tác</th>
                                                     </tr>
 
                                                 </thead>
@@ -741,10 +733,7 @@
 
                         var button = document.createElement("button");
                         button.classList.add("nav-link");
-                        // if ((index + 1) === 1) {
-                        //     button.classList.add("active");
-                        // }
-                        // kiểm tra index = phần tử cuối cùng của mảng => set active
+
                         if (index === lastIndex) {
                             button.classList.add("active");
                         }
@@ -780,14 +769,19 @@
 
                     });
 
-
                     // lấy idHoaDon_active
                     var idHoaDon_active = layIDCuaButtonTabPane_active();
 
+                    if(idHoaDon_active!==null){
+                        fetchDataAndFillTable_danhSachHoaDonCho();
+                        phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+                    }
 
-                    fetchDataAndFillTable_danhSachHoaDonCho();
-                    phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
-
+                    tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+                        console.log("Tổng tiền đơn hàng: " + tongTien);
+                    }).catch(function(error) {
+                        console.log("Đã xảy ra lỗi: " + error);
+                    });
 
                 }else{
                     console.log("Không có hóa đơn chờ nào");
@@ -797,7 +791,6 @@
                     tuDongTao_1_hoaDonCho();
 
                     console.log("chạy xong tự tạo 1 hóa đơn chờ");
-
                 }
             },
             error: function(error) {
@@ -868,7 +861,7 @@
             dataType : "json", //Kieu du lieu tra ve tu controller la json
 
             success: function(data) {
-
+                console.log("--------------- Danh sách hóa đơn chờ:  ", data);
                 var totalPages = Math.ceil(data.length / pageLimit);
                 console.log("Tổng số trang trong danh sách hóa đơn chờ : " + totalPages);
                 // Tạo phân trang
@@ -876,6 +869,17 @@
 
                 // hiển thị mặc định trang đầu tiên là 1
                 currentPage = 1;
+
+                    // tinh tong tien don hang
+                    var tongTienDonHang = 0;
+                    tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+                        tongTienDonHang = tongTien;
+                    }).catch(function(error) {
+                        console.log("Đã xảy ra lỗi: " + error);
+                    });
+
+                    console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng ở fetch data danh sách hóa đơn chờ: " + tongTienDonHang);
+
             },
             error: function(error) {
                 console.log("Error: " + error);
@@ -910,6 +914,12 @@
                 console.log("Chạy vào hàm : phanTrangSanPhamCT_trongChonHoaDonCho");
                 console.log(dsHoaDonChiTiet);
 
+                tongTienDonHang(idHoaDong).then(function(tongTien) {
+                    console.log("Tổng tiền đơn hàng: " + tongTien);
+                }).catch(function(error) {
+                    console.log("Đã xảy ra lỗi: " + error);
+                });
+
                 // Điền dữ liệu vào bảng
                 fillTableWithData_choHoaDonChiTiet(dsHoaDonChiTiet);
                 fetchData_khachHang_lenFormThongTinKhachHang(khachHangCuaHoaDon.hoTen,khachHangCuaHoaDon.soDT, khachHangCuaHoaDon.email);
@@ -932,12 +942,17 @@
 
         // set lại nội dung cho tbody
         data.forEach(function(item, index) {
+            var giaTriSanPham = item.chiTietSanPham.giaTriSanPham;
+            var giaTriGiam = item.chiTietSanPham.giaTriGiam > 0 ? item.chiTietSanPham.giaTriGiam : 0;
+            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + item.chiTietSanPham.giaTriSanPham +"</del> - "+ "<b>"+ giaTriGiam + "</b>" +  "</td>" : "<td>" + item.chiTietSanPham.giaTriSanPham + "</td>" ;
+
             var row =
                 "<tr style='text-align: center;'>" +
                 "<td>" + (index + 1) + "</td>" +
                 "<td><img width='80px' src='" + item.chiTietSanPham.hinhAnh + "' alt=''></td>" +
                 "<td>" + item.chiTietSanPham.sanPham.ten + "</td>" +
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
+                hienThiGiaSanPham +
                 "<td>" + item.soLuong + "</td>" +
                 "<td>" + item.donGia + "</td>" +
                 "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
@@ -1039,6 +1054,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         // lấy ra hóa đơn chờ
         getListHoaDonCho();
+
     });
 
 
@@ -1248,6 +1264,9 @@
 
         // set lại nội dung cho tbody
         data.forEach(function(item, index) {
+            var giaTriSanPham = item.giaTriSanPham;
+            var giaTriGiam = item.giaTriGiam > 0 ? item.giaTriGiam : 0;
+            var hienThiGiaSanPham = giaTriGiam > 0 ? "<td><del>" + item.giaTriSanPham +"</del> - "+ "<b>"+ giaTriGiam + "</b>" +  "</td>" : "<td>" + item.giaTriSanPham + "</td>" ;
             var row =
                 "<tr style='text-align: center;'>" +
                 "<td>" + (index + 1) + "</td>" +
@@ -1255,7 +1274,7 @@
                 "<td>" + item.sanPham.ten + "</td>" +
                 "<td>Size: " + item.kichCo.ten + " - màu: " + item.mauSac.ten + "</td>" +
                 "<td>" + item.soLuong + "</td>" +
-                "<td>" + item.giaTriSanPham + "</td>" +
+                hienThiGiaSanPham +
                 "<td><input type='number' data-id='" + item.id + "' value='1' min='1' class='form-control' style='width: 50%; margin: 0px auto;'></td>" +
                 "<td><a href='#' class='btn btn-success' onclick='themSanPhamVaoHoaDonHienTai(\"" + item.id + "\", this.parentNode.previousElementSibling.querySelector(\"input\").value);'>Chọn mua</a></td>" +
                 "</tr>";
@@ -1450,10 +1469,13 @@
     <%-- đổ dữ liệu và phân trang PhieuGiamGia   --%>
         // phieu giam gia
         // đổ lại dữ liệu vào bảng sau khi chọn phân trang
-        phanTrangSanPhamCT_trongChonPhieuGiamGia = function( currentPage , pageLimit) {
+        phanTrangSanPhamCT_trongChonPhieuGiamGia = function( currentPage , pageLimit, tongTienDonHang) {
+            console.log("Tổng tiefn đơn hàng " + tongTienDonHang + " tại phanTrangSanPhamCT_trongChonPhieuGiamGia");
+
             let data = {
                 currentPage: currentPage ,
-                pageLimit: pageLimit
+                pageLimit: pageLimit ,
+                tongTienDonHang : tongTienDonHang
             };
 
             //$ === jQuery
@@ -1506,8 +1528,16 @@
                 // Thêm lớp active cho thẻ <li> của trang được chọn
                 $(this).parent().addClass("active");
 
-                // Gọi hàm để lấy dữ liệu cho trang mới
-                phanTrangSanPhamCT_trongChonPhieuGiamGia((currentPage-1), pageLimit);
+                var idHoaDon_active = layIDCuaButtonTabPane_active();
+                tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+                    // Gọi hàm để lấy dữ liệu cho trang mới
+                    if(tongTien>0 && tongTien!==null){
+                        phanTrangSanPhamCT_trongChonPhieuGiamGia((currentPage-1), pageLimit,tongTien);
+                    }
+                }).catch(function(error) {
+                    console.log("Đã xảy ra lỗi: " + error);
+                });
+
             });
 
             // Thêm phân trang vào DOM
@@ -1517,13 +1547,23 @@
         // phieu giam gia
         // lấy dữ liệu từ API để tính tổng số trang
         // => chạy hàm tạo phân trang cho danh sách sản phẩm
-        function fetchDataAndFillTable_danhSachPhieuGiamGia() {
+        function fetchDataAndFillTable_danhSachPhieuGiamGia(tongTienHoaDon) {
+
+            let data = {
+                tongTienDonHang: tongTienHoaDon
+            };
+
             $.ajax({
                 url: "http://localhost:8080/api/ban-hang/getDanhSachPhieuGiamGia",
-                type: "GET",
-                success: function(data) {
+                type : "POST",
+                contentType: "application/json",
+                data : JSON.stringify(data),
+                dataType : "json", //Kieu du lieu tra ve tu controller la json
 
-                    var totalPages = Math.ceil(data.length / pageLimit);
+                success : function(jsonResult) {
+
+                    var totalPages = Math.ceil(jsonResult.length / pageLimit);
+                    console.log("Tổng số trang của phiếu giảm giá : " + totalPages);
 
                     // Tạo phân trang
                     createPagination_choDanhSacPhieuGiamGia(totalPages);
@@ -1544,7 +1584,6 @@
             var tableBody = $("#table-body-phieuGiamGia");
             tableBody.empty();
 
-
             // set lại nội dung cho tbody
             data.forEach(function(item, index) {
                 var gioiTinh = item === 0 ? "Nam":"Nữ";
@@ -1552,12 +1591,13 @@
                     "<tr style='text-align: center;'>" +
                     "<td>" + (index + 1) + "</td>" +
                     "<td>" +  item.ten + "</td>" +
+                    "<td>" +  item.soLuong + "</td>" +
                     "<td>" +  item.ngayBatDauApDung + "</td>" +
                     "<td>" +  item.ngayKetThucApDung + "</td>" +
                     "<td>" +  item.giaTriGiam + "</td>" +
                     "<td>" +  item.hinhThucGiam + "</td>" +
                     "<td>" +  item.giaTienXetDieuKien + "</td>" +
-                    "<td><a href='#' class='btn btn-success' onclick='layIDKhachHangDuocChon(\"" + item.id + "\");'>Chọn </a></td>" +
+                    "<td><a href='#' class='btn btn-success' onclick='layIDPhieuGiamGiaDuocChon(\"" + item.id + "\");'>Chọn </a></td>" +
                     "</tr>";
                 tableBody.append(row);
             });
@@ -1565,12 +1605,8 @@
     <%--/ đổ dữ liệu và phân trang phieu giảm giá  --%>
 
     // hàm thực hiện mỗi lần load trang sẽ thực hiện các hàm bên trong
-    document.addEventListener("DOMContentLoaded", function() {
-        // fill data to table list product detail
-        fetchDataAndFillTable_danhSachPhieuGiamGia();
-        // pagination for list product detail
-        phanTrangSanPhamCT_trongChonPhieuGiamGia();
-    });
+
+
 
 </script>
 
@@ -1952,12 +1988,11 @@
                 dataType: "json",
                 success: function(data) {
                     if(data.xacNhanXoa === true){
-
                         fetchDataAndFillTable_danhSachHoaDonCho();
                         phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon);
 
                         alert('Xóa dữ liệu thành công');
-                        // getListHoaDonCho();
+                        getListHoaDonCho();
 
                     }
                 },
@@ -1991,15 +2026,12 @@
                 dataType: "json",
                 success: function(data) {
                     // xoa thanh cong
-                    if(data.xacNhanXoa==true){
-                        // lam sao de lay idHoaDonDauTien
-                        // var idHoaDonChoDauTien = layIDCuaButtonTabFirst();
-                        //
-                        // fetchDataAndFillTable_danhSachHoaDonCho();
-                        // phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDonChoDauTien);
-                        getListHoaDonCho();
-                        alert('Xóa hóa đơn chờ thành công');
-                    }
+                    var idHoaDon_active = layIDCuaButtonTabPane_active();
+                    console.log("Id hóa dơn active sau khi xóa hóa đơn chờ : " + idHoaDon_active);
+
+                    getListHoaDonCho();
+                    alert('Xóa hóa đơn chờ thành công');
+
                 },
                 error: function(error) {
                     reject(error);
@@ -2021,6 +2053,101 @@
         // Nếu không tìm thấy button nào có class active, trả về null
         return null;
     }
+
+    // lấy ra danh sách hóa đơn chờ active tính tổng tiền
+    // để set dữ liệu vào tổng tiền và tính lại mỗi khi thay đổi số lượng sản phẩm trong hóa đơn chờ
+    function tongTienDonHang(idHoaDon_active) {
+        console.log(">>>>>>>>>>>>> vào hàm tongTienDonHang()");
+        if(idHoaDon_active!==null){
+            let data = {
+                idHoaDon: idHoaDon_active
+            };
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: "http://localhost:8080/ban-hang/capNhatTongTienDonHang_cuaHoaDonCurrent",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+                    success: function(data) {
+                        var tongTienDonHang = data.tongTienDonHang;
+                        var tienDuocGiamResult = data.tienDuocGiam;
+                        var tongTienSauGiam = data.tongTienDonHangSauGiam;
+
+                        var tongTienHang2 = document.getElementById("tongTienHang");
+                        tongTienHang2.textContent = tongTienDonHang;
+
+                        var tienDuocGiam = document.getElementById("tienDuocGiam");
+                        tienDuocGiam.textContent = tienDuocGiamResult;
+
+                        var tongTienThanhToan = document.getElementById("tongTienThanhToan");
+                        tongTienThanhToan.textContent = tongTienSauGiam;
+
+                        console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng o tinh tong tien hang : " + tongTienDonHang);
+                        resolve(tongTienDonHang); // Trả về tổng tiền đơn hàng qua promise
+                    },
+                    error: function(error) {
+                        console.log("Error: " + error);
+                        reject(error); // Trả về lỗi nếu có lỗi xảy ra
+                    }
+                });
+            });
+        }
+    }
+
+    function layIDPhieuGiamGiaDuocChon(idPhieuGiamGia){
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        var idPhieuGiamGiaDuocChon = idPhieuGiamGia;
+
+        console.log(".>........Phieu giam gia duoc chon : " + idPhieuGiamGiaDuocChon);
+
+        // cap nhat thong tin phieu giam gia
+        let data = {
+            idPhieuGiamGia :   idPhieuGiamGiaDuocChon,
+            idHoaDon : idHoaDon_active
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/ban-hang/capNhatThongTinHoaDon_apDungPhieuGiamGiaNao",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+            success: function(data) {
+                chonMaGiamGia();
+                alert('Áp dụng phiếu giảm giá thành công');
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+                reject(error); // Trả về lỗi nếu có lỗi xảy ra
+            }
+        });
+
+
+    }
+
+    function chonMaGiamGia(){
+        console.log("Chạy vào hàm chonMaGiamGia() ");
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+
+        // Sử dụng promise để lấy tổng tiền đơn hàng
+        tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng - trong load trang phieuGiamGia: " + tongTien);
+            if(tongTien !== null && tongTien > 0) {
+                fetchDataAndFillTable_danhSachPhieuGiamGia(tongTien);
+
+                // var idHoaDon_active = layIDCuaButtonTabPane_active();
+                // pagination for list product detail
+                phanTrangSanPhamCT_trongChonPhieuGiamGia(0, 4, tongTien);
+            }
+        }).catch(function(error) {
+            console.log("Đã xảy ra lỗi: " + error);
+        });
+    }
+
+
 
 </script>
 

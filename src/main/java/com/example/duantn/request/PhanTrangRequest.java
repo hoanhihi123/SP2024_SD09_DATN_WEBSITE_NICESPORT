@@ -14,5 +14,6 @@ public class PhanTrangRequest {
     private Integer pageLimit;
     private UUID idHoaDon;
     private String textSearch_SDT_KhachHang;
+    private Double tongTienDonHang;
 
 }

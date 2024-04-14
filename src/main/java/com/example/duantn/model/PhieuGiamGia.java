@@ -37,4 +37,7 @@ public class PhieuGiamGia extends BaseModel{
     @Column(name = "NgayKetThuc")
     private Date ngayKetThucApDung;
 
+    @Column(name = "soLuong")
+    private Integer soLuong;
+
 }

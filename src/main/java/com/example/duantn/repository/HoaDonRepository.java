@@ -62,11 +62,21 @@ public interface HoaDonRepository extends JpaRepository<HoaDon, UUID> {
                 @Param("idKhachHang") UUID idKhachHang
         );
 
+        // xoa hoa don cho theo idHoaDon
         @Transactional
         @Modifying
         @Query(value = "delete from HoaDon where id=:idHoaDon", nativeQuery = true)
         void xoaHoaDonCho_bangIdHoaDon(@Param("idHoaDon") UUID idHoaDon );
 
+        //
+        @Transactional
+        @Modifying
+        @Query(value = "Update HoaDon set IdPhieuGiamGia =:idPhieuGiamGia where Id=:idHoaDon"
+                , nativeQuery = true)
+        void capNhatHoaDon_apDungPhieuGiamGiaNao(
+                @Param("idHoaDon") UUID idHoaDon ,
+                @Param("idPhieuGiamGia") UUID idPhieuGiamGia
+        );
 
     // hoan code
 }

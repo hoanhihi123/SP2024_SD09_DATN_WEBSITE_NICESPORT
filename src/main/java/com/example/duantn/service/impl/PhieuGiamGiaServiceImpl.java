@@ -21,6 +21,16 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
         return phieuGiamGiaRepository.getAll();
     }
 
+    // hoan code
+        public List<PhieuGiamGia> layDanhSach_voiTongTienDonHang(Double tongTienDonHang) {
+            return phieuGiamGiaRepository.getAll_voiTongTien(tongTienDonHang);
+        }
+
+        public Page<PhieuGiamGia> layDanhSach_voiTongTienDonHang(Pageable pageable, Double tongTienDonHang) {
+            return phieuGiamGiaRepository.getAll_tongTienDonHang(pageable,tongTienDonHang);
+        }
+    // hoan code
+
     @Override
     public List<PhieuGiamGia> getAll() {
         return phieuGiamGiaRepository.getAll();

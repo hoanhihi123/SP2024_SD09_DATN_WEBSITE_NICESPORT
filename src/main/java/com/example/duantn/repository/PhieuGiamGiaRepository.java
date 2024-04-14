@@ -14,13 +14,36 @@ import java.util.UUID;
 
 @Repository
 public interface PhieuGiamGiaRepository extends JpaRepository<PhieuGiamGia, UUID> {
-    @Query(value = "select * from PhieuGiamGia ",nativeQuery = true)
+    @Query(value = "select * from PhieuGiamGia where soLuong > 0  and NgayKetThuc >= GETDATE() and NgayBatDau <= GETDATE()  ",nativeQuery = true)
     List<PhieuGiamGia>getAll();
 
-    @Query(value = "select  * from PhieuGiamGia ",
-            countQuery = "select  count(*) from PhieuGiamGia", nativeQuery = true)
+    @Query(value = "select  count(*) from PhieuGiamGia where soLuong > 0  and NgayKetThuc >= GETDATE()",
+            countQuery = "select  count(*) from PhieuGiamGia where soLuong > 0  and NgayKetThuc >= GETDATE()", nativeQuery = true)
     public Page<PhieuGiamGia> getAll(Pageable pageable);
 
+    // hoan code
+    @Query(value = "SELECT *\n" +
+            "FROM PhieuGiamGia\n" +
+            "where soLuong > 0  and NgayKetThuc >= GETDATE() and NgayBatDau <= GETDATE() \n" +
+            "ORDER BY \n" +
+            "    CASE \n" +
+            "        WHEN HinhThucGiam = N'tiền mặt' THEN GiaTriGiam\n" +
+            "        WHEN HinhThucGiam = '%' THEN  ( :tongTienDonHang * (GiaTriGiam  / 100))\n" +
+            "\t\telse 0\n" +
+            "    END desc;",nativeQuery = true)
+    List<PhieuGiamGia>getAll_voiTongTien(@Param("tongTienDonHang") Double tongTienDonHang);
+
+    @Query(value = "SELECT *\n" +
+            "FROM PhieuGiamGia\n" +
+            "where soLuong > 0  and NgayKetThuc >= GETDATE() and NgayBatDau <= GETDATE() \n" +
+            "ORDER BY \n" +
+            "    CASE \n" +
+            "        WHEN HinhThucGiam = N'tiền mặt' THEN GiaTriGiam\n" +
+            "        WHEN HinhThucGiam = '%' THEN  ( :tongTienDonHang * (GiaTriGiam  / 100))\n" +
+            "\t\telse 0\n" +
+            "    END desc;",
+            countQuery = "SELECT * FROM PhieuGiamGia where soLuong > 0  and NgayKetThuc >= GETDATE() and NgayBatDau <= GETDATE() ", nativeQuery = true)
+    public Page<PhieuGiamGia> getAll_tongTienDonHang(Pageable pageable , @Param("tongTienDonHang") Double tongTienDonHang);
 
     @Query(value = "select  * from PhieuGiamGia " +
                     "where Concat(PhieuGiamGia.ten) like %:textSearch%\n",
