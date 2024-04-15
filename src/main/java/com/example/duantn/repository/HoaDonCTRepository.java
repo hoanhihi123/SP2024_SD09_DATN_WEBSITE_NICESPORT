@@ -62,7 +62,6 @@ public interface HoaDonCTRepository extends JpaRepository<HoaDonChiTiet, UUID> {
         @Query(value = "delete from HoaDonCT where IdHoaDon=:idHoaDon", nativeQuery = true)
         void xoaHoaDonChiTiet_bangIdHoaDon(@Param("idHoaDon") UUID idHoaDon );
 
-
     // hoan code
 
 }

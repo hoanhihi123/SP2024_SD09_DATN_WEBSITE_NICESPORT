@@ -65,9 +65,6 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
 
 
 
-
-
-
     @Override
     public Page<HoaDonChiTiet> layDanhSach(String textSearch, Pageable pageable) {
         return null;

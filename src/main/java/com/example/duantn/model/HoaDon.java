@@ -87,8 +87,19 @@ public class HoaDon  {
     private String phuong_xa;
 
     // hoan them
-    @Column(name = "loaiHoaDon")
-    private String loaiHoaDon;
+        @Column(name = "loaiHoaDon")
+        private String loaiHoaDon;
 
+        @Column(name = "NgaySua")
+        private Date ngaySua;
+
+        @Column(name = "NgayTao")
+        private Date ngayTao;
+
+        @Column(name = "NguoiSua")
+        private Integer nguoiSua;
+
+        @Column(name = "NguoiTao")
+        private Integer nguoiTao;
     // hoan them
 }

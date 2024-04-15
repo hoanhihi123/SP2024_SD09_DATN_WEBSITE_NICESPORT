@@ -4,6 +4,7 @@ import com.example.duantn.dto.Constant;
 import com.example.duantn.model.*;
 import com.example.duantn.request.MuaHangTaiQuay;
 import com.example.duantn.request.PhanTrangRequest;
+import com.example.duantn.request.SanPhamTrongGioHang;
 import com.example.duantn.service.impl.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -303,6 +304,7 @@ public class BanHangTaiQuayController {
         hoaDon_status_waitForPay.setKhachHang(khachHangLe);
         hoaDon_status_waitForPay.setLoaiHoaDon("Mua hàng tại quầy");
         hoaDon_status_waitForPay.setNgayMua(Constant.getDateNow());
+        hoaDon_status_waitForPay.setNgayTao(Constant.getDateNow());
 
         HoaDon hoaDonTaoMoi = hoaDonService.themMoi(hoaDon_status_waitForPay);
 
@@ -388,6 +390,51 @@ public class BanHangTaiQuayController {
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
         jsonResult.put("xacNhanXoa", true);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/taoHoaDonThanhToanTaiQuay")
+    public ResponseEntity<Map<String, Object>> taoHoaDonThanhToanTaiQuay(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody MuaHangTaiQuay muaHangTaiQuay
+    ) throws IOException, ParseException {
+        UUID idHoaDon = muaHangTaiQuay.getIdHoaDon();
+        // cap nhat trang thai hoa don va hoa don chi tiet
+        HoaDon hoaDonCurrent = hoaDonService.chiTietTheoId(idHoaDon);
+        hoaDonCurrent.setTrangThai(1);
+        hoaDonCurrent.setNgayThanhToan(Constant.getDateNow());
+        hoaDonCurrent.setNgaySua(Constant.getDateNow());
+
+        hoaDonService.capNhat(hoaDonCurrent);
+
+        List<HoaDonChiTiet> dsHoaDonChiTietCuaHoaDonHienTai = new ArrayList<>();
+        dsHoaDonChiTietCuaHoaDonHienTai = hoaDonCTService.layDanhSachHoaDonChiTiet_theoIdHoaDon(idHoaDon);
+        for(HoaDonChiTiet hoaDonChiTiet : dsHoaDonChiTietCuaHoaDonHienTai){
+            hoaDonChiTiet.setTrangThai(1);
+            hoaDonCTService.capNhat(hoaDonChiTiet);
+        }
+
+        if(hoaDonCurrent.getPhieuGiamGia()!=null){
+            // cap nhat so luong voucher áp dụng
+            PhieuGiamGia phieuGiamGia = phieuGiamGiaService.detail(hoaDonCurrent.getPhieuGiamGia().getId());
+            phieuGiamGia.setSoLuong(phieuGiamGia.getSoLuong()-1);
+
+            phieuGiamGiaService.capNhat(phieuGiamGia);
+        }
+
+        // cập nhật số lượng trong kho khi mua tại quầy ngay khi thanh toán
+        for (HoaDonChiTiet sanPhamChiTietTrongHoaDon : dsHoaDonChiTietCuaHoaDonHienTai) {
+            // cập nhật số lượng sản phẩm trong DB
+            sanPhamCTService.capNhatSoLuongSauKhiDatHang(sanPhamChiTietTrongHoaDon.getSoLuong(), sanPhamChiTietTrongHoaDon.getChiTietSanPham().getId());
+        }
+
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
 
         return ResponseEntity.ok(jsonResult);
     }

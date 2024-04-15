@@ -1,6 +1,7 @@
 package com.example.duantn.service.impl;
 
 import com.example.duantn.model.ChiTietSanPham;
+import com.example.duantn.model.KichCo;
 import com.example.duantn.model.PhieuGiamGia;
 import com.example.duantn.repository.PhieuGiamGiaRepository;
 import com.example.duantn.service.PhieuGiamGiaService;
@@ -28,6 +29,10 @@ public class PhieuGiamGiaServiceImpl implements PhieuGiamGiaService {
 
         public Page<PhieuGiamGia> layDanhSach_voiTongTienDonHang(Pageable pageable, Double tongTienDonHang) {
             return phieuGiamGiaRepository.getAll_tongTienDonHang(pageable,tongTienDonHang);
+        }
+
+        public void capNhat(PhieuGiamGia phieuGiamGia) {
+            phieuGiamGiaRepository.save(phieuGiamGia);
         }
     // hoan code
 

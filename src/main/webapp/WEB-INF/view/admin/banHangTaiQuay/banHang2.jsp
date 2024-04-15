@@ -364,7 +364,7 @@
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
                                             <div class="col-lg-2">
-                                                <button class="btn btn-primary">Thanh toán</button>
+                                                <button class="btn btn-primary" onclick="taoHoaDonThanhToan();">Thanh toán</button>
                                             </div>
                                             <div class="col-lg-2" style="margin-left:-40px;">
                                                 <button class="btn btn-warning">Hủy hóa đơn</button>
@@ -953,10 +953,12 @@
                 "<td>" + item.chiTietSanPham.sanPham.ten + "</td>" +
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
                 hienThiGiaSanPham +
-                "<td>" + item.soLuong + "</td>" +
+                "<td><input type='text' class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>" +
                 "<td>" + item.donGia + "</td>" +
                 "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
-            "</tr>";
+                "</tr>";
+
+
             tableBody.append(row);
         });
 
@@ -2005,7 +2007,6 @@
             // console.log("Xác nhận không xóa sản phẩm này");
         }
 
-
     }
 
     // xóa hóa đơn chờ và hóa đơn chờ chi tiết tương ứng
@@ -2148,6 +2149,90 @@
     }
 
 
+    function taoHoaDonThanhToan(){
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+            // console.log("Tổng tiền tính được khi ở hàm taoHoaDonThanhToan" + tongTien);
+
+            if(tongTien===0){
+                alert("Vui lòng chọn sản phẩm vào hóa đơn để thưc hiện thanh toán");
+                return;
+            }else{
+                if(confirm('Bạn muốn thực hiện thanh toán ? ')){
+                    console.log(">>>>>>>>> Thực hiện Tạo hóa đơn thanh toán tại quầy ");
+                    // lấy idHoaDon => chạy vào 1 hàm xử lý tạo hóa đơn thanh toán
+                    var idHoaDon_active = layIDCuaButtonTabPane_active();
+                    thucHienTaoHoaDonThanhToan(idHoaDon_active);
+
+                }else{
+                    console.log("Không tạo hóa đơn");
+                }
+            }
+        }).catch(function(error) {
+            console.log("Đã xảy ra lỗi: " + error);
+        });
+
+
+
+
+
+    }
+
+    // tạo hóa đơn thanh toán
+    function thucHienTaoHoaDonThanhToan(idHoaDonCurrent){
+        let data = {
+            idHoaDon :   idHoaDonCurrent
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/ban-hang/taoHoaDonThanhToanTaiQuay",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+            success: function(data) {
+                alert('Tạo hóa đơn thanh toán tại quầy thành công');
+                getListHoaDonCho();
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            }
+        });
+    }
+
+    function handleChangeSoLuongMua( soLuongMuaMoi,  soLuongCu, idSanPhamCT, soLuongTrongKho) {
+        console.log("Hàm xử lý thay đổi số lượng mua ");
+        console.log("Số lượng mua mới : " + soLuongMuaMoi);
+        console.log("Số lượng mua cũ : " + soLuongCu);
+        console.log("ID sản phẩm chi tiết : " + idSanPhamCT);
+        console.log("Số lượng trong kho : " + soLuongTrongKho);
+
+        // kiểm tra dữ liệu cơ bản trước khi cập nhật số lượng trong hóa đơn
+        var xacNhanThemSoLuong = confirm('Bạn muốn sửa số lượng sản phẩm này ?');
+        if(xacNhanThemSoLuong){
+            var checkDieuKienSoLuong = soLuongMuaMoi<=soLuongTrongKho;
+            console.log("checkDieuKienSoLuong :  " + checkDieuKienSoLuong);
+            console.log("Số lượng mua mới : " + soLuongMuaMoi);
+            console.log("Số lượng trong kho : " + soLuongTrongKho);
+            if(checkDieuKienSoLuong===true){
+                console.log('Số lượng hợp lệ để cập nhật - số lượng trong kho của sản phẩm : ' + soLuongTrongKho + ' - số lượng mua mới ' + soLuongMuaMoi);
+            }else{
+                if(confirm('Trong kho còn ' + (soLuongTrongKho-soLuongCu) + ' sản phẩm bạn có thể mua \n bạn có muốn lấy hết không ?')){
+                    console.log('Cập nhật số lượng thành công');
+                }else{
+                    console.log('Không cập nhật số lượng');
+                }
+            }
+
+        }else{
+            return;
+        }
+
+
+
+
+    }
 
 </script>
 

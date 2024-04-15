@@ -245,7 +245,6 @@ public class CartController {
             hoaDonChiTietService.themMoi(hoaDonChiTiet);
             // cập nhật số lượng sản phẩm trong DB
             chiTietSPService.capNhatSoLuongSauKhiDatHang(sanPhamGio.getSoLuong(), sanPhamGio.getIdSanPhamCT());
-
         }
 
         // duyệt danh sách sản phẩm trong giỏ hàng => kiểm tra cái nào có được chọn mua => xóa
@@ -292,49 +291,6 @@ public class CartController {
 
         return "redirect:/gio-hang/view-trangChu2";
     }
-
-//    @GetMapping("/view-trangChu")
-//    public String viewTrangChu(
-//            Model model,
-//            HttpServletRequest httpServletRequest
-//    ) {
-//        // trang chủ => làm sao để list lại các sản phẩm mà không bị lặp
-//        // lấy danh sách IdSanPham distinct
-//        // lấy danh sách sản phẩm => duyệt => break thêm vào mảng mới => lấy mảng đó để hiển thị
-//        List<UUID> ds_uuidSanPham_tuSPCT = new ArrayList<>();
-//        ds_uuidSanPham_tuSPCT = chiTietSPService.layDanhSach_IdSanPham_trongSanPhamCT();
-//
-//        Page<ChiTietSanPham> pageChiTietSP = chiTietSPService.layDanhSach(Pageable.unpaged());
-//        List<ChiTietSanPham> dsSanPhamCT = pageChiTietSP.getContent();
-//
-//        List<ChiTietSanPham> dsSanPhamCT_new = new ArrayList<>();
-//        for(UUID idSanPham : ds_uuidSanPham_tuSPCT){
-//            for(ChiTietSanPham sanPhamCT : dsSanPhamCT){
-//                if(idSanPham.equals(sanPhamCT.getSanPham().getId())){
-//                    dsSanPhamCT_new.add(sanPhamCT);
-//                    break;
-//                }
-//            }
-//        }
-//        System.out.println("Danh sách sản phẩm chi tiết mới ");
-//        for(ChiTietSanPham chiTietSanPham : dsSanPhamCT_new){
-//            System.out.println(chiTietSanPham.toString());
-//        }
-//
-//
-////        System.out.println("Size of dsSanPham : " + dsSanPhamCT.size());
-//        model.addAttribute("dsSanPham", dsSanPhamCT);
-//
-//        session = httpServletRequest.getSession();
-//        Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts");
-//        model.addAttribute("totalCartProducts",soLuongSanPhamTrongGio);
-//
-//        HttpSession session = httpServletRequest.getSession();
-//        GioHang cartThanhToan = new GioHang();
-//        session.setAttribute("cartThanhToan",cartThanhToan);
-//
-//        return "customer/gioHang/trang_chu";
-//    }
 
     @GetMapping("/view-trangChu2")
     public String viewTrangChu2(
