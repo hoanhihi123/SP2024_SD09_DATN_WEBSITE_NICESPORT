@@ -80,9 +80,16 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     public List<ChiTietSanPham> getListSanPhamChiTietTheo_idSanPham(@Param("idSanPham") UUID idSanPham);
 
 
+//    select KichThuoc.Ten, SanPhamCT.Id from SanPhamCT
+//    join KichThuoc on SanPhamCT.IdKichThuoc = KichThuoc.Id
+//    where SanPhamCT.Id ='046D3833-154F-46BE-93FB-15316D524569'  and IdMauSac =:idMauSac
+//    order by KichThuoc.Ten
+
     // lay danh sách sản phẩm theo IdMauSac va IdSanPham
-    @Query(value = "select * from SanPhamCT " +
-            "where IdSanPham =:idSanPham and IdMauSac =:idMauSac"
+    @Query(value = "select spct.* from SanPhamCT spct\n" +
+            "join KichThuoc kt on spct.IdKichThuoc = kt.Id\n" +
+            "where spct.IdSanPham =:idSanPham and spct.IdMauSac =:idMauSac\n" +
+            "order by kt.Ten\n"
             , nativeQuery = true)
     public List<ChiTietSanPham> getListSanPhamCT_theoIdMauSac_IdSanPham(@Param("idSanPham") UUID idSanPham,
                                                                         @Param("idMauSac") UUID idMauSac);

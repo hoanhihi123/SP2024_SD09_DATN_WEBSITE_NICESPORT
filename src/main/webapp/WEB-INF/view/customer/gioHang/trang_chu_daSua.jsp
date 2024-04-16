@@ -285,21 +285,17 @@
 <%--                                        <c:forEach items="${dsLoaiSP_trongSanPhamCT}" var="loaiSanPham">--%>
                                             <c:if   test="${sanPhamChiTiet.danhMuc.ten == 'Nam'}">
                                                  <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                                <div class="product product-7 text-center">
+                                                    <div class="product product-7 text-center">
                                                     <figure class="product-media">
-                                                        <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
-                                                         </span>
-                                                        <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
+                                                        <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
+                                                            <span class="product-label label-new">
+                                                                <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
+                                                             </span>
+                                                        </c:if>
 
+                                                        <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
                                                             <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                         </a>
-
-<%--                                                        <div class="product-action-vertical">--%>
-<%--                                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>Thêm vào yêu thích</span></a>--%>
-<%--                                                        </div>--%>
-                                                        <!-- End .product-action-vertical -->
 
                                                         <div class="product-action">
                                                             <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>
@@ -315,19 +311,29 @@
 <%--                                                        <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                         <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                        <div class="product-price">
-                                                            <strike style="color: black !important;">
-                                                            <fmt:formatNumber type = "number"
-                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                            </strike>
+                                                        <div class="product-price" style="margin-top: 5px;">
+                                                            <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                                <s style="color: black !important;">
 
-                                                            <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                            <b style="color: red;">
-                                                                <fmt:formatNumber type = "number"
-                                                                                  maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                                </s>
 
-                                                            </b>
+                                                                <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                                <b style="color: red;">
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                                </b>
+                                                            </c:if>
+                                                            <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                                <b style="color: red;" style="margin-top: 100px;">
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                                </b>
+                                                            </c:if>
+
                                                         </div><!-- End .product-price -->
+
                                                         <div class="ratings-container">
 
                                                         </div><!-- End .rating-container -->
@@ -336,17 +342,11 @@
                                                             <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
                                                                 <img src="${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                             </a>
-                                                            <!-- <a href="#">
-                                                                <img src="/user/assets/imagesgiay/giay11-2.jpg" alt="product desc">
-                                                            </a>
 
-                                                            <a href="#">
-                                                                <img src="/user/assets/images/products/product-4-3-thumb.jpg" alt="product desc">
-                                                            </a> -->
                                                         </div>
                                                     </div><!-- End .product-body -->
                                                 </div><!-- End .product -->
-                                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                                                 </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                                             </c:if>
 <%--                                        </c:forEach>--%>
                                     </c:forEach>
@@ -376,10 +376,11 @@
                                     <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
-                                                        <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
-                                                         </span>
+                                                <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
+                                                            <span class="product-label label-new">
+                                                                <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
+                                                             </span>
+                                                </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
                                                     <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
@@ -402,19 +403,30 @@
 <%--                                                <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                 <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                <div class="product-price">
-                                                    <strike style="color: black !important;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                    </strike>
+                                                <div class="product-price" style="margin-top: 5px;">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                        <s style="color: black !important;">
 
-                                                    <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                    <b style="color: red;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                        </s>
 
-                                                    </b>
+                                                        <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                        <b style="color: red;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                        <b style="color: red;" style="margin-top: 100px;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+
                                                 </div><!-- End .product-price -->
+
+
                                                 <div class="ratings-container">
 
                                                 </div><!-- End .rating-container -->
@@ -463,10 +475,11 @@
                                     <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
                                                         <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
+                                                            <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
                                                          </span>
+                                                    </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
                                                     <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
@@ -488,19 +501,29 @@
 <%--                                                <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                 <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                <div class="product-price">
-                                                    <strike style="color: black !important;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                    </strike>
+                                                <div class="product-price" style="margin-top: 5px;">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                        <s style="color: black !important;">
 
-                                                    <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                    <b style="color: red;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                        </s>
 
-                                                    </b>
+                                                        <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                        <b style="color: red;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                        <b style="color: red;" style="margin-top: 100px;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+
                                                 </div><!-- End .product-price -->
+
                                                 <div class="ratings-container">
 
                                                 </div><!-- End .rating-container -->

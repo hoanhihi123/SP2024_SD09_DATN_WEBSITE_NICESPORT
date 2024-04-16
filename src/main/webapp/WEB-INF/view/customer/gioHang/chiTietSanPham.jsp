@@ -266,17 +266,27 @@
                             <div class="product-details  ">
                                 <h1 class="product-title" style="font-size: 40px !important;">${sanPhamCT.sanPham.ten}</h1><!-- End .product-title -->
 
+                                <div class="product-price" style="padding-bottom: 20px;">
+                                    <c:if test="${sanPhamCT.giaTriGiam > 0}">
+                                        <s style="color: black !important;">
 
-
-                                <div class="product-price" style="margin-top: 30px;">
-                                    <span class="old-price" style="color: gray; font-size: 20px;">
-                                        <fmt:formatNumber type = "number"
-                                                          maxFractionDigits = "0" value = "${sanPhamCT.giaTriSanPham}" />
-                                    </span>
-                                    <span style="color: red !important; font-size: 30px; margin-left: 10px; ">
                                             <fmt:formatNumber type = "number"
-                                                              maxFractionDigits = "0" value = "${sanPhamCT.giaTriGiam>0?sanPhamCT.giaTriGiam:''}" />
-                                    </span>
+                                                              maxFractionDigits = "0" value = "${sanPhamCT.giaTriSanPham}" />
+                                        </s>
+
+                                        <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                        <b style="color: red;">
+                                            <fmt:formatNumber type = "number"
+                                                              maxFractionDigits = "0" value = "${sanPhamCT.giaTriGiam}" /> vnđ
+                                        </b>
+                                    </c:if>
+                                    <c:if test="${sanPhamCT.giaTriGiam == 0 || sanPhamCT.giaTriGiam ==null }">
+                                        <b style="color: red;" style="margin-top: 100px;">
+                                            <fmt:formatNumber type = "number"
+                                                              maxFractionDigits = "0" value = "${sanPhamCT.giaTriSanPham}" /> vnđ
+                                        </b>
+                                    </c:if>
+
                                 </div><!-- End .product-price -->
 
                                 <div class="details-filter-row details-row-size">
@@ -286,33 +296,11 @@
                                         <c:forEach items="${dsSP_theoColor_image}" var="dsColor_image">
                                             <div class=" active" style="margin-right: 5px;">
                                                 <a href="/giay/upload-sizeGiay/${sanPhamCT.sanPham.id}/${dsColor_image.mauSac.id}" >
-                                                <img src="${dsColor_image.hinhAnh}" alt="product desc" style="width: 90px;height: 70px;">
-<%--                                                    <span>${dsColor_image.mauSac.ten}</span>--%>
+                                                    <img src="${dsColor_image.hinhAnh}" alt="product desc" style="width: 90px;height: 70px;">
                                                 </a>
                                             </div>
-<%--                                            <div class="col-3 active" >--%>
-<%--                                                <a href="/giay/upload-sizeGiay/${sanPhamCT.sanPham.id}/${dsColor_image.mauSac.id}" style="margin-right: 20px;">--%>
-<%--                                                    <img src="${dsColor_image.hinhAnh}" alt="product desc" style="width: 90px;height: 70px;">--%>
-<%--                                                        &lt;%&ndash;                                                    <span>${dsColor_image.mauSac.ten}</span>&ndash;%&gt;--%>
-<%--                                                </a>--%>
-<%--                                            </div>--%>
+
                                         </c:forEach>
-<%--                                        <div class="col-lg-3 active">--%>
-<%--                                            <a href="#" style="margin-left: 20px;">--%>
-<%--                                                <img src="/user/assets/imagesgiay/giay12.jpg" alt="product desc">--%>
-<%--                                                Nâu--%>
-<%--                                            </a>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="col-lg-3 active">--%>
-<%--                                            <a href="#" style="margin-left: 20px;">--%>
-<%--                                                <img src="/user/assets/imagesgiay/giay14.jpg" alt="product desc"> Đen--%>
-<%--                                            </a>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="col-lg-3 active">--%>
-<%--                                            <a href="#" style="margin-left: 20px;">--%>
-<%--                                                <img src="/user/assets/imagesgiay/giay14.jpg" alt="product desc"> Đen--%>
-<%--                                            </a>--%>
-<%--                                        </div>--%>
 
                                     </div>
                                 </div><!-- End .details-filter-row -->
@@ -321,18 +309,54 @@
                                 <div class="details-filter-row  ">
                                     <label for="size">Size:</label>
 
-
                                     <a href="#" class="size-guide " style="margin-left: 220px;"><i class="icon-th-list"></i>Hướng dẫn chọn size</a>
                                 </div><!-- End .details-filter-row -->
                                 <div>
-                                    <div class="select-custom">
-                                        <select name="size" id="sizeGiayDuocChon" class="form-control fs-3" onchange="laySoLuongCoSan(this.value)">
+<%--                                    <div class="select-custom">--%>
+                                    <div>
+                                        <%--<select name="size" id="sizeGiayDuocChon" class="form-control fs-3" onchange="laySoLuongCoSan(this.value)">
                                             <option value="">Chọn size giày</option>
                                             <c:forEach items="${dsChiTietSP_color_sp}" var="listSizeTheo_idMauSac_SanPham" >
                                                 <option value="${listSizeTheo_idMauSac_SanPham.id}"> ${listSizeTheo_idMauSac_SanPham.kichCo.ten}</option>
                                             </c:forEach>
-                                        </select>
-                                    </div><!-- End .select-custom -->
+                                        </select>--%>
+                                            <p>Chọn size giày:
+                                                <c:forEach items="${dsChiTietSP_color_sp}" var="listSizeTheo_idMauSac_SanPham" >
+                                                    <c:choose>
+                                                        <c:when test="${sanPhamCT.kichCo.ten == listSizeTheo_idMauSac_SanPham.kichCo.ten}">
+                                                            <label id="${listSizeTheo_idMauSac_SanPham.id}" style="padding: 12px; border: 1px solid #DEDEDE; border-radius: 12px; margin-left: 5px; background-color: blanchedalmond; font-size: 18px;" onclick="changeBackgroundColor(this)">
+                                                                <input type="radio" checked hidden name="sizeGiayDuocChon" value="${listSizeTheo_idMauSac_SanPham.id}" onchange="laySoLuongCoSan(this.value, '${listSizeTheo_idMauSac_SanPham.id}')"/> ${listSizeTheo_idMauSac_SanPham.kichCo.ten} <br/>
+                                                            </label>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <label id="${listSizeTheo_idMauSac_SanPham.id}" style="padding: 12px; border: 1px solid #DEDEDE; border-radius: 12px; margin-left: 5px; background-color: white; font-size: 18px;" onclick="changeBackgroundColor(this)">
+                                                                <input type="radio" name="sizeGiayDuocChon" hidden value="${listSizeTheo_idMauSac_SanPham.id}" onchange="laySoLuongCoSan(this.value, '${listSizeTheo_idMauSac_SanPham.id}')"/> ${listSizeTheo_idMauSac_SanPham.kichCo.ten} <br/>
+                                                            </label>
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+                                                </c:forEach>
+                                            </p>
+
+                                            <script>
+                                                function changeBackgroundColor(label) {
+                                                    // Lấy tất cả các label có trong p
+                                                    var labels = document.querySelectorAll('p label');
+
+                                                    // Đặt lại màu nền cho tất cả các label
+                                                    labels.forEach(function(item) {
+                                                        item.style.backgroundColor = 'white'; // Xóa màu nền của label
+                                                    });
+
+                                                    // Đặt màu nền cho label được click
+                                                    // Nếu radio button được chọn, thì đặt màu nền cho label
+                                                    if (label.querySelector('input').checked) {
+                                                        label.style.backgroundColor = 'blanchedalmond';
+                                                    }
+                                                }
+                                            </script>
+
+                                    </div>
                                 </div>
 
                                 <div class="product-details-action  d-flex" >
@@ -353,14 +377,10 @@
                                             <a href="#" class="btn-product btn-cart" style="font-size: 25px;" onclick="addToCart();"><span><b>Thêm giỏ</b></span></a>
                                         </div>
                                         <div class="col-lg-6 ">
-                                            <a href="#" class="btn-product btn-cart" style="background-color: #c96 !important; color: white; font-size: 25px;"><span><b>Mua ngay</b></span></a>
+                                            <a href="#" class="btn-product btn-cart" style="background-color: #c96 !important; color: white; font-size: 25px;" onclick="muaNgay();"><span><b>Mua ngay</b></span></a>
                                         </div>
                                     </div>
-                                    <!-- <div class="details-action-wrapper">
-                                        <a href="#" class="btn-product btn-wishlist" title="Yeuthich"><span>Thêm vào yêu thích</span></a>
-                                        <a href="#" class="btn-product btn-compare" title="Compare"><span>So sánh</span></a>
-                                    </div> -->
-                                    <!-- End .details-action-wrapper -->
+
                                 </div><!-- End .product-details-action -->
 
                                 <div class="product-details-footer">
@@ -876,6 +896,8 @@
 <!-- Main JS File -->
 <script src="/user/assets/js/main.js"></script>
 <!-- Code injected by live-server -->
+
+
 <script>
     // <![CDATA[  <-- For SVG support
     if ('WebSocket' in window) {
@@ -914,6 +936,8 @@
     // ]]>
 </script>
 <!-- Code injected by live-server -->
+
+
 <script>
     // <![CDATA[  <-- For SVG support
     if ('WebSocket' in window) {
@@ -951,6 +975,29 @@
     }
     // ]]>
 </script>
+
+<script>
+    function sizeGiayDuocChon_laSanPhamChiTiet_layIdSanPhamChiTietDo() {
+        var radios = document.getElementsByName('sizeGiayDuocChon');
+        var selectedValue = '';
+
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                selectedValue = radios[i].value;
+                break;
+            }
+        }
+
+        return selectedValue;
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var giaTriDuocChon = sizeGiayDuocChon_laSanPhamChiTiet_layIdSanPhamChiTietDo();
+        laySoLuongCoSan(giaTriDuocChon);
+    });
+
+</script>
+
 <script type="text/javascript">
     function showHideQuantityInput(selectElement) {
         var selectedValue = selectElement.value;
@@ -996,7 +1043,23 @@
     addToCart = function() {
         // console.log("Click vào function addToCart");
         let soLuongMua = document.getElementById('soLuongMua').value;
-        let idSanPhamCTDuocChon = document.getElementById('sizeGiayDuocChon').value;
+
+        let idSanPhamCTDuocChon;
+
+        // Lấy ra radio button được chọn
+        var radios = document.getElementsByName('sizeGiayDuocChon');
+
+        // Duyệt qua tất cả các radio button để kiểm tra xem cái nào được chọn
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                // Nếu radio button được chọn, lấy giá trị và hiển thị ra console
+                console.log("Đã chọn radio: " + radios[i].value );
+                idSanPhamCTDuocChon = radios[i].value;
+                break;
+            }
+        }
+
+
         //id="sizeGiayDuocChon"
         let data = {
             idSanPhamCT: idSanPhamCTDuocChon, //lay theo id
@@ -1030,9 +1093,64 @@
         });
     }
 
+
+    muaNgay = function() {
+        let soLuongMua = document.getElementById('soLuongMua').value;
+        let idSanPhamCTDuocChon;
+
+        // Lấy ra radio button được chọn
+        var radios = document.getElementsByName('sizeGiayDuocChon');
+
+        // Duyệt qua tất cả các radio button để kiểm tra xem cái nào được chọn
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                // Nếu radio button được chọn, lấy giá trị và hiển thị ra console
+                console.log("Đã chọn radio: " + radios[i].value );
+                idSanPhamCTDuocChon = radios[i].value;
+                break;
+            }
+        }
+
+        let data = {
+            idSanPhamCT: idSanPhamCTDuocChon, //lay theo id
+            soLuong: soLuongMua
+        };
+
+        //$ === jQuery
+        jQuery.ajax({
+            url : "/gio-hang/mua-ngay",
+            type : "POST",
+            contentType: "application/json",
+            data : JSON.stringify(data),
+            dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+            success : function(jsonResult) {
+                / alert(jsonResult.code + ": " + jsonResult.message); /
+                let totalProducts = jsonResult.totalCartProducts;
+                let totalPrice = jsonResult.totalPriceResult;
+                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
+                $("#totalCartProductsId").html(totalProducts);
+                // $("#totalPriceInCart").html(totalPrice);
+                if(soLuongMuaVuotQua===true){
+                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                }else{
+                    window.location.href = "/gio-hang/view-gio";
+                    // window.location.reload();
+                }
+            },
+
+            error : function(jqXhr, textStatus, errorMessage) {
+                //alert(jsonResult.code + ': Luu thanh cong...!')
+            }
+
+        });
+    }
+
 </script>
+
+
+
 </body>
 
 
-<!-- molla/product-centered.html  22 Nov 2019 10:03:20 GMT -->
 </html>
