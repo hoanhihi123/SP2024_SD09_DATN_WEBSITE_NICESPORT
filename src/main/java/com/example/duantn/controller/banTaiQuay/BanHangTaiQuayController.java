@@ -51,8 +51,7 @@ public class BanHangTaiQuayController {
             Model model,
             HttpServletRequest httpServletRequest
     ){
-        // ds hoa don
-        HttpSession session = httpServletRequest.getSession();
+        sanPhamCTService.xoaSanPhamChiTietTheoTrangThai(2);
 
         return "admin/banHangTaiQuay/banHang2";
     }
@@ -345,6 +344,13 @@ public class BanHangTaiQuayController {
         // lấy ra thông tin khách hàng
         KhachHang khachHang = khachHangService.chiTietTheoId(muaHangTaiQuay.getIdKhachHangChon());
 
+        HoaDon hoaDonCurrent = hoaDonService.chiTietTheoId(muaHangTaiQuay.getIdHoaDon());
+        hoaDonCurrent.setTenKH(khachHang.getHoTen());
+        hoaDonCurrent.setSoDT(khachHang.getSoDT());
+        hoaDonCurrent.setEmail(khachHang.getEmail());
+
+        hoaDonService.capNhat(hoaDonCurrent);
+
         hoaDonService.capNhatThongTinHoaDon_laThongTinKhachHang(muaHangTaiQuay.getIdHoaDon(), muaHangTaiQuay.getIdKhachHangChon());
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
@@ -407,6 +413,15 @@ public class BanHangTaiQuayController {
         hoaDonCurrent.setTrangThai(1);
         hoaDonCurrent.setNgayThanhToan(Constant.getDateNow());
         hoaDonCurrent.setNgaySua(Constant.getDateNow());
+        hoaDonCurrent.setHinhThucTT("Tiền mặt");
+
+        if(hoaDonCurrent.getKhachHang().getId()!=null){
+            KhachHang khachHangCurrent = khachHangService.layKhachHangTheoId(hoaDonCurrent.getKhachHang().getId());
+            hoaDonCurrent.setKhachHang(khachHangCurrent);
+            hoaDonCurrent.setTenKH(khachHangCurrent.getHoTen());
+            hoaDonCurrent.setSoDT(khachHangCurrent.getSoDT());
+            hoaDonCurrent.setEmail(khachHangCurrent.getEmail());
+        }
 
         hoaDonService.capNhat(hoaDonCurrent);
 

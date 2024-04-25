@@ -1,6 +1,7 @@
 package com.example.duantn.service.impl;
 
 import com.example.duantn.model.ChatLieu;
+import com.example.duantn.model.DanhMuc;
 import com.example.duantn.repository.ChatLieuRepository;
 import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -61,7 +63,9 @@ public class ChatLieuServiceImpl implements BaseService<ChatLieu> {
 
     @Override
     public ChatLieu chiTietTheoId(UUID id) {
-        return repo_chatLieu.getReferenceById(id);
+        Optional<ChatLieu> chatLieu = repo_chatLieu.findById(id);
+        ChatLieu chatLieu1 = chatLieu.get();
+        return chatLieu1;
     }
 
     @Override

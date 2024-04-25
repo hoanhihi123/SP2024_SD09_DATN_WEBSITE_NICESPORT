@@ -1,9 +1,6 @@
 package com.example.duantn.service.impl;
 
-import com.example.duantn.model.ChiTietSanPham;
-import com.example.duantn.model.HoaDon;
-import com.example.duantn.model.KichCo;
-import com.example.duantn.model.LoaiSanPham;
+import com.example.duantn.model.*;
 import com.example.duantn.repository.ChiTietSanPhamRepository;
 import com.example.duantn.repository.LoaiSanPhamRepository;
 import com.example.duantn.service.BaseService;
@@ -47,7 +44,11 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
 
     @Override
     public void themMoi(ChiTietSanPham entity) {
+        repo_chiTietSanPham.save(entity);
+    }
 
+    public ChiTietSanPham themMoi_traVeKetQua(ChiTietSanPham chiTietSanPham) {
+        return repo_chiTietSanPham.save(chiTietSanPham);
     }
 
     @Override
@@ -57,9 +58,7 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
 
     @Override
     public ChiTietSanPham chiTietTheoId(UUID id) {
-        Optional<ChiTietSanPham> chiTietSanPham = repo_chiTietSanPham.findById(id);
-        ChiTietSanPham chiTietSanPham1 = chiTietSanPham.get();
-        return chiTietSanPham1;
+        return repo_chiTietSanPham.findById(id).orElse(null);
     }
 
     @Override
@@ -122,6 +121,10 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     // lay so luong trong kho bang idSanPhamChiTiet
     public Integer laySoLuongTrongKho(UUID idSanPhamCT){
         return  repo_chiTietSanPham.getSoLuong_byIdSanPhamChiTiet(idSanPhamCT);
+    }
+
+    public void xoaSanPhamChiTietTheoTrangThai(Integer trangThai){
+        repo_chiTietSanPham.xoaSanPhamChiTietTheoTrangThai(trangThai);
     }
 
 }

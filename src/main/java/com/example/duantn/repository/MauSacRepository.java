@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface MauSacRepository extends JpaRepository<MauSac, UUID> {
-    @Query(value = "select * from MauSac order by ngaySua desc", nativeQuery = true)
+    @Query(value = "select * from MauSac order by ngayTao desc", nativeQuery = true)
     public List<MauSac> getAll();
 
     // getAll

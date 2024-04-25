@@ -73,7 +73,6 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     @Query(value = "select distinct IdSanPham from SanPhamCT", nativeQuery = true)
     public List<UUID> getListUUID_SanPham_fromChiTietSP();
 
-
     // lay danh sách san pham chi tiet theo idSanPham
     @Query(value = "select * from SanPhamCT where IdSanPham =:idSanPham"
             , nativeQuery = true)
@@ -99,5 +98,31 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             , nativeQuery = true)
     public Integer getSoLuong_byIdSanPhamChiTiet(@Param("idSanPhamCT") UUID idSanPham);
 
+
+    // hoan code
+        @Query(value = "select * from SanPhamCT\n" +
+                "join SanPham on SanPhamCT.IdSanPham = SanPham.Id\n" +
+                "join MauSac on SanPhamCT.IdMauSac = MauSac.Id\n" +
+                "join KichThuoc on SanPhamCT.IdKichThuoc = KichThuoc.Id\n" +
+                "join LoaiSanPham on SanPhamCT.ID_loaiSP = LoaiSanPham.Id\n" +
+                "where SanPham.Ten like CONCAT('%', :tenSanPham, '%') \n" +
+                "and MauSac.Ten like CONCAT('%', :tenMauSac, '%')\n" +
+                "and KichThuoc.Ten like CONCAT('%', :tenKichCo, '%')\n" +
+                "and LoaiSanPham.Ten like CONCAT('%', :tenLoaiSanPham, '%')",
+                nativeQuery = true)
+        public Page<ChiTietSanPham> resultSearchNhieuDieuKienTaiQuay(
+                @Param("tenSanPham") String tenSanPham,
+                @Param("tenMauSac") String tenMauSac,
+                @Param("tenKichCo") String tenKichCo,
+                @Param("tenLoaiSanPham") String tenLoaiSanPham,
+                Pageable pageable
+        );
+
+        @Transactional
+        @Modifying
+        @Query(value = "delete from SanPhamCT where TrangThai =:trangThai ", nativeQuery = true)
+        public void xoaSanPhamChiTietTheoTrangThai(@Param("trangThai") Integer trangThaiXoa);
+
+    // hoan code
 
 }

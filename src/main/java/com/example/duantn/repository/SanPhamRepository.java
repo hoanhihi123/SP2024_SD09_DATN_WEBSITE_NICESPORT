@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
-    @Query(value = "select * from SanPham order by ngaySua desc", nativeQuery = true)
+    @Query(value = "select * from SanPham order by ngayTao desc", nativeQuery = true)
     public List<SanPham> getAll();
 
     @Query(value = "select * from SanPham WHERE trangThai=1",

@@ -32,7 +32,7 @@ public class HoaDon  {
     private NhanVien nhanVien;
 
     @Column(name = "Ma")
-    private String ma;
+    private Integer ma;
 
     @Column(name = "NgayMua")
     private Date ngayMua;

@@ -49,6 +49,11 @@ public class MauSacServiceImpl implements BaseService<MauSac> {
         mauSacRepository.save(entity);
     }
 
+    public MauSac themMoiCoTraVe(MauSac entity) {
+        return mauSacRepository.save(entity);
+    }
+
+
     @Override
     public void capNhat(MauSac entity) {
          mauSacRepository.save(entity);

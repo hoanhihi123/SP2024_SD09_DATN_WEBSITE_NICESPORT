@@ -189,7 +189,7 @@
                         <a href="/gio-hang/view-gio" class="dropdown-toggle" role="button" >
                             <i class="icon-shopping-cart"></i>
                             <span class="cart-count "  id="totalCartProductsId">
-                                ${totalCartProducts>0?totalCartProducts:0}
+<%--                                ${totalCartProducts>0?totalCartProducts:0}--%>
                             </span>
                         </a>
 
@@ -994,6 +994,23 @@
     document.addEventListener("DOMContentLoaded", function(event) {
         var giaTriDuocChon = sizeGiayDuocChon_laSanPhamChiTiet_layIdSanPhamChiTietDo();
         laySoLuongCoSan(giaTriDuocChon);
+
+        var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
+        console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
+
+        var dsSanPhamTrongGioCurrent;
+        if (dsSanPhamTrongGioJSON) {
+            // Chuyển đổi kiểu dữ liệu của danh sách JSON => array
+            dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON);
+            var innerArray = dsSanPhamTrongGioCurrent[0];
+            console.log("Số lượng phần tử trong mảng con: " + innerArray.length);
+            var soLuongSPTrongGio = innerArray.length;
+
+            updateValueTongSoLuongSPTrongGioHang(soLuongSPTrongGio);
+        } else {
+            dsSanPhamTrongGioCurrent = [];
+            updateValueTongSoLuongSPTrongGioHang(0);
+        }
     });
 
 </script>
@@ -1010,7 +1027,6 @@
         } else {
             quantityInput.style.display = "none"; // Ẩn ô nhập số lượng
         }
-
     }
 
     laySoLuongCoSan = function(idSanPhamCT) {
@@ -1059,7 +1075,6 @@
             }
         }
 
-
         //id="sizeGiayDuocChon"
         let data = {
             idSanPhamCT: idSanPhamCTDuocChon, //lay theo id
@@ -1075,15 +1090,41 @@
             dataType : "json", //Kieu du lieu tra ve tu controller la json
 
             success : function(jsonResult) {
-                / alert(jsonResult.code + ": " + jsonResult.message); /
-                let totalProducts = jsonResult.totalCartProducts;
-                let totalPrice = jsonResult.totalPriceResult;
                 let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                $("#totalCartProductsId").html(totalProducts);
+                // $("#totalCartProductsId").html(totalProducts);
                 // $("#totalPriceInCart").html(totalPrice);
                 if(soLuongMuaVuotQua===true){
                     alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
                 }
+
+                //------------- thêm sản phẩm vào danh sách trong localstore
+                // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
+                var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
+                console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
+
+                // chuyển đổi kiểu dữ liệu của danh sách JSON => array
+                var dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON) || [];
+
+                // thứ cần lưu: idSanPhamCT, soLuong
+                var sanPhamThemGio = {
+                    idSanPhamCT: idSanPhamCTDuocChon,
+                    soLuongMua: soLuongMua
+                }
+
+                // Thêm giá trị mới vào mảng
+                dsSanPhamTrongGioCurrent.push(sanPhamThemGio);
+
+                // Chuyển đổi lại mảng thành chuỗi JSON
+                var dsSanPhamTrongGioUpdatedListJSON = JSON.stringify(dsSanPhamTrongGioCurrent);
+
+                // Lưu danh sách mới vào localStorage với key là "myList"
+                localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamTrongGioUpdatedListJSON);
+                //------------- thêm sản phẩm vào danh sách trong localstore
+
+                // set số lượng cho giỏ hàng
+                let totalProducts = jsonResult.totalCartProducts;
+                updateValueTongSoLuongSPTrongGioHang(totalProducts);
+
             },
 
             error : function(jqXhr, textStatus, errorMessage) {
@@ -1111,6 +1152,7 @@
             }
         }
 
+
         let data = {
             idSanPhamCT: idSanPhamCTDuocChon, //lay theo id
             soLuong: soLuongMua
@@ -1125,11 +1167,8 @@
             dataType : "json", //Kieu du lieu tra ve tu controller la json
 
             success : function(jsonResult) {
-                / alert(jsonResult.code + ": " + jsonResult.message); /
-                let totalProducts = jsonResult.totalCartProducts;
-                let totalPrice = jsonResult.totalPriceResult;
                 let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                $("#totalCartProductsId").html(totalProducts);
+                // $("#totalCartProductsId").html(totalProducts);
                 // $("#totalPriceInCart").html(totalPrice);
                 if(soLuongMuaVuotQua===true){
                     alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
@@ -1137,6 +1176,37 @@
                     window.location.href = "/gio-hang/view-gio";
                     // window.location.reload();
                 }
+
+
+                //------------- thêm sản phẩm vào danh sách trong localstore
+                // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
+                var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
+                console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
+
+                // chuyển đổi kiểu dữ liệu của danh sách JSON => array
+                var dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON) || [];
+
+                // thứ cần lưu: idSanPhamCT, soLuong
+                var sanPhamThemGio = {
+                    idSanPhamCT: idSanPhamCTDuocChon,
+                    soLuongMua: soLuongMua
+                }
+
+                // Thêm giá trị mới vào mảng
+                dsSanPhamTrongGioCurrent.push(sanPhamThemGio);
+
+                // Chuyển đổi lại mảng thành chuỗi JSON
+                var dsSanPhamTrongGioUpdatedListJSON = JSON.stringify(dsSanPhamTrongGioCurrent);
+
+                // Lưu danh sách mới vào localStorage với key là "myList"
+                localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamTrongGioUpdatedListJSON);
+                //------------- thêm sản phẩm vào danh sách trong localstore
+
+
+                // set số lượng sản phẩm trong giỏ
+                let totalProducts = jsonResult.totalCartProducts;
+                updateValueTongSoLuongSPTrongGioHang(totalProducts);
+
             },
 
             error : function(jqXhr, textStatus, errorMessage) {
@@ -1145,6 +1215,18 @@
 
         });
     }
+
+    function updateValueTongSoLuongSPTrongGioHang(soLuongSanPhamTrongGio){
+
+        var soLuongSPTrongGio = soLuongSanPhamTrongGio;
+
+        document.getElementById("totalCartProductsId").innerText = soLuongSPTrongGio;
+
+        localStorage.setItem("tongSoLuongSPTrongGio",soLuongSPTrongGio);
+
+        console.log("Số lượng sp trong giỏ : " + soLuongSPTrongGio);
+    }
+
 
 </script>
 

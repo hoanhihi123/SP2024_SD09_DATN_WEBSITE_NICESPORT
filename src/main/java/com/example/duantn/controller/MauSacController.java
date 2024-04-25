@@ -106,8 +106,8 @@ public class MauSacController {
 
     @PostMapping("/them")
     public String themMoi(Model model,
-                          @Valid @ModelAttribute("mauSac")
-                          MauSacRequest request, BindingResult result,
+                          @Valid @ModelAttribute("mauSac") MauSacRequest request,
+                          BindingResult result,
                           @RequestParam(name = "page", defaultValue = "0")
                           int currentPage,
                           HttpServletRequest httpServletRequest)

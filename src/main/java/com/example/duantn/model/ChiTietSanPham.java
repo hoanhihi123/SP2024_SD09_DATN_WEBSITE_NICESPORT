@@ -15,6 +15,10 @@ import java.sql.Date;
 public class ChiTietSanPham extends BaseModel{
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "Id_NSX")
+    private NSX nsx;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_loaiSP")
     private LoaiSanPham loaiSanPham;
 
@@ -75,14 +79,11 @@ public class ChiTietSanPham extends BaseModel{
     @Column(name = "GiaTriGiam")
     private Double giaTriGiam;
 
-
     @Column(name = "KhoiLuong")
     private Double khoiLuong;
 
-
     @Column(name = "NgayHetGiamGia")
     private Date ngayHetGiamGia;
-
 
     @Column(name = "MoTa")
     private String moTa;

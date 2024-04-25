@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface KieuDangRepository extends JpaRepository<KieuDang, UUID> {
-    @Query(value = "select * from KieuDang", nativeQuery = true)
+    @Query(value = "select * from KieuDang order by ngayTao desc", nativeQuery = true)
     public List<KieuDang> getAll();
 
     //get all

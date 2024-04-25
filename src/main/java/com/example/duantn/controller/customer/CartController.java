@@ -53,6 +53,8 @@ public class CartController {
             HttpServletResponse response,
             Model model
     ) {
+        chiTietSPService.xoaSanPhamChiTietTheoTrangThai(2);
+
         HttpSession session = request.getSession();
         GioHang cartThanhToan = new GioHang();
         session.setAttribute("cartThanhToan",cartThanhToan);
@@ -195,20 +197,17 @@ public class CartController {
         hoaDon.setSoDT(datHangRequest.getSoDT());
         hoaDon.setEmail(datHangRequest.getEmail());
         hoaDon.setNgayMua(Constant.getDateNow());
-        hoaDon.setNgayThanhToan(Constant.getDateNow());
         hoaDon.setTinh_thanhPho(datHangRequest.getTinh_thanhPho());
         hoaDon.setQuan_huyen(datHangRequest.getQuan_huyen());
         hoaDon.setPhuong_xa(datHangRequest.getPhuong_xa());
         hoaDon.setHinhThucTT("Thanh toán khi nhận hàng");
         hoaDon.setLoaiHoaDon("Mua hàng online");
+        hoaDon.setNgayTao(Constant.getDateNow());
 
         hoaDon.setTienVanChuyen(datHangRequest.getPhiShip());
         hoaDon.setTongTienThanhToan(datHangRequest.getTongTienDonHang());
-//        System.out.println("tong tien don hang : " + datHangRequest.getTongTienDonHang());
-//        System.out.println("phi ship : " + datHangRequest.getPhiShip());
 
         hoaDon.setTrangThai(1);
-//        hoaDon.setMa(maHoaDon);
 
         // thêm thông tin đơn hàng vào hóa đơn - trong database
         HoaDon hoaDon1 = hoaDonService.themMoi(hoaDon);
@@ -297,11 +296,15 @@ public class CartController {
             Model model,
             HttpServletRequest httpServletRequest
     ) {
-
+        chiTietSPService.xoaSanPhamChiTietTheoTrangThai(2);
         List<ChiTietSanPham> dsSanPhamCT = chiTietSPService.layDanhSachSanPham_soLuongLonHon_0(Pageable.unpaged());
+        System.out.println("Size danh sách sản phẩm chi tiết : " + dsSanPhamCT.size());
+
 
         List<UUID> ds_uuidSanPham_tuSPCT = new ArrayList<>();
         ds_uuidSanPham_tuSPCT = chiTietSPService.layDanhSach_IdSanPham_trongSanPhamCT();
+        System.out.println("Size danh sách ds_uuidSanPham_tuSPCT : " + ds_uuidSanPham_tuSPCT.size());
+
 
         List<ChiTietSanPham> dsSanPhamCT_new = new ArrayList<>();
         for(UUID idSanPham : ds_uuidSanPham_tuSPCT){
@@ -314,6 +317,7 @@ public class CartController {
         }
         List<LoaiSanPham> dsLoaiSPTrongSanPhamCT = new ArrayList<>();
         dsLoaiSPTrongSanPhamCT = chiTietSPService.layTatCa_idLoaiSP_distinct_trongChiTietSP();
+        System.out.println("Danh sách loai san pham trong san pham chi tiet : " + ds_uuidSanPham_tuSPCT.size());
 
 //        System.out.println("Size of dsSanPham : " + dsSanPhamCT.size());
         model.addAttribute("dsSanPham", dsSanPhamCT_new);
@@ -322,6 +326,7 @@ public class CartController {
         session = httpServletRequest.getSession();
         Integer soLuongSanPhamTrongGio = (Integer) session.getAttribute("totalCartProducts");
         model.addAttribute("totalCartProducts",soLuongSanPhamTrongGio);
+        model.addAttribute("testSaveValueAtLocalstore","test lưu giá trị vào localstore");
 
         return "customer/gioHang/trang_chu_daSua";
     }
@@ -377,7 +382,7 @@ public class CartController {
             int tongSoLuongTrongGio = dsSanPhamGioHangN.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
 
 //            System.out.println("Số lượng sản phẩm trong giỏ " + tongSoLuongTrongGio);
-            jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
+            jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
 //            jsonResult.put("totalPriceResult", 0);
             jsonResult.put("soLuongMuaVuotQua", true);
 //            jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
@@ -435,11 +440,13 @@ public class CartController {
         List<SanPhamTrongGioHang> dsSanPhamTrongGios = new ArrayList<>();
         dsSanPhamTrongGio = cart.getDs_SanPhamTrongGioHang();
 //        System.out.println("Size of giỏ hàng : " + dsSanPhamTrongGio.size());
-//        System.out.println("Sản phẩm trong giỏ hàng : " + dsSanPhamTrongGio);
+        System.out.println("Danh sách Sản phẩm trong giỏ hàng : " );
+        for(SanPhamTrongGioHang spGio : cart.getDs_SanPhamTrongGioHang()){
+            System.out.println(spGio.toString());
+        }
+
+
         model.addAttribute("sanPhamTrongGio", dsSanPhamTrongGios);
-
-
-
 
         int tongSoLuongTrongGio = dsSanPhamTrongGio.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
 //        jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
@@ -450,12 +457,14 @@ public class CartController {
         session.setAttribute("totalCartProducts", tongSoLuongTrongGio);
         session.setAttribute("totalPriceResult", cart.tongTienTrongGioHang());
 
+
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
+        jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
         jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
         jsonResult.put("soLuongMuaVuotQua", false);
+        jsonResult.put("danhSachSanPhamTronGioHang",cart.getDs_SanPhamTrongGioHang());
 
 
 //        System.out.println("Total price : " + cart.tongTienTrongGioHang());
@@ -498,13 +507,13 @@ public class CartController {
 
             // lưu cart vào giỏ
             session.setAttribute("cart", cart);
-            session.setAttribute("totalCartProducts", tongSoLuongTrongGio);
+            session.setAttribute("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
             session.setAttribute("totalPriceResult", cart.tongTienTrongGioHang());
 
             Map<String, Object> jsonResult = new HashMap<String, Object>();
             jsonResult.put("code", 200);
             jsonResult.put("status", "Success");
-            jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
+            jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
             jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
             jsonResult.put("soLuongMuaVuotQua", true);
 
@@ -538,13 +547,13 @@ public class CartController {
 
         // lưu cart vào giỏ
         session.setAttribute("cart", cart);
-        session.setAttribute("totalCartProducts", tongSoLuongTrongGio);
+        session.setAttribute("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
         session.setAttribute("totalPriceResult", cart.tongTienTrongGioHang());
 
 
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
+        jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
         jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
 
 //        System.out.println("\n\nCập nhật số lượng sản phẩm trong giỏ hàng thành công");
@@ -589,7 +598,7 @@ public class CartController {
         // lưu cart vào giỏ
 //        session.setAttribute("cart", cart);
         session.setAttribute("cart", cart);
-        session.setAttribute("totalCartProducts", cart.totalSanPhamTrongGioHangs());
+        session.setAttribute("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
         session.setAttribute("totalPriceResult", cart.tongTienTrongGioHang());
 
         // lấy ra tổng tiền được chọn thanh toán
@@ -837,7 +846,7 @@ public class CartController {
             jsonResult.put("status", "Success");
             int tongSoLuongTrongGio = dsSanPhamGioHangN.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
 
-            jsonResult.put("totalCartProducts", tongSoLuongTrongGio);
+            jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
 //            jsonResult.put("totalPriceResult", 0);
             jsonResult.put("soLuongMuaVuotQua", true);
 //            jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
@@ -905,9 +914,10 @@ public class CartController {
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
-        jsonResult.put("totalCartProducts", cart.totalSanPhamTrongGioHangs());
+        jsonResult.put("totalCartProducts", cart.getDs_SanPhamTrongGioHang().size());
         jsonResult.put("totalPriceResult", cart.tongTienTrongGioHang());
         jsonResult.put("soLuongMuaVuotQua", false);
+        jsonResult.put("dsSanPhamTrongGio",cart.getDs_SanPhamTrongGioHang());
 
 
 //        System.out.println("Total price : " + cart.tongTienTrongGioHang());

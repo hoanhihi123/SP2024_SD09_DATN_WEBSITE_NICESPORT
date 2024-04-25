@@ -16,7 +16,7 @@ public interface ChatLieuRepository extends JpaRepository<ChatLieu, UUID> {
     //    @Query(value = "select * from ChatLieuRequest", nativeQuery = true)
 //    public List<ChatLieuRequest> getAll();
 
-    @Query(value = "select * from ChatLieu order by ngaySua desc", nativeQuery = true)
+    @Query(value = "select * from ChatLieu order by ngayTao desc", nativeQuery = true)
     public List<ChatLieu> getAll();
     // getAll
     @Query(value = "select * from ChatLieu order by ngaySua desc",

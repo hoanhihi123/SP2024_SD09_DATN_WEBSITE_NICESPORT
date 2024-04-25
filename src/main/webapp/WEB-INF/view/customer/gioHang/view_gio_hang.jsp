@@ -185,30 +185,9 @@
                         <a href="/gio-hang/view-gio" class="dropdown-toggle" role="button" >
                             <i class="icon-shopping-cart"></i>
                             <span class="cart-count "  id="totalCartProductsId">
-                                ${totalCartProducts>0?totalCartProducts:0}
+<%--                                ${totalCartProducts>0?totalCartProducts:0}--%>
                             </span>
                         </a>
-
-                        <%--                            <div class="dropdown-menu dropdown-menu-right">--%>
-                        <%--                                <div class="dropdown-cart-products">--%>
-
-
-
-                        <%--                                </div><!-- End .cart-product -->--%>
-
-                        <%--                                <div class="dropdown-cart-total">--%>
-                        <%--                                    <span>Thanh toán</span>--%>
-
-                        <%--                                    <span class="cart-total-price">$160.00</span>--%>
-                        <%--                                </div><!-- End .dropdown-cart-total -->--%>
-
-                        <%--                                <div class="dropdown-cart-action">--%>
-                        <%--                                    <a href="cart.html" class="btn btn-primary">View Cart</a>--%>
-                        <%--                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i--%>
-                        <%--                                            class="icon-long-arrow-right"></i></a>--%>
-                        <%--                                </div><!-- End .dropdown-cart-total -->--%>
-                        <%--                            </div><!-- End .dropdown-menu -->--%>
-                        <%--                        --%>
 
                     </div><!-- End .cart-dropdown -->
                 </div><!-- End .header-right -->

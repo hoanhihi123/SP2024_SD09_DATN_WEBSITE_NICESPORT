@@ -58,29 +58,25 @@
                 </li>
                 <li class="menu-title">Bán hàng</li><!-- /.menu-title -->
                 <li class="active">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy</a>
+                    <a href="/ban-hang/view" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-file-text-o"></i>Bán hàng tại quầy</a>
                 </li>
                 <li class="menu-title">Thống kê</li><!-- /.menu-title -->
-                <li class="menu-item-has-children dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu</a>
-                    <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Hàng ngày</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Hàng tháng</a></li>
-                        <li><i class="fa fa-bars"></i><a href="ui-tabs.html">Hàng năm</a></li>
-                    </ul>
+                <li class="">
+                    <a href="dashboard_2.html"><i class="menu-icon fa fa-bar-chart-o"></i>Thống kê doanh thu </a>
                 </li>
+
                 <li class="menu-title">Quản lý</li><!-- /.menu-title -->
                 <li class="menu-item-has-children dropdown ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-cogs"></i>Quản lý giày</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Giày</a></li>
-                        <li><i class="fa fa-gear"></i><a href="ui-badges.html">Chất liệu</a></li>
-                        <li><i class="fa fa-eraser"></i><a href="ui-tabs.html">Màu sắc</a></li>
-                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Thương hiệu</a></li>
-                        <li><i class="fa fa-arrows-h"></i><a href="ui-tabs.html">Kích cỡ</a></li>
-                        <li><i class="fa fa-inbox"></i><a href="ui-tabs.html" >Kiểu dáng</a></li>
-                        <li><i class="fa fa-suitcase"></i><a href="ui-tabs.html">NSX</a></li>
-                        <li ><i class="fa fa-sun-o" ></i><a  href="ui-tabs.html">Dòng sản phẩm</a></li>
+                        <li><i class="fa fa-puzzle-piece"></i><a href="/san-pham/hien-thi">Giày</a></li>
+                        <li><i class="fa fa-gear"></i><a href="/chat-lieu/hien-thi">Chất liệu</a></li>
+                        <li><i class="fa fa-eraser"></i><a href="/mau-sac/hien-thi">Màu sắc</a></li>
+                        <li><i class="fa fa-id-badge"></i><a href="/thuong-hieu/hien-thi">Thương hiệu</a></li>
+                        <li><i class="fa fa-arrows-h"></i><a href="/kich-thuoc/hien-thi">Kích cỡ</a></li>
+                        <li><i class="fa fa-inbox"></i><a href="/kieu-dang/hien-thi" >Kiểu dáng</a></li>
+                        <li><i class="fa fa-suitcase"></i><a href="#">Nhà sản xuất</a></li>
+                        <li ><i class="fa fa-sun-o" ></i><a  href="/danh-muc/hien-thi">Dòng sản phẩm</a></li>
                     </ul>
 
                 </li>
@@ -92,20 +88,25 @@
                     </ul>
                 </li>
 
+                <li class="menu-item-has-children dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
+                    <ul class="sub-menu children dropdown-menu">
+                        <li><i class="fa fa-puzzle-piece"></i><a href="ui-buttons.html">Đợt giảm giá</a></li>
+                        <li><i class="fa fa-id-badge"></i><a href="ui-badges.html">Phiếu giảm giá</a></li>
+                    </ul>
+                </li>
+
                 <li class="">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-pencil-square-o" ></i>Quản lý khách hàng</a>
                 </li>
                 <li class="">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users" ></i>Quản lý nhân viên</a>
                 </li>
-                <li class="">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-leaf" ></i>Quản lý khuyến mãi</a>
-                </li>
+
+
                 <li class="">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-user" ></i>Quản lý tài khoản</a>
                 </li>
-
-
 
             </ul>
         </div><!-- /.navbar-collapse -->
@@ -403,22 +404,28 @@
                                         <form action="" class="row">
                                             <div class="col-lg-3">
                                                 <span>Nhập tên</span>
-                                                <input type="text" class="form-control">
+                                                <input type="text" class="form-control" placeholder="Tìm theo tên, mô tả">
+                                            </div>
+                                            <div class="col-lg-3" >
+                                                <span>Chọn màu sắc</span>
+<%--                                                <input type="text" class="form-control">--%>
+                                                <select name="mauSac" class="form-control">
+                                                    <option value="">Chọn màu sắc</option>
+                                                    <option value="">Màu xanh</option>
+                                                    <option value="">Màu trắng</option>
+                                                </select>
                                             </div>
                                             <div class="col-lg-3">
-                                                <span>Nhập màu sắc</span>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <span>Nhập giá</span>
-                                                <input type="text" class="form-control">
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <span>Nhập size</span>
-                                                <input type="text" class="form-control">
+                                                <span>Chọn size</span>
+<%--                                                <input type="text" class="form-control">--%>
+                                                <select name="sizeGiay" class="form-control">
+                                                    <option value="">Chọn size giày</option>
+                                                    <option value="">36</option>
+                                                    <option value="">37</option>
+                                                </select>
                                             </div>
 
-                                            <div class="col-lg-3" style="margin-top: 15px;">
+                                            <div class="col-lg-3" >
                                                 <span>Chọn loại giày</span>
                                                 <select name="" id="" class="form-control">
                                                     <option value="" class="form-control">Chọn loại giày</option>
@@ -426,9 +433,8 @@
                                                     <option value="" class="form-control">Giày thể thao</option>
                                                 </select>
                                             </div>
-
-
-                                            <div class="col-lg-2" style="margin-top: 15px;">
+                                            <div class="col-lg-5"></div>
+                                            <div class="col-lg-2 justify-content-center" style="margin-top: 15px;">
                                                 <button class="form-control btn btn-primary" style="margin-top: 24px;">Tìm kiếm</button>
 
                                             </div>
