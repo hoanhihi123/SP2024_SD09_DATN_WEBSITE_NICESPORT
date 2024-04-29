@@ -303,9 +303,6 @@
                                         <span>Email:</span>
                                         <input type="text" id="email_KhachHangDuocChon" placeholder="" class="form-control"  readonly="true">
                                     </div>
-                                    <div class="col-lg-3">
-                                        <button class="btn btn-secondary" style="margin-top: 24px;">Set mặc định</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -959,7 +956,7 @@
                 "<td>" + item.chiTietSanPham.sanPham.ten + "</td>" +
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
                 hienThiGiaSanPham +
-                "<td><input type='text' class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>" +
+                "<td><input type='text' id='" + item.chiTietSanPham.id + "'class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>" +
                 "<td>" + item.donGia + "</td>" +
                 "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
                 "</tr>";
@@ -1066,14 +1063,9 @@
     });
 
 
-
-
-    // lấy idHoaDon khi click vào myTab - thành công khi click vào nó
     document.getElementById("myTab").addEventListener("click", function(event) {
 
         var idHoaDon_active = layIDCuaButtonTabPane_active();
-        // layDanhSachHoaDonChiTiet_theoIDHoaDon(idHoaDon_active);
-        // console.log("id hóa dơn đang active : " + idHoaDon_active);
 
         fetchDataAndFillTable_danhSachHoaDonCho();
         phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
@@ -2169,7 +2161,6 @@
                     // lấy idHoaDon => chạy vào 1 hàm xử lý tạo hóa đơn thanh toán
                     var idHoaDon_active = layIDCuaButtonTabPane_active();
                     thucHienTaoHoaDonThanhToan(idHoaDon_active);
-
                 }else{
                     console.log("Không tạo hóa đơn");
                 }
@@ -2207,34 +2198,58 @@
         });
     }
 
-    function handleChangeSoLuongMua( soLuongMuaMoi,  soLuongCu, idSanPhamCT, soLuongTrongKho) {
+    function handleChangeSoLuongMua( soLuongMuaMoi,  soLuongMuaCu, idSanPhamChiTiet, idHoaDon, soLuongTrongKho) {
         console.log("Hàm xử lý thay đổi số lượng mua ");
-        console.log("Số lượng mua mới : " + soLuongMuaMoi);
-        console.log("Số lượng mua cũ : " + soLuongCu);
-        console.log("ID sản phẩm chi tiết : " + idSanPhamCT);
-        console.log("Số lượng trong kho : " + soLuongTrongKho);
+        // console.log("Số lượng mua mới : " + soLuongMuaMoi);
+        // console.log("Số lượng mua cũ : " + soLuongCu);
+        // console.log("ID sản phẩm chi tiết : " + idSanPhamCT);
+        // console.log("Số lượng trong kho : " + soLuongTrongKho);
+        // console.log("ID hóa đơn : " + idHoaDon);
 
-        // kiểm tra dữ liệu cơ bản trước khi cập nhật số lượng trong hóa đơn
-        var xacNhanThemSoLuong = confirm('Bạn muốn sửa số lượng sản phẩm này ?');
-        if(xacNhanThemSoLuong){
-            var checkDieuKienSoLuong = soLuongMuaMoi<=soLuongTrongKho;
-            console.log("checkDieuKienSoLuong :  " + checkDieuKienSoLuong);
-            console.log("Số lượng mua mới : " + soLuongMuaMoi);
-            console.log("Số lượng trong kho : " + soLuongTrongKho);
-            if(checkDieuKienSoLuong===true){
-                console.log('Số lượng hợp lệ để cập nhật - số lượng trong kho của sản phẩm : ' + soLuongTrongKho + ' - số lượng mua mới ' + soLuongMuaMoi);
-            }else{
-                if(confirm('Trong kho còn ' + (soLuongTrongKho-soLuongCu) + ' sản phẩm bạn có thể mua \n bạn có muốn lấy hết không ?')){
-                    console.log('Cập nhật số lượng thành công');
-                }else{
-                    console.log('Không cập nhật số lượng');
-                }
-            }
+        // kiểm tra số lượng mới với số lượng trong kho
+        // nếu số lượng mua > số lượng kho => thông báo và return
 
-        }else{
+        var soLuongMoi = soLuongMuaMoi;
+        var soLuongCu = soLuongMuaCu;
+        var idSanPhamCT = idSanPhamChiTiet;
+        var idHoaDon = idHoaDon;
+        var soLuongTonKho = soLuongTrongKho;
+
+        if(soLuongMuaMoi < 0){
+            alert("Bạn chỉ cập nhật được số lượng mua > 0, vui lòng nhập số lượng mua phù hợp ");
+            document.getElementById(idSanPhamCT).value= soLuongCu;
             return;
         }
 
+        if(soLuongMuaMoi > soLuongTonKho){
+            alert("Số lượng sản phẩm được chọn vượt quá trong kho \n Số lượng có thể mua trong kho là : " + soLuongTrongKho);
+            document.getElementById(idSanPhamCT).value= soLuongCu;
+            return;
+        }
+
+        let data = {
+            idSanPhamCT : idSanPhamCT,
+            idHoaDon : idHoaDon,
+            soLuong_sanPhamMua : soLuongMoi
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/ban-hang/capNhatSoLuongMuaTaiQuay",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+            success: function(data) {
+                alert('Cập nhật số lượng mua thành công');
+
+                // cập nhật lại chính hóa đơn đã được sửa
+                getListHoaDonCho();
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            }
+        });
 
 
 

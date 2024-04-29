@@ -35,6 +35,10 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
              hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet(idHoaDon, idSanPhamCT, soLuongMua);
         }
 
+        public void capNhatSoLuongSanPhamMua_HDCT_taiQuay(UUID idHoaDon, UUID idSanPhamCT, Integer soLuongMua){
+            hoaDonCTRepository.capNhatSoLuongSanPhamTrong_HoaDonChiTiet_muaTaiQuay(idHoaDon, idSanPhamCT, soLuongMua);
+        }
+
         public HoaDonChiTiet themMoi2(HoaDonChiTiet entity) {
             return hoaDonCTRepository.save(entity);
         }

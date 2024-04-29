@@ -446,6 +446,28 @@ public class BanHangTaiQuayController {
             sanPhamCTService.capNhatSoLuongSauKhiDatHang(sanPhamChiTietTrongHoaDon.getSoLuong(), sanPhamChiTietTrongHoaDon.getChiTietSanPham().getId());
         }
 
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/capNhatSoLuongMuaTaiQuay")
+    public ResponseEntity<Map<String, Object>> capNhatSoLuongMuaTaiQuay(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody MuaHangTaiQuay muaHangTaiQuay
+    ) throws IOException, ParseException {
+        UUID idHoaDon = muaHangTaiQuay.getIdHoaDon();
+        UUID idSanPhamCT = muaHangTaiQuay.getIdSanPhamCT();
+        Integer soLuongCapNhat = muaHangTaiQuay.getSoLuong_sanPhamMua();
+        System.out.println(">>>>> capNhatSoLuongMuaTaiQuay");
+        System.out.println("id hoa don : " + idHoaDon);
+        System.out.println("id san pham ct : " + idSanPhamCT);
+
+        hoaDonCTService.capNhatSoLuongSanPhamMua_HDCT_taiQuay(idHoaDon,idSanPhamCT,soLuongCapNhat);
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);
@@ -453,4 +475,5 @@ public class BanHangTaiQuayController {
 
         return ResponseEntity.ok(jsonResult);
     }
+
 }

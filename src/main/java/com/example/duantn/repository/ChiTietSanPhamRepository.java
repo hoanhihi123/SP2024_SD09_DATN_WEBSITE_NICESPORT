@@ -1,9 +1,7 @@
 package com.example.duantn.repository;
 
-import com.example.duantn.model.ChatLieu;
-import com.example.duantn.model.ChiTietSanPham;
-import com.example.duantn.model.KichCo;
-import com.example.duantn.model.LoaiSanPham;
+import com.example.duantn.model.*;
+import com.example.duantn.request.ChiTietSanPham_theoSanPham_soLuong;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, UUID> {
-    @Query(value = "select * from SanPhamCT ", nativeQuery = true)
+    @Query(value = "select * from SanPhamCT", nativeQuery = true)
     public List<ChiTietSanPham> getAll();
 
     @Query(value = "select  * from SanPhamCT ",
@@ -28,6 +26,10 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
     @Query(value = "select  * from SanPhamCT ",
             countQuery = "select  count(*) from SanPhamCT", nativeQuery = true)
     public Page<ChiTietSanPham> getAll( Pageable pageable);
+
+    @Query(value = "select  * from SanPhamCT where IdSanPham=:idSanPham ",
+            countQuery = "select  count(*) from SanPhamCT where IdSanPham=:idSanPham", nativeQuery = true)
+    public Page<ChiTietSanPham> getAll(@Param("idSanPham") UUID idSanPham, Pageable pageable);
 
 
     @Query(value = "select  * from SanPhamCT \n" +
@@ -42,6 +44,7 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
                     "where Concat(SanPham.ten, DanhMuc.Ten, ThuongHieu.Ten) like %:textSearch%\n",
             nativeQuery = true)
     public Page<ChiTietSanPham> getAll(@Param("textSearch") String textSearch, Pageable pageable);
+
 
 
     // @Modifying : cho spring biet day la truy van cap nhat/delete , bắt buộc có @Transctional

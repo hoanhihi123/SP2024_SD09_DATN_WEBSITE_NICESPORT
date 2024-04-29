@@ -3,6 +3,7 @@ package com.example.duantn.service.impl;
 import com.example.duantn.model.*;
 import com.example.duantn.repository.ChiTietSanPhamRepository;
 import com.example.duantn.repository.LoaiSanPhamRepository;
+import com.example.duantn.request.ChiTietSanPham_theoSanPham_soLuong;
 import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,12 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.getAll(pageable);
     }
 
+    public Page<ChiTietSanPham> layDanhSachTheoIDSanPham(UUID idSanPham, Pageable pageable) {
+        return repo_chiTietSanPham.getAll(idSanPham, pageable);
+    }
+
+
+
     @Override
     public Page<ChiTietSanPham> layDanhSach(String textSearch, Pageable pageable) {
         if(textSearch!=null){
@@ -35,6 +42,7 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
 
         return repo_chiTietSanPham.getAll(pageable);
     }
+
 
 
     @Override
@@ -126,5 +134,6 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     public void xoaSanPhamChiTietTheoTrangThai(Integer trangThai){
         repo_chiTietSanPham.xoaSanPhamChiTietTheoTrangThai(trangThai);
     }
+
 
 }

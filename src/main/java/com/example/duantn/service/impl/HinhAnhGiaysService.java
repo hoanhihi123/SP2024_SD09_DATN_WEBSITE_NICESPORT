@@ -41,6 +41,7 @@ public class HinhAnhGiaysService implements BaseService<HinhAnhGiays> {
         repo_hinhAnhGiays.save(entity);
     }
 
+
     @Override
     public void capNhat(HinhAnhGiays entity) {
 

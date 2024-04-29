@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý sản phẩm - N </title>
+    <title>Sửa sản phẩm chi tiết</title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -64,7 +64,7 @@
                             <ol class="breadcrumb text-right">
                                 <li><a href="#">Dashboard</a></li>
                                 <li><a href="#">Quản lý giày</a></li>
-                                <li class="active">Giày</li>
+                                <li class="active">Sửa sản phẩm chi tiết</li>
                             </ol>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
 
                                 </tbody>
                             </table>
-                         </form>
+                        </form>
                     </div>
 
                 </div>

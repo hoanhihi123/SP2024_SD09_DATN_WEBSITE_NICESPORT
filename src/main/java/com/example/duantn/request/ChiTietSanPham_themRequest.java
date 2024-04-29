@@ -3,14 +3,16 @@ package com.example.duantn.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChiTietSanPham_themRequest {
+public class ChiTietSanPham_themRequest  implements Serializable{
     private UUID idSanPham;
     private UUID idThuongHieu;
     private UUID idNSX;
@@ -27,8 +29,11 @@ public class ChiTietSanPham_themRequest {
 
     private UUID idMauSac;
     private UUID idSizeGiay;
+    private Integer soLuong;
+    private Double khoiLuong;
+    private String giaTriSanPham;
 
-    private String duongDanAnhChinh;
+    private MultipartFile duongDanAnhChinh;
     private ArrayList<String> danhSachDuongDanAnhPhu;
 
 

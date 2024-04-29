@@ -13,10 +13,10 @@ import java.util.UUID;
 public class MuaHangTaiQuay {
     UUID idSanPhamCT;
     UUID idHoaDon;
+    Integer soLuong_sanPhamMua;
+
     UUID idKhachHangChon;
     UUID idPhieuGiamGia;
-    Integer soLuong_sanPhamMua;
-    Integer soLuong_sanPhamKho;
     String sdt_KhachHang;
     Double tongTienDonHang;
 

@@ -185,7 +185,7 @@
                         <a href="/gio-hang/view-gio" class="dropdown-toggle" role="button" >
                             <i class="icon-shopping-cart"></i>
                             <span class="cart-count "  id="totalCartProductsId">
-<%--                                ${totalCartProducts>0?totalCartProducts:0}--%>
+                                ${totalCartProducts>0?totalCartProducts:0}
                             </span>
                         </a>
 
@@ -270,7 +270,7 @@
                                                                </td>
                                                         <td class="quantity-col">
                                                             <div class="cart-product-quantity">
-                                                                <input type="number"  value="${sanPhamTrongGio.soLuong}" min="0" step="1"
+                                                                <input type="number"  value="${sanPhamTrongGio.soLuong}" min="1" step="1"
                                                                        onchange="changeNumberProduct('${sanPhamTrongGio.idSanPhamCT}',this.value)" />
 
                                                             </div>
@@ -639,6 +639,7 @@
             }
         });
     }
+
 </script>
 
 <script type="text/javascript">

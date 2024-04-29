@@ -39,6 +39,15 @@ public interface HoaDonCTRepository extends JpaRepository<HoaDonChiTiet, UUID> {
                     @Param("idSanPhamCT") UUID idSanPhamCT,
                     @Param("soLuongMuaThem") Integer soLuongMuaThem);
 
+            @Transactional
+            @Modifying
+            @Query(value = "update HoaDonCT set SoLuong =:soLuongMuaThem where IdHoaDon =:idHoaDon and IdSanPhamCT =:idSanPhamCT"
+                    , nativeQuery = true)
+            void capNhatSoLuongSanPhamTrong_HoaDonChiTiet_muaTaiQuay(
+                    @Param("idHoaDon") UUID idHoaDon ,
+                    @Param("idSanPhamCT") UUID idSanPhamCT,
+                    @Param("soLuongMuaThem") Integer soLuongMuaThem);
+
 
             @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon"
                     , nativeQuery = true)

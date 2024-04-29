@@ -186,7 +186,17 @@ public class BanHangRestController {
             hoaDonChiTietMoi.setChiTietSanPham(sanPhamChiTietThem);
 
             hoaDonChiTietMoi.setSoLuong(soLuongMua);
-            Double thanhTien = sanPhamChiTietThem.getGiaTriGiam()>0?(soLuongMua * sanPhamChiTietThem.getGiaTriGiam()) : (soLuongMua * sanPhamChiTietThem.getGiaTriSanPham());
+//            Double thanhTien = sanPhamChiTietThem.getGiaTriGiam()>0?(soLuongMua * ) : (soLuongMua * );
+            Double thanhTien;
+            Double giaTriGiam = sanPhamChiTietThem.getGiaTriGiam();
+            Double giaTriSanPham = sanPhamChiTietThem.getGiaTriSanPham();
+
+            if (giaTriGiam ==null || giaTriGiam<0) {
+                thanhTien = giaTriSanPham*soLuongMua;
+            } else {
+                thanhTien = giaTriGiam*soLuongMua;
+            }
+
             hoaDonChiTietMoi.setDonGia(thanhTien);
             hoaDonChiTietMoi.setNgayTao(Constant.getDateNow());
             hoaDonChiTietMoi.setTrangThai(0);

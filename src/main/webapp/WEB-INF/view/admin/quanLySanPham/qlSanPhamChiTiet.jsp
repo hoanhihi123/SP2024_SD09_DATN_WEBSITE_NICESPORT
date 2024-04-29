@@ -98,36 +98,30 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <sf:form action="/admin/quanLySanPham/taoSanPhamChiTiet" method="post" modelAttribute="sanPhamChiTiet" class="row">
-<%--                        <div class="col-lg-6">--%>
-<%--                            <span>Mã (<i class="fa fa-asterisk" style="color: red;"></i>)</span>--%>
-<%--                            <sf:input path="ma" type="text" style="margin-top: 5px;" class="form-control"/>--%>
-<%--                            <sf:errors path="ma" cssClass="text-danger" />--%>
-<%--                            <c:if test="${trungMa==true}">--%>
-<%--                                <p class="text-danger">Mã sản phẩm đã có trong hệ thống, vui lòng nhập mã mới</p>--%>
-<%--                            </c:if>--%>
-<%--                        </div>--%>
+                    <form  class="row" method="POST" enctype="multipart/form-data" modelAttribute="sanPhamChiTiet"  action="/admin/quanLySanPham/taoSanPhamChiTiet"  onsubmit=" return themMoiGiayChiTiet();" >
+
                         <div class="col-lg-10">
                             <span>Tên giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="thuongHieu" id="danhSachTenGiay" class="form-control" onchange="resetCheckTenGiay()">
+                            <select name="idSanPham" id="danhSachTenGiay" class="form-control" onchange="resetCheckTenGiay()">
                                 <option value="">Chọn tên giày</option>
                             </select>
                             <span id="checkTenGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-2" style="margin-top: 23px;">
-                            <button class="btn btn-success"><i class="menu-icon fa fa-plus" style="margin-right: 5px; "></i>Thêm</button>
+                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#themTenGiayMoi"  style="margin-left: -10px;">
+                                <i class="menu-icon fa fa-plus" style="margin-right: 5px;  "></i> Thêm</a>
                         </div>
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Thương hiệu (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="thuongHieu" id="danhSachThuongHieu" class="form-control" onchange="resetCheckThuongHieu()">
+                            <select name="idThuongHieu" id="danhSachThuongHieu" class="form-control" onchange="resetCheckThuongHieu()">
                                 <option value="">Chọn thương hiệu</option>
                             </select>
                             <span id="checkThuongHieu" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Nhà sản xuất (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="thuongHieu" id="danhSachNSX" class="form-control" onchange="resetCheckNSX()">
+                            <select name="idNSX" id="danhSachNSX" class="form-control" onchange="resetCheckNSX()">
                                 <option value="">Chọn nhà sản xuất</option>
                             </select>
                             <span id="checkNSX" style="color: red;"></span>
@@ -136,7 +130,7 @@
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Danh mục (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="danhMuc" id="danhSachDanhMuc" class="form-control" onchange="resetCheckDanhMuc()">
+                            <select name="idDanhMuc" id="danhSachDanhMuc" class="form-control" onchange="resetCheckDanhMuc()">
                                 <option value="">Chọn danh mục</option>
                             </select>
                             <span id="checkDanhMuc" style="color: red;"></span>
@@ -144,7 +138,7 @@
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Loại sản phẩm (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="loaiSanPham" id="danhSachLoaiSanPham" class="form-control" onchange="resetCheckLoaiSanPham()">
+                            <select name="idLoaiSanPham" id="danhSachLoaiSanPham" class="form-control" onchange="resetCheckLoaiSanPham()">
                                 <option value="">Chọn loại sản phẩm</option>
                             </select>
                             <span id="checkLoaiSP" style="color: red;"></span>
@@ -152,7 +146,7 @@
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Kiểu dáng (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="kieuDang" id="danhSachKieuDang" class="form-control" onchange="resetCheckKieuDang()">
+                            <select name="idKieuDang" id="danhSachKieuDang" class="form-control" onchange="resetCheckKieuDang()">
                                 <option value="">Chọn kiểu dáng</option>
                             </select>
                             <span id="checkKieuDang" style="color: red;"></span>
@@ -160,7 +154,7 @@
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Chất liệu (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="chatLieu" id="danhSachChatLieu" class="form-control" onchange="resetCheckChatLieu()">
+                            <select name="idChatLieu" id="danhSachChatLieu" class="form-control" onchange="resetCheckChatLieu()">
                                 <option value="">Chọn chất liệu</option>
                             </select>
                             <span id="checkChatLieu" style="color: red;"></span>
@@ -168,42 +162,42 @@
 
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Mũi giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="muiGiay" id="danhSachMuiGiay" class="form-control" onchange="resetCheckMuiGiay()">
+                            <select name="idMuiGiay" id="danhSachMuiGiay" class="form-control" onchange="resetCheckMuiGiay()">
                                 <option value="">Chọn mũi giày</option>
                             </select>
                             <span id="checkMuiGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Dây giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="dayGiay" id="danhSachDayGiay" class="form-control" onchange="resetCheckDayGiay()">
+                            <select name="idDayGiay" id="danhSachDayGiay" class="form-control" onchange="resetCheckDayGiay()">
                                 <option value="">Chọn dây giày</option>
                             </select>
                             <span id="checkDayGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Đế giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="deGiay" id="danhSachDeGiay" class="form-control" onchange="resetCheckDeGiay()">
+                            <select name="idDeGiay" id="danhSachDeGiay" class="form-control" onchange="resetCheckDeGiay()">
                                 <option value="">Chọn đế giày</option>
                             </select>
                             <span id="checkDeGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Lót giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="lotGiay" id="danhSachLotGiay" class="form-control" onchange="resetCheckLotGiay()">
+                            <select name="idLotGiay" id="danhSachLotGiay" class="form-control" onchange="resetCheckLotGiay()">
                                 <option value="">Chọn lót giày</option>
                             </select>
                             <span id="checkLotGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Màu sắc (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="lotGiay" id="danhSachMauSac" class="form-control" onchange="resetCheckMauSac()">
+                            <select name="idMauSac" id="danhSachMauSac" class="form-control" onchange="resetCheckMauSac()">
 
                             </select>
                             <span id="checkMauSac" style="color: red;"></span>
                         </div>
                         <div class="col-lg-3" style="margin-top: 20px;">
                             <span>Size giày (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
-                            <select name="lotGiay" id="danhSachSizeGiay" class="form-control" onchange="resetCheckSizeGiay()">
+                            <select name="idSizeGiay" id="danhSachSizeGiay" class="form-control" onchange="resetCheckSizeGiay()">
 
                             </select>
                             <span id="checkSizeGiay" style="color: red;"></span>
@@ -248,7 +242,7 @@
                             <span>Chọn 1 ảnh chính (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
                             <br>
                             <span id="checkChonAnhChinh" style="color: red;" ></span>
-                            <input type="file"  name="hinhAnh" id="chonMotAnhChinh"   style="margin-right: 5px;">
+                            <input type="file"  name="duongDanAnhChinh" id="chonMotAnhChinh"  style="margin-right: 5px;">
                             <img id="previewImage" src="#" style="margin-top: 10px; width: 300px; height: 300px;" >
 
                         </div>
@@ -256,20 +250,63 @@
                             <span>Chọn 1-5 ảnh sản phẩm (<i class="fa fa-asterisk" style="color: red;"></i>)</span>
                             <br>
                             <span id="checkChonAnhPhu" style="color: red;" ></span>
-                            <input type="file" id="anhSanPhamCon"  name="hinhAnh"   style="margin-right: 5px;" multiple onchange="eventChangeChooseHinhAnhCon();">
+                            <input type="file" id="anhSanPhamCon"  name="duongDanAnhCon"   style="margin-right: 5px;" multiple onchange="eventChangeChooseHinhAnhCon();">
+
                             <div id="danhSachHinhAnhConDuocChon"></div>
                         </div>
 
-                        <div class="col-lg-4 justify-content-end" style="margin-top: 20px; ">
-                            <a href="#" class="btn btn-primary" onclick="themMoiGiayChiTiet();">
+                        <div class="col-lg-12 d-flex justify-content-end" style="margin-top: 20px; ">
+<%--                            <a href="" class="btn btn-primary" onclick="themMoiGiayChiTiet();">--%>
+<%--                                <i class="menu-icon fa fa-plus"></i> Thêm mới--%>
+<%--                            </a>--%>
+                            <button class="btn btn-primary">
                                 <i class="menu-icon fa fa-plus"></i> Thêm mới
-                            </a>
-                            <a href="/admin/quanLySanPham/hien-thi" class="btn btn-secondary">
+                            </button>
+
+                            <a href="/admin/quanLySanPham/hien-thi" class="btn btn-secondary" style="margin-left: 10px;">
                                 <i class="menu-icon fa fa-undo"></i> Quay lại
                             </a>
                         </div>
-                    </sf:form>
+                    </form>
 
+                    <div class="container">
+                        <div class="modal fade" id="themTenGiayMoi" tabindex="-1" role="dialog"
+                             aria-labelledby="createDiscountModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document" style="max-width: 550px;">
+                                <div class="modal-content" >
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="createDiscountModalLabel" style="  margin-left: 10px; font-size: 25px;"><b>Thêm mới sản phẩm</b></h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 50px; margin-top: -70px;" >
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="content" >
+                                            <div class="animated fadeIn row">
+                                                <div class="card col-lg-12">
+                                                    <div class="card-header"  style="background-color: #F7F7F7; padding-bottom: 20px;">
+                                                        <h3>Thêm mới sản phẩm</h3>
+                                                    </div>
+                                                    <div class="card-body" style="" class="row">
+                                                        <form action="" >
+                                                            <div class="col-lg-12">
+<%--                                                                <span></span>--%>
+                                                                <input type="text" class="form-control" placeholder="Nhập tên sản phẩm mới" >
+                                                            </div>
+                                                            <div class="col-lg-12 justify-content-end" style="margin-top: 15px;">
+                                                                <button class="form-control btn btn-primary" style="margin-top: 24px;">Thêm mới</button>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .animated -->
+                                        </div><!-- .content -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div><!-- .animated -->
@@ -320,8 +357,6 @@
         fetchDataToSelect_tenMauSac();
         fetchDataToSelect_tenSizeGiay();
 
-        var giaTriSanPham = document.getElementById("giaTriSanPham");
-        formatCurrency(giaTriSanPham);
     });
 
 
@@ -816,6 +851,19 @@
         });
     }
 
+    var duongDanTuyetDoiAnhChinh = "";
+
+    // Lắng nghe sự kiện change của input type file để lưu đường dẫn ảnh vào biến toàn cục
+    var chonMotAnhChinh = document.getElementById("chonMotAnhChinh");
+    chonMotAnhChinh.addEventListener('change', function(event) {
+        var file = event.target.files[0]; // Lấy ra tệp ảnh đã chọn
+
+        if (file) {
+            // Lấy đường dẫn tuyệt đối của tệp ảnh và lưu vào biến toàn cục
+            duongDanTuyetDoiAnhChinh = URL.createObjectURL(file);
+            console.log('Đường dẫn tuyệt đối của tệp ảnh:', duongDanTuyetDoiAnhChinh);
+        }
+    });
     function themMoiGiayChiTiet() {
         console.log("Chạy vào hàm themMoiGiayChiTiet");
         var chonTenGiay = document.getElementById("danhSachTenGiay").value;
@@ -866,26 +914,6 @@
         var checkValidate = true;
         // <input type="file"  name="hinhAnh" id="chonMotAnhChinh"   style="margin-right: 5px;">
         var anhChinhDuocChon = document.getElementById("chonMotAnhChinh");
-        var duongDanTuyetDoiAnhChinh = ""; // Biến để lưu trữ đường dẫn tuyệt đối của tệp ảnh
-        // var anhChinhDuocChon = document.getElementById("chonMotAnhChinh");
-
-        chonMotAnhChinh.addEventListener('click', function (event) {
-            var file = event.target.files[0]; // Lấy ra tệp ảnh đã chọn
-
-            if (file) {
-                duongDanTuyetDoiAnhChinh = URL.createObjectURL(file); // Lấy đường dẫn tuyệt đối của tệp ảnh và lưu vào biến
-                console.log('Đường dẫn tuyệt đối của tệp ảnh:', duongDanTuyetDoiAnhChinh);
-            }
-        });
-        chonMotAnhChinh.addEventListener('change', function (event) {
-            var file = event.target.files[0]; // Lấy ra tệp ảnh đã chọn
-
-            if (file) {
-                duongDanTuyetDoiAnhChinh = URL.createObjectURL(file); // Lấy đường dẫn tuyệt đối của tệp ảnh và lưu vào biến
-                console.log('Đường dẫn tuyệt đối của tệp ảnh:', duongDanTuyetDoiAnhChinh);
-            }
-        });
-
 
         if (anhChinhDuocChon.files.length === 0) {
             document.getElementById("checkChonAnhChinh").innerText = "Vui lòng chọn 1 ảnh chính cho giày";
@@ -1032,47 +1060,48 @@
 
 
         if (!checkValidate) {
-            return;
+            return false;
         }
 
 
-
-            let data = {
-                idSanPham: chonTenGiay,
-                idNSX: chonNSX,
-                idThuongHieu: chonThuongHieu,
-                idDanhMuc: chonDanhMuc,
-                idLoaiSanPham: chonLoaiSP,
-                idKieuDang: chonKieuDang,
-                idChatLieu: chonChatLieu,
-                idMuiGiay: chonMuiGiay,
-                idDayGiay: chonDayGiay,
-                idDeGiay: chonDeGiay,
-                idLotGiay: chonLotGiay,
-                moTa: nhapMoTa,
-                idMauSac: chonMauSac,
-                idSizeGiay: chonSizeGiay,
-                trangThai: trangThaiDuocChon,
-                duongDanAnhChinh: duongDanTuyetDoiAnhChinh
-            };
-
-            // thuc hien vao server tao sanPham
-            $.ajax({
-                url: "http://localhost:8080/admin/quanLySanPham/taoSanPhamChiTiet",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                dataType: "json", //Kieu du lieu tra ve tu controller la json
-
-                success: function (data) {
-                    // function xử lý lấy ra danh sách sản phẩm đã thêm từ danh sách UUID
-
-                    alert(data.message);
-                },
-                error: function (error) {
-                    console.log("Error: " + error);
-                }
-            });
+            // let data = {
+            //     idSanPham: chonTenGiay,
+            //     idNSX: chonNSX,
+            //     idThuongHieu: chonThuongHieu,
+            //     idDanhMuc: chonDanhMuc,
+            //     idLoaiSanPham: chonLoaiSP,
+            //     idKieuDang: chonKieuDang,
+            //     idChatLieu: chonChatLieu,
+            //     idMuiGiay: chonMuiGiay,
+            //     idDayGiay: chonDayGiay,
+            //     idDeGiay: chonDeGiay,
+            //     idLotGiay: chonLotGiay,
+            //     moTa: nhapMoTa,
+            //     idMauSac: chonMauSac,
+            //     idSizeGiay: chonSizeGiay,
+            //     trangThai: trangThaiDuocChon
+            //     // duongDanAnhChinh: duongDanTuyetDoiAnhChinh
+            // };
+            //
+            // // thuc hien vao server tao sanPham
+            // $.ajax({
+            //     url: "http://localhost:8080/admin/quanLySanPham/taoSanPhamChiTiet",
+            //     type: "POST",
+            //     contentType: "application/json",
+            //     data: JSON.stringify(data),
+            //     dataType: "json", //Kieu du lieu tra ve tu controller la json
+            //
+            //     success: function (data) {
+            //         // function xử lý lấy ra danh sách sản phẩm đã thêm từ danh sách UUID
+            //
+            //         alert(data.message);
+            //
+            //         // window.location.href="http://localhost:8080/admin/quanLySanPham/hien-thi";
+            //     },
+            //     error: function (error) {
+            //         console.log("Error: " + error);
+            //     }
+            // });
 
     }
 
@@ -1145,35 +1174,6 @@
 
     function eventChangeChooseHinhAnhCon(){}
 
-    function formatCurrency(input) {
-        // Lấy giá trị số từ ô nhập
-        var value = parseFloat(input.value);
-
-        // Kiểm tra nếu giá trị không phải là một số hợp lệ
-        if (isNaN(value)) {
-            // Nếu không phải số, đặt giá trị là 0
-            input.value = 0;
-            // alert('Vui lòng nhập số tại giá bán');
-
-            // Đặt trỏ chuột vào ô nhập
-            input.focus();
-
-            return;
-        }
-
-        // Định dạng giá trị thành tiền tệ
-        var formattedValue = value.toLocaleString('en-US', { minimumFractionDigits: 2 });
-
-        // Bỏ đi ký hiệu tiền tệ
-        formattedValue = formattedValue.replace(/^(\D+)/, '');
-
-        // Bỏ đi phần .00 nếu có
-        formattedValue = formattedValue.replace(/\.00$/, '');
-
-        // Gán lại giá trị đã định dạng cho ô nhập
-        input.value = formattedValue;
-        console.log("giá trị sau khi format current : " + formattedValue);
-    }
 
     // Lắng nghe sự kiện khi người dùng chọn file ảnh chính
         document.getElementById('chonMotAnhChinh').addEventListener('change', function() {
@@ -1211,9 +1211,11 @@
         });
 
 
-
         // sự kiện hiển thị các hình ảnh sản phẩm đã chọn trước đó
     document.getElementById('anhSanPhamCon').addEventListener('change', function() {
+        // Xóa danh sách các tệp hình ảnh đã chọn trước đó
+        document.getElementById('danhSachHinhAnhConDuocChon').innerHTML = '';
+
         // Lấy ra danh sách các tệp đã chọn
         var files = this.files;
 
@@ -1228,8 +1230,6 @@
 
             return;
         }
-
-
         document.getElementById("checkChonAnhPhu").innerText="";
 
         // Kiểm tra số lượng tệp đã chọn

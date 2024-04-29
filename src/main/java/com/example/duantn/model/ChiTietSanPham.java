@@ -70,6 +70,9 @@ public class ChiTietSanPham extends BaseModel{
     @JoinColumn(name = "IdMauSac")
     private MauSac mauSac;
 
+    @Column(name = "ma")
+    private String ma;
+
     @Column(name = "Ten")
     private String ten;
 

@@ -187,7 +187,7 @@
                             <a href="/gio-hang/view-gio" class="dropdown-toggle" role="button" >
                                 <i class="icon-shopping-cart"></i>
                                 <span class="cart-count "  id="totalCartProductsId">
-<%--                                    ${totalCartProducts>0?totalCartProducts:0}--%>
+                                    ${totalCartProducts>0?totalCartProducts:0}
                                 </span>
                             </a>
 
@@ -294,7 +294,7 @@
                                                         </c:if>
 
                                                         <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-                                                            <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                            <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                         </a>
 
                                                         <div class="product-action">
@@ -340,7 +340,7 @@
 
                                                         <div class="product-nav product-nav-thumbs">
                                                             <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
-                                                                <img src="${sanPhamChiTiet.hinhAnh}" alt="product desc">
+                                                                <img src="${pageContext.servletContext.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                             </a>
 
                                                         </div>
@@ -382,7 +382,7 @@
                                                              </span>
                                                 </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-                                                    <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                    <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
 
 <%--                                                <div class="product-action-vertical">--%>
@@ -433,7 +433,7 @@
 
                                                 <div class="product-nav product-nav-thumbs">
                                                     <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
-                                                        <img src="${sanPhamChiTiet.hinhAnh}" alt="product desc">
+                                                        <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                     </a>
                                                     <!-- <a href="#">
                                                         <img src="/user/assets/imagesgiay/giay11-2.jpg" alt="product desc">
@@ -481,7 +481,7 @@
                                                          </span>
                                                     </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-                                                    <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                    <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
 
                                                 <div class="product-action-vertical">
@@ -965,6 +965,7 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
+    <input type="number" id="totalAllProduct_InCart" hidden>
 
 </div>
 </div>
@@ -982,208 +983,217 @@
 
 <script type="text/javascript">
 
-    document.addEventListener("DOMContentLoaded", function() {
-        console.log("Đây là hàm khởi chạy");
-        localStorage.removeItem("dsSanPhamDuocThemVaoGio");
-
-        // set luôn phần totalProductInCart
-        // lấy ra idCart , lấy ra ds sản phẩm được thêm vào local
-        // set tổng số lượng danh sách trong local vào idCart thông qua hàm set giá trị
-        // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
-        var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
-        console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
-
-        var dsSanPhamTrongGioCurrent;
-        if (dsSanPhamTrongGioJSON) {
-            // Chuyển đổi kiểu dữ liệu của danh sách JSON => array
-            dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON);
-            // var innerArray = dsSanPhamTrongGioCurrent[0];
-            // console.log("Số lượng phần tử trong mảng con: " + innerArray.length);
-            // var soLuongSPTrongGio = innerArray.length;
-
-            // Parse chuỗi JSON thành mảng JavaScript
-            var parsedArray = JSON.parse(dsSanPhamTrongGioJSON);
-
-            // Lấy số lượng phần tử trong mảng
-            var count = parsedArray.length;
-
-            console.log("Số lượng phần tử trong mảng là: " + count);
-
-            updateValueTongSoLuongSPTrongGioHang(count);
-        } else {
-            dsSanPhamTrongGioCurrent = [];
-            updateValueTongSoLuongSPTrongGioHang(0);
-        }
-
-        // console.log("ds san pham current : " + dsSanPhamTrongGioCurrent.length);
-
-    });
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     console.log("Đây là hàm khởi chạy");
+    //     localStorage.removeItem("dsSanPhamDuocThemVaoGio");
+    //
+    //     // set luôn phần totalProductInCart
+    //     // lấy ra idCart , lấy ra ds sản phẩm được thêm vào local
+    //     // set tổng số lượng danh sách trong local vào idCart thông qua hàm set giá trị
+    //     // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
+    //     var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
+    //     console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
+    //
+    //     var dsSanPhamTrongGioCurrent;
+    //     if (dsSanPhamTrongGioJSON) {
+    //         // Chuyển đổi kiểu dữ liệu của danh sách JSON => array
+    //         dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON);
+    //         // var innerArray = dsSanPhamTrongGioCurrent[0];
+    //         // console.log("Số lượng phần tử trong mảng con: " + innerArray.length);
+    //         // var soLuongSPTrongGio = innerArray.length;
+    //
+    //         // Parse chuỗi JSON thành mảng JavaScript
+    //         var parsedArray = JSON.parse(dsSanPhamTrongGioJSON);
+    //
+    //         // Lấy số lượng phần tử trong mảng
+    //         var count = parsedArray.length;
+    //
+    //         console.log("Số lượng phần tử trong mảng là: " + count);
+    //
+    //         updateValueTongSoLuongSPTrongGioHang(count);
+    //     } else {
+    //         dsSanPhamTrongGioCurrent = [];
+    //         updateValueTongSoLuongSPTrongGioHang(0);
+    //     }
+    //
+    //     // console.log("ds san pham current : " + dsSanPhamTrongGioCurrent.length);
+    //
+    // });
 
 
     addToCart = function(idSanPhamCT, soLuong) {
-
         // console.log("Click vào function addToCart");
-        let data = {
-            idSanPhamCT: idSanPhamCT, //lay theo id
-            soLuong: soLuong
-        };
 
-        //$ === jQuery
-        jQuery.ajax({
-            url : "/gio-hang/add-to-cart",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
-
-            success : function(jsonResult) {
-                // data tu trang chu
-                // let totalPrice = jsonResult.totalPriceResult;
-                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                // $("#totalCartProductsId").html(totalProducts);
-                // $("#totalPriceInCart").html(totalPrice);
-                if(soLuongMuaVuotQua===true){
-                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
-                }
-
-                let danhSachTrongGioHang = jsonResult.danhSachSanPhamTronGioHang;
-                console.log("Danh sách sản phẩm trong giỏ - từ server : " + JSON.stringify(danhSachTrongGioHang));
-
-                //------------- thêm sản phẩm vào danh sách trong localstore
-                // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
-                // localStorage.removeItem("dsSanPhamDuocThemVaoGio");
-
-                        var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
-                        // console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
-
-                        // chuyển đổi kiểu dữ liệu của danh sách JSON => array
-                        // var dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON) || [];
-
-                        // Thêm giá trị mới vào mảng
-                        dsSanPhamTrongGioJSON.push(danhSachTrongGioHang);
-
-                        // Chuyển đổi lại mảng thành chuỗi JSON
-                        // var dsSanPhamTrongGioUpdatedListJSON = JSON.stringify(dsSanPhamTrongGioCurrent);
-
-                        // Lưu danh sách mới vào localStorage với key là "myList"
-                        console.log("Danh sách sản phẩm sau khi lấy từ local : " + dsSanPhamTrongGioJSON);
-                        localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamTrongGioJSON);
-                        //------------- thêm sản phẩm vào danh sách trong localstore
-                        // console.log("Danh sách sản phẩm sau khi thêm vào giỏ - local : " + dsSanPhamTrongGioUpdatedListJSON);
-
-                let totalProducts = jsonResult.totalCartProducts;
-                updateValueTongSoLuongSPTrongGioHang(totalProducts);
+        // kiểm tra dữ liệu , lấy số lượng thêm + tổng số lượng sản phẩm trong giỏ ( có vượt quá 10 không ? )
+        // tổng số lượng trong giỏ => chưa có cách nào lấy được
 
 
+        var tongSoLuongSanPhamTrongGio = 0;
 
-            },
+        layTongSoLuongSanPhamTrongGio()
+        .then(function(totalAllProducts) {
+            tongSoLuongSanPhamTrongGio = totalAllProducts;
+            console.log("Gia tri cua tongSoLuongSanPhamTrongGio : " + tongSoLuongSanPhamTrongGio);
 
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
+            if((tongSoLuongSanPhamTrongGio + soLuong)>10){
+                alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuong + "\n\tVui lòng dọn giỏ hàng");
+                return;
+            }else{
+                let data = {
+                    idSanPhamCT: idSanPhamCT, //lay theo id
+                    soLuongMuaThem: soLuong
+                };
+
+                //$ === jQuery
+                jQuery.ajax({
+                    url : "/gio-hang/add-to-cart",
+                    type : "POST",
+                    contentType: "application/json",
+                    data : JSON.stringify(data),
+                    dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+                    success : function(jsonResult) {
+                        let totalProducts = jsonResult.totalCartProducts;
+                        let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
+
+                        $("#totalCartProductsId").html(totalProducts);
+
+                        if(soLuongMuaVuotQua===true){
+                            let soLuongTrongGio_cuaSanPhamHienTai = jsonResult.soLuongCuaSanPhamChon_trongGioDaThem;
+                            alert("Số lượng sản phẩm trong kho không đủ \nBạn đã thêm: "+soLuongTrongGio_cuaSanPhamHienTai +" sản phẩm này vào giỏ hàng");
+                        }
+
+                    },
+
+                    error : function(jqXhr, textStatus, errorMessage) {
+                        //alert(jsonResult.code + ': Luu thanh cong...!')
+                    }
+
+                });
             }
-
+        })
+        .catch(function(errorMessage) {
+            console.error("Lỗi khi lấy tổng số lượng sản phẩm trong giỏ: " + errorMessage);
         });
+
     }
 
 
     muaNgay = function(idSanPhamCT, soLuong) {
-        // console.log("Click vào function addToCart");
+        var soLuongMua = soLuong;
 
-        let data = {
-            idSanPhamCT: idSanPhamCT, //lay theo id
-            soLuong: soLuong
-        };
+        layTongSoLuongSanPhamTrongGio()
+            .then(function(totalAllProducts) {
+                tongSoLuongSanPhamTrongGio = totalAllProducts;
+                // console.log("Gia tri cua tongSoLuongSanPhamTrongGio : " + tongSoLuongSanPhamTrongGio);
 
-        //$ === jQuery
-        jQuery.ajax({
-            url : "/gio-hang/mua-ngay",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
+                var checkSoLuongToiDa = parseInt(tongSoLuongSanPhamTrongGio) + parseInt(soLuongMua) ;
 
-            success : function(jsonResult) {
-                // let totalPrice = jsonResult.totalPriceResult;
-                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                // $("#totalCartProductsId").html(totalProducts);
-                // $("#totalPriceInCart").html(totalPrice);
-                if(soLuongMuaVuotQua===true){
-                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                if(checkSoLuongToiDa>10){
+                    alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuongMua + "\n\tVui lòng dọn giỏ hàng");
+                    return;
                 }else{
-                    window.location.href = "/gio-hang/view-gio";
-                    // window.location.reload();
+                    let data = {
+                        idSanPhamCT: idSanPhamCT, //lay theo id
+                        soLuong: soLuong
+                    };
+
+                    //$ === jQuery
+                    jQuery.ajax({
+                        url : "/gio-hang/mua-ngay",
+                        type : "POST",
+                        contentType: "application/json",
+                        data : JSON.stringify(data),
+                        dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+                        success : function(jsonResult) {
+                            / alert(jsonResult.code + ": " + jsonResult.message); /
+                            let totalProducts = jsonResult.totalCartProducts;
+                            let totalPrice = jsonResult.totalPriceResult;
+                            let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
+                            $("#totalCartProductsId").html(totalProducts);
+                            // $("#totalPriceInCart").html(totalPrice);
+                            if(soLuongMuaVuotQua===true){
+                                alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                            }else{
+                                window.location.href = "/gio-hang/view-gio";
+                                // window.location.reload();
+                            }
+                        },
+
+                        error : function(jqXhr, textStatus, errorMessage) {
+                            //alert(jsonResult.code + ': Luu thanh cong...!')
+                        }
+
+                    });
                 }
+            })
+            .catch(function(errorMessage) {
+                console.error("Lỗi khi lấy tổng số lượng sản phẩm trong giỏ: " + errorMessage);
+            });
 
-
-
-                let totalProducts = jsonResult.totalCartProducts;
-                updateValueTongSoLuongSPTrongGioHang(totalProducts);
-
-                let dsSanPhamTrongGioHang = jsonResult.dsSanPhamTrongGio;
-
-                //------------- thêm sản phẩm vào danh sách trong localstore
-                // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
-                var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
-                console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
-
-                // chuyển đổi kiểu dữ liệu của danh sách JSON => array
-                var dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON) || [];
-
-
-                // Thêm giá trị mới vào mảng
-                dsSanPhamTrongGioCurrent.push(dsSanPhamTrongGioHang);
-
-                // Chuyển đổi lại mảng thành chuỗi JSON
-                var dsSanPhamTrongGioUpdatedListJSON = JSON.stringify(dsSanPhamTrongGioCurrent);
-
-                // Lưu danh sách mới vào localStorage với key là "myList"
-                localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamTrongGioUpdatedListJSON);
-                //------------- thêm sản phẩm vào danh sách trong localstore
-                console.log("Danh sách sản phẩm sau khi thêm vào trong giỏ " + dsSanPhamTrongGioUpdatedListJSON);
-
-            },
-
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
-            }
-
-        });
     }
 
+    function layTongSoLuongSanPhamTrongGio() {
+        return new Promise(function(resolve, reject) {
+            let data = {};
+
+            jQuery.ajax({
+                url: "/gio-hang/layTongSLSanPhamTrongGio",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+
+                success: function(jsonResult) {
+                    let totalAllProducts = jsonResult.totalAllProducts;
+                    $("#totalAllProduct_InCart").html(totalAllProducts);
+                    console.log("Tổng số lượng sản phẩm trong giỏ : " + totalAllProducts);
+                    // document.getElementById("totalAllProduct_InCart").value = totalAllProducts;
+
+                    resolve(totalAllProducts); // Trả về giá trị totalAllProducts khi thành công
+                },
+
+                error: function(jqXhr, textStatus, errorMessage) {
+                    reject(errorMessage); // Trả về lỗi khi gặp lỗi
+                }
+            });
+        });
+    }
 </script>
 
 <script>
-    function luuDuLieuVaoLocalstore(){
-        // tạo ra 1 key lưu danh sách các đối tượng
-        // Tạo một mảng rỗng
-        var dsSanPhamDuocThemVaoGio = [];
-
-        // Chuyển đổi mảng thành chuỗi JSON
-        var dsSanPhamDuocThemVaoGioJSON = JSON.stringify(emptyArray);
-
-        // tạo ra 1 key lưu trạng thái đăng nhập
-        localStorage.setItem("isLogin",false);
-        localStorage.setItem("tongSoLuongSPTrongGio",0);
-        // lưu danh sách sản phẩm được thêm vào giỏ vào localstore
-        localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamDuocThemVaoGioJSON);
-
-
-        // khi thêm sản phẩm vào giỏ
-        // khi mua ngay
-        // số lượng sản phẩm hiển thị trên giỏ
-
-    }
-
-    function updateValueTongSoLuongSPTrongGioHang(soLuongSanPhamTrongGio){
-
-        var soLuongSPTrongGio = soLuongSanPhamTrongGio;
-
-        document.getElementById("totalCartProductsId").innerText = soLuongSPTrongGio;
-
-        localStorage.setItem("tongSoLuongSPTrongGio",soLuongSPTrongGio);
-
-        console.log("Số lượng sp trong giỏ : " + soLuongSPTrongGio);
-    }
+    // function luuDuLieuVaoLocalstore(){
+    //     // tạo ra 1 key lưu danh sách các đối tượng
+    //     // Tạo một mảng rỗng
+    //     var dsSanPhamDuocThemVaoGio = [];
+    //
+    //     // Chuyển đổi mảng thành chuỗi JSON
+    //     var dsSanPhamDuocThemVaoGioJSON = JSON.stringify(emptyArray);
+    //
+    //     // tạo ra 1 key lưu trạng thái đăng nhập
+    //     localStorage.setItem("isLogin",false);
+    //     localStorage.setItem("tongSoLuongSPTrongGio",0);
+    //     // lưu danh sách sản phẩm được thêm vào giỏ vào localstore
+    //     localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamDuocThemVaoGioJSON);
+    //
+    //
+    //     // khi thêm sản phẩm vào giỏ
+    //     // khi mua ngay
+    //     // số lượng sản phẩm hiển thị trên giỏ
+    //
+    // }
+    //
+    // function updateValueTongSoLuongSPTrongGioHang(soLuongSanPhamTrongGio){
+    //
+    //     var soLuongSPTrongGio = soLuongSanPhamTrongGio;
+    //
+    //     document.getElementById("totalCartProductsId").innerText = soLuongSPTrongGio;
+    //
+    //     localStorage.setItem("tongSoLuongSPTrongGio",soLuongSPTrongGio);
+    //
+    //     console.log("Số lượng sp trong giỏ : " + soLuongSPTrongGio);
+    // }
 
 
 </script>
