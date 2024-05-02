@@ -28,10 +28,13 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.getAll(pageable);
     }
 
-    public Page<ChiTietSanPham> layDanhSachTheoIDSanPham(UUID idSanPham, Pageable pageable) {
-        return repo_chiTietSanPham.getAll(idSanPham, pageable);
+    public List<ChiTietSanPham> layDanhSachTheoIDSanPham(UUID idSanPham) {
+        return repo_chiTietSanPham.getAll(idSanPham);
     }
 
+    public List<ChiTietSanPham> layDanhSachTheoIDSanPham_searchTrangThai(Integer trangThai, UUID idSanPham) {
+        return repo_chiTietSanPham.getAllTheoTrangThai(idSanPham, trangThai);
+    }
 
 
     @Override
@@ -47,7 +50,11 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
 
     @Override
     public void xoa(UUID id) {
+        repo_chiTietSanPham.updateTrangThaiSanPhamCT(id);
+    }
 
+    public void capNhatTrangThaiSanPhamCT(UUID id) {
+        repo_chiTietSanPham.updateTrangThaiSanPhamCT(id);
     }
 
     @Override
@@ -56,6 +63,10 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     }
 
     public ChiTietSanPham themMoi_traVeKetQua(ChiTietSanPham chiTietSanPham) {
+        return repo_chiTietSanPham.save(chiTietSanPham);
+    }
+
+    public ChiTietSanPham capNhat_traVeKetQua(ChiTietSanPham chiTietSanPham) {
         return repo_chiTietSanPham.save(chiTietSanPham);
     }
 

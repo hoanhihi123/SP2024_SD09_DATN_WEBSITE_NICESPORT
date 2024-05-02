@@ -3,6 +3,7 @@ package com.example.duantn.repository;
 import com.example.duantn.model.*;
 import com.example.duantn.request.ChiTietSanPham_theoSanPham_soLuong;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,8 @@ import java.util.UUID;
 
 @Repository
 public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, UUID> {
+
+
     @Query(value = "select * from SanPhamCT", nativeQuery = true)
     public List<ChiTietSanPham> getAll();
 
@@ -27,9 +30,15 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             countQuery = "select  count(*) from SanPhamCT", nativeQuery = true)
     public Page<ChiTietSanPham> getAll( Pageable pageable);
 
-    @Query(value = "select  * from SanPhamCT where IdSanPham=:idSanPham ",
+    @Query(value = "select  * from SanPhamCT where IdSanPham=:idSanPham and trangThai=1 ",
             countQuery = "select  count(*) from SanPhamCT where IdSanPham=:idSanPham", nativeQuery = true)
     public Page<ChiTietSanPham> getAll(@Param("idSanPham") UUID idSanPham, Pageable pageable);
+
+    @Query(value = "select  * from SanPhamCT where IdSanPham=:idSanPham  ", nativeQuery = true)
+    public List<ChiTietSanPham> getAll(@Param("idSanPham") UUID idSanPham);
+
+    @Query(value = "select  * from SanPhamCT where IdSanPham=:idSanPham and TrangThai=:trangThai ", nativeQuery = true)
+    public List<ChiTietSanPham> getAllTheoTrangThai(@Param("idSanPham") UUID idSanPham, @Param("trangThai") Integer trangThai);
 
 
     @Query(value = "select  * from SanPhamCT \n" +
@@ -55,14 +64,32 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
             "WHERE ID = :idSanPhamCT", nativeQuery = true)
     public void updateSoLuong(@Param("soLuongMua") Integer soLuongMua, @Param("idSanPhamCT") UUID idSanPhamCT);
 
-    @Query(value = "select * from SanPhamCT  where SoLuong>0 order by (GiaTriSanPham-GiaTriGiam)/GiaTriSanPham*100 desc ",
-            countQuery = "select count(*) from SanPhamCT  where SoLuong>0", nativeQuery = true)
-    public List<ChiTietSanPham> getAllProductLonHon_0( Pageable pageable);
+//    @Query(value = "select * from SanPhamCT \n" +
+//            "join SanPham on SanPhamCT.IdSanPham = SanPham.Id\n" +
+//            "where SanPham.TrangThai=1 and SoLuong>0 order by (GiaTriSanPham-GiaTriGiam)/GiaTriSanPham*100 desc",
+//            countQuery = "select count(*) from SanPhamCT \n" +
+//                    "join SanPham on SanPhamCT.IdSanPham = SanPham.Id\n" +
+//                    "where SanPham.TrangThai=1 and SoLuong>0 ", nativeQuery = true)
+//    public List<ChiTietSanPham> getAllProductLonHon_0( Pageable pageable);
+
+    @Query(value = "SELECT SanPhamCT.*, SanPham.Id AS SanPhamId FROM SanPhamCT \n" +
+            "JOIN SanPham ON SanPhamCT.IdSanPham = SanPham.Id\n" +
+            "WHERE SanPham.TrangThai = 1 AND SoLuong > 0 ORDER BY (GiaTriSanPham - GiaTriGiam) / GiaTriSanPham * 100 DESC",
+            countQuery = "SELECT COUNT(*) FROM SanPhamCT \n" +
+                    "JOIN SanPham ON SanPhamCT.IdSanPham = SanPham.Id\n" +
+                    "WHERE SanPham.TrangThai = 1 AND SoLuong > 0", nativeQuery = true)
+    public List<ChiTietSanPham> getAllProductLonHon_0(Pageable pageable);
+
+
     //select DISTINCT  ID_loaiSP from SanPhamCT
     //join LoaiSanPham on LoaiSanPham.Id = SanPhamCT.ID_loaiSP
 
-    @Query(value = "select DISTINCT ID_loaiSP as id from SanPhamCT join LoaiSanPham on LoaiSanPham.Id = SanPhamCT.ID_loaiSP",
-            countQuery = "select DISTINCT count(ID_loaiSP) as id, LoaiSanPham.ten as ten from SanPhamCT join LoaiSanPham on LoaiSanPham.Id = SanPhamCT.ID_loaiSP"
+    @Query(value = "select DISTINCT ID_loaiSP as id from SanPhamCT \n" +
+                    "join LoaiSanPham on LoaiSanPham.Id = SanPhamCT.ID_loaiSP\n" +
+                    "where SanPhamCT.TrangThai=1",
+            countQuery = "select DISTINCT count(*) as id from SanPhamCT \n" +
+                            "join LoaiSanPham on LoaiSanPham.Id = SanPhamCT.ID_loaiSP\n" +
+                            "where SanPhamCT.TrangThai=1"
             , nativeQuery = true)
     public List<UUID> getAllLoaiSanPham_coTrongChiTietSP();
 
@@ -73,7 +100,9 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
 
     // select distinct IdSanPham from SanPhamCT
     // lấy danh sách IdSanPham trong SanPhamCT không lặp giá trị
-    @Query(value = "select distinct IdSanPham from SanPhamCT", nativeQuery = true)
+    @Query(value = "select distinct IdSanPham from SanPhamCT \n" +
+                    "join SanPham on SanPhamCT.IdSanPham = SanPham.Id\n" +
+                    "where SanPham.TrangThai=1", nativeQuery = true)
     public List<UUID> getListUUID_SanPham_fromChiTietSP();
 
     // lay danh sách san pham chi tiet theo idSanPham
@@ -125,6 +154,14 @@ public interface ChiTietSanPhamRepository extends JpaRepository<ChiTietSanPham, 
         @Modifying
         @Query(value = "delete from SanPhamCT where TrangThai =:trangThai ", nativeQuery = true)
         public void xoaSanPhamChiTietTheoTrangThai(@Param("trangThai") Integer trangThaiXoa);
+
+        @Transactional
+        @Modifying
+        @Query(value = "UPDATE SanPhamCT " +
+                "SET trangThai=0 " +
+                "WHERE ID = :idSanPhamCT", nativeQuery = true)
+        public void updateTrangThaiSanPhamCT( @Param("idSanPhamCT") UUID idSanPhamCT);
+
 
     // hoan code
 

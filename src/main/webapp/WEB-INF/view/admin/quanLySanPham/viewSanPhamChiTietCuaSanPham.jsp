@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>View chi tiết sản phẩm </title>
+    <title>Xem chi tiết sản phẩm </title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -81,17 +81,20 @@
                         <div class="col-lg-2">
                             <a href="/admin/quanLySanPham/hien-thi" class="btn btn-secondary"> <i class="menu-icon fa fa-undo"></i> Quay lại</a>
                         </div>
+                        <form class="row"  style="margin-left: 10px;" action="/admin/quanLySanPham/viewSanPhamChiTiet/${idSanPham}" method="get">
+                                <div class="col-lg-8" style="margin-top: 10px; ">
+                                    <span>Lọc trạng thái sản phẩm:</span>
+                                    <select name="searchTrangThaiSPCT" id="searchTrangThaiSPCT" class="form-control" style="margin-top:10px; display: inline-block;">
+                                        <option value="">Tất cả</option>
+                                        <option value="1">Hoạt động</option>
+                                        <option value="0">Ngừng hoạt động</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3" style="margin-top: 43px; ">
+                                    <button class="form-control btn btn-primary" >Lọc</button>
+                                </div>
+                        </form>
                     </div>
-                    <br>
-<%--                    <form action="/san-pham/hien-thi" method="get">--%>
-<%--                        <div class="row d-flex" style=" margin-left: 3px;">--%>
-<%--                            <input  class="form-control col-lg-4" id="textsearch" name="textsearch" type="text" placeholder="Nhập nội dung tìm kiếm" >--%>
-<%--                            <span style="margin: 0px 5px;"></span>--%>
-<%--                            <button class="btn btn-secondary" type="submit" >--%>
-<%--                                <i class="menu-icon fa fa-search"></i> Tìm kiếm</button>--%>
-<%--                        </div>--%>
-<%--                    </form>--%>
-
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -131,51 +134,13 @@
                                         <td > ${sanPhamCT.soLuong}</td>
                                         <td > ${sanPhamCT.trangThai == 1 ? 'Hoạt động': 'Ngưng hoạt động'}</td>
                                         <td > <a href="/admin/quanLySanPham/viewSuaSanPhamChiTiet/${sanPhamCT.id}" class="btn btn-success">Xem <i class="menu-icon fa fa-pencil-square-o"></i></a> </td>
-                                        <td > <a href="/san-pham/xoa/${sanPhamCT.id}" class="btn btn-warning"
-                                                 onclick="return confirm('Bạn chắc chắn muốn xóa mũi giày ${sanPhamCT.ten} ?')"> <i class="menu-icon fa fa-trash-o"></i> Xóa</a> </td>
+                                        <td > <a href="/admin/quanLySanPham/xoaSanPhamChiTiet/${sanPhamCT.id}" class="btn btn-warning"
+                                                 onclick="return confirm('Bạn chắc chắn muốn xóa sản phẩm chi tiết này ?')"> <i class="menu-icon fa fa-trash-o"></i> Xóa</a> </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
                             </table>
                     </div>
-                    <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-4">
-                        </div>
-                        <div class="col-lg-8"  style="text-align: center;">
-                            <nav aria-label="...">
-                                <c:if test="${totalPage>0}">
-                                    <ul class="pagination justify-content-end">
-                                        <c:if test="${pageChoosedNumber > 0}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="/admin/quanLySanPham/viewSanPhamChiTiet/${idSanPham}?page=${pageChoosedNumber-1}" tabindex="-1" aria-disabled="true">Previous</a>
-                                            </li>
-                                        </c:if>
-
-                                        <c:forEach begin="0" end="${totalPage - 1}" varStatus="loop">
-                                            <c:choose>
-                                                <c:when test="${pageChoosedNumber==loop.index}">
-                                                    <li class="page-item active" aria-current="page" >
-                                                        <a name="page" class="page-link"   href="/admin/quanLySanPham/viewSanPhamChiTiet/${idSanPham}?page=${loop.index}">${loop.index + 1}</a>
-                                                    </li>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <li class="page-item" aria-current="page">
-                                                        <a name="page" class="page-link" href="/admin/quanLySanPham/viewSanPhamChiTiet/${idSanPham}?page=${loop.index}">${loop.index + 1}</a>
-                                                    </li>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                        <c:if test= "${pageChoosedNumber < (totalPage-1)}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="/admin/quanLySanPham/viewSanPhamChiTiet/${idSanPham}?page=${pageChoosedNumber+1}">Next</a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </c:if>
-                            </nav>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div><!-- .animated -->

@@ -607,7 +607,25 @@
     // Hàm để gửi dữ liệu về server để lưu vào session
     function changeNumberProduct(idSanPhamCT, soLuong) {
         // console.log("id sản phẩm:" + idSanPhamCT + "số lượng sản phẩm: " + soLuong);
-        // /gio-hang/view-gio
+
+        // lấy ra tổng số lượng + số lượng thêm => vượt quá 10 thì đưa ra thông báo
+        // nếu mà vượt quá => set value cho input tại nơi sửa dữ liệu = là giá trị cũ
+        // return để ngăn chặn thực hiện câu lệnh phía sau
+        var tongSoLuongTrongGio = 0;
+        tongSoLuongSPTrongGio().then(function(tongSoLuongSPGio) {
+            tongSoLuongTrongGio = tongSoLuongSPGio;
+        }).catch(function(error) {
+            console.log("Đã xảy ra lỗi: " + error);
+        });
+
+        var soLuongCheck = tongSoLuongTrongGio + soLuong;
+
+        if(soLuongCheck>10){
+            alert("Giỏ hàng chỉ chứa tối đa 10 sản phẩm ");
+            window.location.href = "/gio-hang/view-gio";
+            return;
+        }
+
         $.ajax({
             type: "POST",
             url: "/gio-hang/capNhatSoLuongSPCT", // Đường dẫn đến endpoint xử lý yêu cầu Ajax
@@ -719,6 +737,36 @@
 
         });
     }
+
+    function tongSoLuongSPTrongGio() {
+        console.log(">>>>>>>>>>>>> vào hàm tongTienDonHang()");
+        let data = {
+            // idHoaDon: idHoaDon_active
+        };
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: "http://localhost:8080/gio-hang/layTongSLTrongGio",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+                success: function(data) {
+                    var tongSLSP_trongGio = data.tongSLTatCaSP;
+
+                    console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng o tinh tong tien hang : " + tongSLSP_trongGio);
+                    resolve(tongSLSP_trongGio); // Trả về tổng tiền đơn hàng qua promise
+                },
+                error: function(error) {
+                    console.log("Error: " + error);
+                    reject(error); // Trả về lỗi nếu có lỗi xảy ra
+                }
+            });
+        });
+
+    }
+
+
 </script>
 
 

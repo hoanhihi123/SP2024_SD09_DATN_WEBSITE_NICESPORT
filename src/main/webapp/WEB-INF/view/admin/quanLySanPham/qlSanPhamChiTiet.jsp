@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Quản lý sản phẩm chi tiết </title>
+    <title>Thêm giày mới </title>
     <meta name="description" content="Ela Admin - HTML5 Admin Template">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -23,14 +23,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="/admin/assets/css/cs-skin-elastic.css">
     <link rel="stylesheet" href="/admin/assets/css/style.css">
-
-    <%--    thư viện dùng select picker multiple  --%>
-<%--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>--%>
-<%--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">--%>
-<%--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/css/bootstrap-select.css">--%>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.8.1/js/bootstrap-select.js"></script>--%>
-<%--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>--%>
-    <%--    thư viện dùng select picker multiple  --%>
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -108,7 +100,7 @@
                             <span id="checkTenGiay" style="color: red;"></span>
                         </div>
                         <div class="col-lg-2" style="margin-top: 23px;">
-                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#themTenGiayMoi"  style="margin-left: -10px;">
+                            <a href="/san-pham/hien-thi" class="btn btn-success"   style="margin-left: -10px;">
                                 <i class="menu-icon fa fa-plus" style="margin-right: 5px;  "></i> Thêm</a>
                         </div>
 
@@ -268,45 +260,6 @@
                             </a>
                         </div>
                     </form>
-
-                    <div class="container">
-                        <div class="modal fade" id="themTenGiayMoi" tabindex="-1" role="dialog"
-                             aria-labelledby="createDiscountModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document" style="max-width: 550px;">
-                                <div class="modal-content" >
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="createDiscountModalLabel" style="  margin-left: 10px; font-size: 25px;"><b>Thêm mới sản phẩm</b></h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="font-size: 50px; margin-top: -70px;" >
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="content" >
-                                            <div class="animated fadeIn row">
-                                                <div class="card col-lg-12">
-                                                    <div class="card-header"  style="background-color: #F7F7F7; padding-bottom: 20px;">
-                                                        <h3>Thêm mới sản phẩm</h3>
-                                                    </div>
-                                                    <div class="card-body" style="" class="row">
-                                                        <form action="" >
-                                                            <div class="col-lg-12">
-<%--                                                                <span></span>--%>
-                                                                <input type="text" class="form-control" placeholder="Nhập tên sản phẩm mới" >
-                                                            </div>
-                                                            <div class="col-lg-12 justify-content-end" style="margin-top: 15px;">
-                                                                <button class="form-control btn btn-primary" style="margin-top: 24px;">Thêm mới</button>
-
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div><!-- .animated -->
-                                        </div><!-- .content -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div><!-- .animated -->

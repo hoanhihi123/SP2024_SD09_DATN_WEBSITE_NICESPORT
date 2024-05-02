@@ -2,6 +2,7 @@ package com.example.duantn.controller.banTaiQuay;
 
 import com.example.duantn.dto.Constant;
 import com.example.duantn.model.*;
+import com.example.duantn.request.KhachHangTaiQuay;
 import com.example.duantn.request.MuaHangTaiQuay;
 import com.example.duantn.request.PhanTrangRequest;
 import com.example.duantn.request.SanPhamTrongGioHang;
@@ -77,6 +78,32 @@ public class BanHangTaiQuayController {
         jsonResult.put("code", 200);
         jsonResult.put("status", "Success");
         jsonResult.put("danhSachSanPhamChiTiet", chiTietSanPhams);
+
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/taoMoiKhachHang")
+    public ResponseEntity<Map<String, Object>> taoMoiKhachHang(
+        final Model model
+        , final HttpServletRequest request
+        , final HttpServletResponse response
+        , @RequestBody KhachHangTaiQuay khachHangTaiQuay
+    ) throws IOException, ParseException {
+        KhachHang khachHangThemMoi = new KhachHang();
+        khachHangThemMoi.setEmail(khachHangTaiQuay.getEmail());
+        khachHangThemMoi.setSoDT(khachHangTaiQuay.getSdt());
+        khachHangThemMoi.setHoTen(khachHangTaiQuay.getTenKhachHang());
+        khachHangThemMoi.setGioiTinh(khachHangTaiQuay.getGioiTinh());
+        khachHangThemMoi.setNgayTao(Constant.getDateNow());
+        khachHangThemMoi.setNguoiTao(1);
+
+        khachHangService.themMoi(khachHangThemMoi);
+
+        Map<String, Object> jsonResult = new HashMap<String, Object>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("message","Thêm mới khách hàng thành công");
+//        jsonResult.put("danhSachSanPhamChiTiet", chiTietSanPhams);
 
         return ResponseEntity.ok(jsonResult);
     }
@@ -243,10 +270,10 @@ public class BanHangTaiQuayController {
         Double  tongTienSauGiam = 0.0;
         Double tienDuocGiam = 0.0;
             for(HoaDonChiTiet hoaDonChiTiet : dsHoaDonChiTiet){
-                if (hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() > 0 && hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() != null) {
-                    tongTienDonHang += (hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() * hoaDonChiTiet.getSoLuong());
-                } else {
+                if ( hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() == null || hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() ==0) {
                     tongTienDonHang += (hoaDonChiTiet.getChiTietSanPham().getGiaTriSanPham() * hoaDonChiTiet.getSoLuong());
+                } else {
+                    tongTienDonHang += (hoaDonChiTiet.getChiTietSanPham().getGiaTriGiam() * hoaDonChiTiet.getSoLuong());
                 }
             }
 
@@ -467,7 +494,19 @@ public class BanHangTaiQuayController {
         System.out.println("id hoa don : " + idHoaDon);
         System.out.println("id san pham ct : " + idSanPhamCT);
 
-        hoaDonCTService.capNhatSoLuongSanPhamMua_HDCT_taiQuay(idHoaDon,idSanPhamCT,soLuongCapNhat);
+//        hoaDonCTService.capNhatSoLuongSanPhamMua_HDCT_taiQuay(idHoaDon,idSanPhamCT,soLuongCapNhat);
+        HoaDonChiTiet hoaDonChiTiet = hoaDonCTService.xemHoaDonChiTiet_detail(idHoaDon, idSanPhamCT);
+        ChiTietSanPham chiTietSanPham = sanPhamCTService.chiTietTheoId(idSanPhamCT);
+        hoaDonChiTiet.setSoLuong(soLuongCapNhat);
+        Double giaMua=0.0;
+        if ( chiTietSanPham.getGiaTriGiam() == null || chiTietSanPham.getGiaTriGiam() ==0) {
+            giaMua = chiTietSanPham.getGiaTriSanPham()*soLuongCapNhat;
+        } else {
+            giaMua = chiTietSanPham.getGiaTriGiam()*soLuongCapNhat;
+        }
+        hoaDonChiTiet.setDonGia(giaMua);
+        hoaDonCTService.capNhat(hoaDonChiTiet);
+
 
         Map<String, Object> jsonResult = new HashMap<String, Object>();
         jsonResult.put("code", 200);

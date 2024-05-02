@@ -54,9 +54,13 @@ public interface HoaDonCTRepository extends JpaRepository<HoaDonChiTiet, UUID> {
             List<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon(@Param("idHoaDon") UUID idHoaDon);
 
         @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon ",
-                countQuery = "select count(*) from HoaDonCT where IdHoaDon =:idHoaDon", nativeQuery = true)
-        Page<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon_phanTrang(@Param("idHoaDon") UUID idHoaDon,
-                                                                        Pageable pageable);
+            countQuery = "select count(*) from HoaDonCT where IdHoaDon =:idHoaDon", nativeQuery = true)
+    Page<HoaDonChiTiet> getListHoaDonChiTiet_theoIdHoaDon_phanTrang(@Param("idHoaDon") UUID idHoaDon,
+                                                                    Pageable pageable);
+
+    @Query(value = "select * from HoaDonCT where IdHoaDon =:idHoaDon and IdSanPhamCT=:idSanPhamCT ", nativeQuery = true)
+    HoaDonChiTiet getHoaDonChiTietTheo_idHoaDon_IdSPCT(@Param("idHoaDon") UUID idHoaDon
+            ,@Param("idSanPhamCT") UUID idSanPhamCT);
 
         @Transactional
         @Modifying

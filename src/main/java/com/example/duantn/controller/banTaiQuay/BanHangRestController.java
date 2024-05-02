@@ -69,9 +69,10 @@ public class BanHangRestController {
 
         // lay danh sach phieu giam gia
         List<PhieuGiamGia> dsPhieuGiamGia = phieuGiamGiaService.layDanhSach_voiTongTienDonHang(muaHangTaiQuay.getTongTienDonHang());
+        System.out.println("Kết quả dsPhieuGiamGia: " + dsPhieuGiamGia.size());
 
         Double tongTienDonHang = muaHangTaiQuay.getTongTienDonHang();
-//        System.out.println("Tổng tiền đơn hàng - getDanhSachPhieuGiamGia: " + tongTienDonHang);
+        System.out.println("Tổng tiền đơn hàng - getDanhSachPhieuGiamGia: " + tongTienDonHang);
 
         int count = 0;
         List<PhieuGiamGia> dsPhieuGiamGiaHopLe = new ArrayList<>();
@@ -83,11 +84,13 @@ public class BanHangRestController {
                 }
             }
         }
-//        System.out.println("ds phiếu giảm giá hợp lệ - getDanhSachPhieuGiamGia : " + dsPhieuGiamGiaHopLe.size());
-//        System.out.println("Count - getDanhSachPhieuGiamGia : " + count);
+        System.out.println("ds phiếu giảm giá hợp lệ - getDanhSachPhieuGiamGia : " + dsPhieuGiamGiaHopLe.size());
+        System.out.println("Count - getDanhSachPhieuGiamGia : " + count);
 
         return ResponseEntity.of(Optional.ofNullable(dsPhieuGiamGiaHopLe));
     }
+
+
 
     // api lấy ra danh sách hoa don cho
     @PostMapping("/getDanhSachHoaDonCho_theoIDHoaDonActive")
@@ -235,5 +238,25 @@ public class BanHangRestController {
         return ResponseEntity.ok(jsonResult);
     }
 
+    @PostMapping("/getIdDotKhuyenMaiApDung")
+    public ResponseEntity<?> getIdDotKhuyenMaiApDung(
+             @RequestBody MuaHangTaiQuay muaHangTaiQuay
+    ){
+        UUID idHoaDonActive = muaHangTaiQuay.getIdHoaDon();
+        System.out.println("Id hóa đơn active : " + idHoaDonActive);
+
+        HoaDon hoaDonDetail = hoaDonService.chiTietTheoId(idHoaDonActive);
+
+        if(hoaDonDetail.getPhieuGiamGia()==null){
+            return ResponseEntity.ok().body(null);
+        }
+
+        System.out.println("Hoa don detail :  " + hoaDonDetail.getPhieuGiamGia().getId());
+        PhieuGiamGia phieuGiamGiaDetail = phieuGiamGiaService.detail(hoaDonDetail.getPhieuGiamGia().getId());
+        String maGiamGia = phieuGiamGiaDetail.getMa();
+        System.out.println("Hóa đơn ấp dụng mã giảm giá : " + maGiamGia);
+
+        return ResponseEntity.ok().body(maGiamGia);
+    }
 
 }

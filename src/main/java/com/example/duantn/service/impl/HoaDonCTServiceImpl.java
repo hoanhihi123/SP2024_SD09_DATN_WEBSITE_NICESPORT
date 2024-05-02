@@ -65,6 +65,10 @@ public class HoaDonCTServiceImpl implements BaseService<HoaDonChiTiet> {
         public void xoaHoaDonChiTietBangIDHoaDon(UUID idHoaDon){
             hoaDonCTRepository.xoaHoaDonChiTiet_bangIdHoaDon(idHoaDon);
         }
+
+        public HoaDonChiTiet xemHoaDonChiTiet_detail(UUID idHoaDon, UUID idSanPhamCT){
+           return hoaDonCTRepository.getHoaDonChiTietTheo_idHoaDon_IdSPCT(idHoaDon, idSanPhamCT);
+        }
     // hoan code
 
 

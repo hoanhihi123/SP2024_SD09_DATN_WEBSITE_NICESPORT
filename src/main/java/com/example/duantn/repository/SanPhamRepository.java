@@ -21,20 +21,20 @@ public interface SanPhamRepository extends JpaRepository<SanPham, UUID> {
     public Page<SanPham> getAllWithStatus_1(Pageable pageable);
 
     // getAll
-    @Query(value = "select * from SanPham order by ngaySua desc",
-            countQuery = "select count(*) from SanPham", nativeQuery = true)
-    public Page<SanPham> getAll(Pageable pageable);
+    @Query(value = "select * from SanPham order by ngayTao desc",
+            countQuery = "select count(*) from SanPham ", nativeQuery = true)
+    public Page<SanPham> getAllSanPham_phanTrang(Pageable pageable);
 
     @Query(value = "select * from SanPham where concat(Ten, MoTa) like %:textSearch%  order by ngaySua desc",
             countQuery = "select count(*) from SanPham where concat(Ten, MoTa) like %:textSearch% ",
             nativeQuery = true)
     public Page<SanPham> getAll(@Param("textSearch") String textSearch, Pageable pageable);
 
-    @Query(value = "select Ten from SanPham where Ten =:textSearch  order by ngaySua desc",
+    @Query(value = "select Ten from SanPham where Ten =:textSearch  order by ngayTao desc",
             countQuery = "select count(Ten) from SanPham where Ten =:textSearch ", nativeQuery = true)
     public List<SanPham> getAllTheoTen(@Param("textSearch") String textSearch);
 
-    @Query(value = "select * from SanPham where Ma =:textSearch  order by ten desc",
+    @Query(value = "select * from SanPham where Ma =:textSearch  order by ngayTao desc",
             countQuery = "select count(*) from SanPham where Ma =:textSearch ", nativeQuery = true)
     public List<SanPham> getAllTheoMa(@Param("textSearch") String textSearch);
 

@@ -85,11 +85,17 @@ public class CartController {
 
         List<SanPhamTrongGioHang> dsSanPhamTrongGio = new ArrayList<>();
         dsSanPhamTrongGio = cart.getDs_SanPhamTrongGioHang();
+
+        Integer tongSLSP_trongGio = 0;
+        for(SanPhamTrongGioHang sanPham : dsSanPhamTrongGio){
+            tongSLSP_trongGio+=sanPham.getSoLuong();
+        }
+        System.out.println("Tổng số lượng sản phẩm trong giỏ : " + tongSLSP_trongGio);
+
         model.addAttribute("sanPhamTrongGio", dsSanPhamTrongGio);
+        model.addAttribute("tongSoLuongSanPhamTrongGio",tongSLSP_trongGio);
         model.addAttribute("errorMessage", errorMessage);
         model.addAttribute("message", message);
-
-
 
         return "customer/gioHang/view_gio_hang";
     }
@@ -282,7 +288,6 @@ public class CartController {
         int tongSoLuongTrongGio = dsSanPhamGioKH.stream().mapToInt(SanPhamTrongGioHang::getSoLuong).sum();
 
         session.setAttribute("totalCartProducts", tongSoLuongTrongGio);
-
 
 //        System.out.println("Đặt hàng thành công");
 
@@ -1084,6 +1089,44 @@ public class CartController {
         jsonResult.put("status","Success");
         jsonResult.put("checkResult",checkResult);
 
+        return ResponseEntity.ok(jsonResult);
+    }
+
+    @PostMapping("/layTongSLTrongGio")
+    public ResponseEntity<Map<String, Object>> layTongSLTrongGio(
+            final Model model
+            , final HttpServletRequest request
+            , final HttpServletResponse response
+            , @RequestBody SanPhamTrongGioHang sanPhamTrongGioHang
+    ) throws IOException {
+        HttpSession session = request.getSession();
+        GioHang cart = null;
+
+        List<SanPhamTrongGioHang> dsSanPhamTrongGio = new ArrayList<>();
+
+        // nếu giỏ hàng không null, thì lấy session có tên cart gán vào giỏ hàng
+        if (session.getAttribute("cart") != null) {
+//            System.out.println("có sản phẩm trong giỏ hàng");
+            cart = (GioHang) session.getAttribute("cart"); // nếu cart đang tồn tại giá trị thì gán giá trị đang tồn tại của cart này vào
+            dsSanPhamTrongGio = cart.getDs_SanPhamTrongGioHang();
+        } else {  // chưa có j thì khởi tạo cart mới
+            cart = new GioHang();
+            session.setAttribute("cart", cart);
+        }
+
+        Integer tongSoLuongSP = 0;
+        if(dsSanPhamTrongGio!=null){
+            for(SanPhamTrongGioHang sanPhamTrongGio : dsSanPhamTrongGio){
+                tongSoLuongSP+=sanPhamTrongGio.getSoLuong();
+            }
+        }
+
+        Map<String, Object> jsonResult = new HashMap<>();
+        jsonResult.put("code", 200);
+        jsonResult.put("status", "Success");
+        jsonResult.put("tongSLTatCaSP", tongSoLuongSP);
+
+//        System.out.println("Chạy vào giỏ hàng xong ... cần redirect lại giỏ hàng ");
         return ResponseEntity.ok(jsonResult);
     }
 

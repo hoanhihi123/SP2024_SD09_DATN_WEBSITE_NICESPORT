@@ -327,45 +327,61 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <span>Hình thức thanh toán</span>
-                                        <select name="" class="form-control">
-                                            <option value="" class="form-control">Tiền mặt</option>
-                                            <option value="" class="form-control">Chuyển khoản</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <span>Mã giảm giá</span>
+                                        <span>Mã giảm giá áp dụng</span>
 
                                         <div class="row">
                                             <div class="col-lg-9">
-                                                <input type="text" placeholder="Nhập mã giảm giá" class="form-control">
+                                                <input type="text" id="maGiamGiaApDungHoaDon_active" placeholder="Chưa chọn phiếu giảm giá" class="form-control" readonly>
                                             </div>
                                             <a href="#" class="btn btn-success" data-toggle="modal"
                                                data-target="#chonMaGiamGia" onclick="chonMaGiamGia();"> <i class="menu-icon fa  fa-check-square-o" ></i> Chọn</a>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-top: 20px;">
+                                    <div class="col-lg-6"></div>
+                                    <div class="col-lg-6" style="margin-top: 20px;">
                                         <div class="row">
-                                            <span class="col-lg-4">Tổng tiền hàng: </span> <span class="col-lg-3" id="tongTienHang">6.500.000</span>
+                                            <span class="col-lg-6">Hình thức thanh toán:  </span> <span class="col-lg-3" >tiền mặt</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6" style="margin-top: 20px;">
+                                        <div class="row">
+                                            <span class="col-lg-6">Tổng tiền hàng: </span> <span class="col-lg-3" id="tongTienHang">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6" style="margin-top: 20px;">
+                                        <div class="row">
+                                            <span class="col-lg-6">Tiền được giảm: </span> <span class="col-lg-3" id="tienDuocGiam" >0</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" style="margin-top: 20px;">
+                                        <div class="row">
+                                            <span class="col-lg-6">Tổng thanh toán: </span> <span class="col-lg-3" id="tongTienThanhToan">0</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12" style="margin-top: 20px;">
+                                        <div class="row ">
+                                            <span class="col-lg-12">Tiền mặt khách hàng đưa:  </span>
+                                            <input type="number" id="tienKhachDua" min="0" onchange="nhapTienKhachDua_change();" value="" class="form-control col-lg-5" style="margin-left: 20px;">
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-top: 20px;">
-                                        <div class="row">
-                                            <span class="col-lg-4">Tiền được giảm: </span> <span class="col-lg-3" id="tienDuocGiam" >0</span>
+                                        <div class="row ">
+                                            <span class="col-lg-12">Tiền thừa trả khách:  </span>
+                                            <input type="number" id="tienThuaTraKhach" class="form-control col-lg-5" style="margin-left: 20px;" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-top: 20px;">
-                                        <div class="row">
-                                            <span class="col-lg-4">Tổng thanh toán: </span> <span class="col-lg-3" id="tongTienThanhToan">0</span>
-                                        </div>
-                                    </div>
+
+
                                     <div class="col-lg-12" style="margin-top: 20px;">
                                         <div class="row">
                                             <div class="col-lg-2">
                                                 <button class="btn btn-primary" onclick="taoHoaDonThanhToan();">Thanh toán</button>
                                             </div>
                                             <div class="col-lg-2" style="margin-left:-40px;">
-                                                <button class="btn btn-warning">Hủy hóa đơn</button>
+                                                <button class="btn btn-warning" onclick="xacNhanHuyHoaDon();">Hủy hóa đơn</button>
                                             </div>
 
                                         </div>
@@ -621,42 +637,28 @@
                                     <div class=" card-body" style="">
                                         <form class="row" method="post" action="">
                                             <div class="col-lg-6">
-                                                <span>Tên khách hàng <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <input type="text" id="tenKhachHang" class="form-control">
+                                                <span>Tên khách hàng (<i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i>)</span>
+                                                <input type="text" id="tenKhachHang" class="form-control" onchange="resetTenKhachHang();"> <br>
+                                                <span id="checkTenKhachHang" style="color: red;"></span>
                                             </div>
                                             <div class="col-lg-6">
-                                                <span>Số điện thoại <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <input type="text" id="sdtKhachHang" class="form-control">
+                                                <span>Số điện thoại (<i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i>)</span>
+                                                <input type="number" id="sdtKhachHang" class="form-control" onchange="resetSDTKhachHang();"> <br>
+                                                <span id="checkSDTKhachHang" style="color: red;"></span>
                                             </div>
                                             <div class="col-lg-12">
-                                                <span>Email <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <input type="text" id="emailKhachHang" class="form-control">
+                                                <span>Email (<i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i>)</span>
+                                                <input type="email" id="emailKhachHang" class="form-control" onchange="resetEmailKhachHang();"> <br>
+                                                <span id="checkEmailKhachHang" style="color: red;"></span>
                                             </div>
                                             <div class="col-lg-6" style="margin-top: 10px; margin-bottom: 10px;">
-                                                <span style="margin-right: 10px;">Giới tính: <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i> </span>
-                                                <input id="gioiTinh1" style="transform: scale(1.5); margin-right: 10px;" name="gioiTinh" checked="true" type="radio" value="1" > Nữ <span style="margin-right: 10px;"></span>
-                                                <input id="gioiTinh2" style="transform: scale(1.5); margin-right: 10px;"  name="gioiTinh" checked="true" type="radio" value="1"> Nam <br>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <span>Địa chỉ cụ thể <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <input type="text" id="diaChiCuTheKhachHang" class="form-control">
-                                            </div>
-
-                                            <div class="col-lg-4" style="margin-top: 10px;">
-                                                <span>Tỉnh/Thành phố <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <select name="" id="province" class="form-control"></select>
-                                            </div>
-                                            <div class="col-lg-4" style="margin-top: 10px;">
-                                                <span>Quận/huyện <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <select name="" id="district" class="form-control"></select>
-                                            </div>
-                                            <div class="col-lg-4" style="margin-top: 10px;">
-                                                <span>Phường/xã <i class="fa fa-asterisk" style="color: red; font-size: smaller;"></i></span>
-                                                <select name="" id="ward" class="form-control"></select>
+                                                <span style="margin-right: 15px;">Giới tính: </span>
+                                                <input id="gioiTinh1" style="transform: scale(1.5); margin-right: 5px;" name="gioiTinh"  type="radio" value="1" > Nữ <span style="margin-right: 10px;"></span>
+                                                <input id="gioiTinh2" style="transform: scale(1.5); margin-right: 5px;"  name="gioiTinh" checked="true" type="radio" value="0"> Nam <br>
                                             </div>
 
                                             <div class="col-lg-12 text-right" style="margin-top: 20px;">
-                                                <button class="btn btn-success"> <i class="menu-icon fa fa-plus"></i> Thêm mới</button>
+                                                <a href="#" class="btn btn-success" onclick="themMoiKhachHang();"> <i class="menu-icon fa fa-plus"></i> Thêm mới</a>
                                             </div>
                                         </form>
                                     </div>
@@ -778,10 +780,21 @@
                     if(idHoaDon_active!==null){
                         fetchDataAndFillTable_danhSachHoaDonCho();
                         phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+                        layThongTinHoaDonActive_idDotKhuyenMai();
                     }
 
+                    // tongTienDonHang(idHoaDon_active);
                     tongTienDonHang(idHoaDon_active).then(function(tongTien) {
                         console.log("Tổng tiền đơn hàng: " + tongTien);
+                        if (tongTien > 0) {
+                            // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                            document.getElementById("tienKhachDua").removeAttribute("readonly");
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }else{
+                            document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                            document.getElementById("tienKhachDua").value='0';
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }
                     }).catch(function(error) {
                         console.log("Đã xảy ra lỗi: " + error);
                     });
@@ -877,6 +890,15 @@
                     var tongTienDonHang = 0;
                     tongTienDonHang(idHoaDon_active).then(function(tongTien) {
                         tongTienDonHang = tongTien;
+                        if (tongTien > 0) {
+                            // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                            document.getElementById("tienKhachDua").removeAttribute("readonly");
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }else{
+                            document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                            document.getElementById("tienKhachDua").value='0';
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }
                     }).catch(function(error) {
                         console.log("Đã xảy ra lỗi: " + error);
                     });
@@ -919,6 +941,15 @@
 
                 tongTienDonHang(idHoaDong).then(function(tongTien) {
                     console.log("Tổng tiền đơn hàng: " + tongTien);
+                    if (tongTien > 0) {
+                        // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                        document.getElementById("tienKhachDua").removeAttribute("readonly");
+                        document.getElementById("tienThuaTraKhach").value='0';
+                    }else{
+                        document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                        document.getElementById("tienKhachDua").value='0';
+                        document.getElementById("tienThuaTraKhach").value='0';
+                    }
                 }).catch(function(error) {
                     console.log("Đã xảy ra lỗi: " + error);
                 });
@@ -926,6 +957,7 @@
                 // Điền dữ liệu vào bảng
                 fillTableWithData_choHoaDonChiTiet(dsHoaDonChiTiet);
                 fetchData_khachHang_lenFormThongTinKhachHang(khachHangCuaHoaDon.hoTen,khachHangCuaHoaDon.soDT, khachHangCuaHoaDon.email);
+
             },
 
             error : function(jqXhr, textStatus, errorMessage) {
@@ -956,7 +988,7 @@
                 "<td>" + item.chiTietSanPham.sanPham.ten + "</td>" +
                 "<td>Size: " + item.chiTietSanPham.kichCo.ten + " - màu: " + item.chiTietSanPham.mauSac.ten + "</td>" +
                 hienThiGiaSanPham +
-                "<td><input type='text' id='" + item.chiTietSanPham.id + "'class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>" +
+                "<td><input type='text' id='" + item.chiTietSanPham.id + "' class='form-control' min='1' value='" + item.soLuong + "' style='width: 70px;' onchange='handleChangeSoLuongMua(this.value, \""+ item.soLuong + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.soLuong + "\")'></td>"+
                 "<td>" + item.donGia + "</td>" +
                 "<td><a href='#' class='btn btn-warning' onclick='xoaSanPhamKhoiHoaDonCT(\"" + item.hoaDon.id + "\", \"" + item.chiTietSanPham.id + "\", \"" + item.chiTietSanPham.sanPham.ten + "\");'><i class='menu-icon fa fa-trash-o'></i> Xóa</a></td>" +
                 "</tr>";
@@ -965,6 +997,27 @@
             tableBody.append(row);
         });
 
+
+    }
+
+    function layThongTinHoaDonActive_idDotKhuyenMai(){
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        let data = {
+            idHoaDon: idHoaDon_active
+        };
+        $.ajax({
+            url: "http://localhost:8080/api/ban-hang/getIdDotKhuyenMaiApDung",
+            type : "POST",
+            contentType: "application/json",
+            data : JSON.stringify(data),
+            success: function(data) {
+                console.log("mã giẩm giá áp dụng : " + data);
+                document.getElementById("maGiamGiaApDungHoaDon_active").value=data;
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            }
+        });
 
     }
 
@@ -1069,6 +1122,7 @@
 
         fetchDataAndFillTable_danhSachHoaDonCho();
         phanTrangSanPhamCT_trongChonHoaDonCho(0,4,idHoaDon_active);
+        layThongTinHoaDonActive_idDotKhuyenMai();
     });
 
 
@@ -1472,6 +1526,16 @@
         phanTrangSanPhamCT_trongChonPhieuGiamGia = function( currentPage , pageLimit, tongTienDonHang) {
             console.log("Tổng tiefn đơn hàng " + tongTienDonHang + " tại phanTrangSanPhamCT_trongChonPhieuGiamGia");
 
+            if (tongTienDonHang > 0) {
+                // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                document.getElementById("tienKhachDua").removeAttribute("readonly");
+                document.getElementById("tienThuaTraKhach").value='0';
+            }else{
+                document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                document.getElementById("tienKhachDua").value='0';
+                document.getElementById("tienThuaTraKhach").value='0';
+            }
+
             let data = {
                 currentPage: currentPage ,
                 pageLimit: pageLimit ,
@@ -1532,6 +1596,15 @@
                 tongTienDonHang(idHoaDon_active).then(function(tongTien) {
                     // Gọi hàm để lấy dữ liệu cho trang mới
                     if(tongTien>0 && tongTien!==null){
+                        if (tongTien > 0) {
+                            // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                            document.getElementById("tienKhachDua").removeAttribute("readonly");
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }else{
+                            document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                            document.getElementById("tienKhachDua").value='0';
+                            document.getElementById("tienThuaTraKhach").value='0';
+                        }
                         phanTrangSanPhamCT_trongChonPhieuGiamGia((currentPage-1), pageLimit,tongTien);
                     }
                 }).catch(function(error) {
@@ -1561,7 +1634,7 @@
                 dataType : "json", //Kieu du lieu tra ve tu controller la json
 
                 success : function(jsonResult) {
-
+                    console.log("Số lượng phiếu giảm giá phù hợp : " + jsonResult.length);
                     var totalPages = Math.ceil(jsonResult.length / pageLimit);
                     console.log("Tổng số trang của phiếu giảm giá : " + totalPages);
 
@@ -2095,6 +2168,7 @@
         }
     }
 
+
     function layIDPhieuGiamGiaDuocChon(idPhieuGiamGia){
         var idHoaDon_active = layIDCuaButtonTabPane_active();
         var idPhieuGiamGiaDuocChon = idPhieuGiamGia;
@@ -2131,16 +2205,27 @@
         console.log("Chạy vào hàm chonMaGiamGia() ");
         var idHoaDon_active = layIDCuaButtonTabPane_active();
 
+
         // Sử dụng promise để lấy tổng tiền đơn hàng
         tongTienDonHang(idHoaDon_active).then(function(tongTien) {
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng - trong load trang phieuGiamGia: " + tongTien);
             if(tongTien !== null && tongTien > 0) {
                 fetchDataAndFillTable_danhSachPhieuGiamGia(tongTien);
-
+                layThongTinHoaDonActive_idDotKhuyenMai();
                 // var idHoaDon_active = layIDCuaButtonTabPane_active();
                 // pagination for list product detail
                 phanTrangSanPhamCT_trongChonPhieuGiamGia(0, 4, tongTien);
+                    // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+
+                document.getElementById("tienKhachDua").removeAttribute("readonly");
+                document.getElementById("tienThuaTraKhach").value='0';
+
+            }else{
+                document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                document.getElementById("tienKhachDua").value='0';
+                document.getElementById("tienThuaTraKhach").value='0';
             }
+
         }).catch(function(error) {
             console.log("Đã xảy ra lỗi: " + error);
         });
@@ -2151,6 +2236,15 @@
         var idHoaDon_active = layIDCuaButtonTabPane_active();
         tongTienDonHang(idHoaDon_active).then(function(tongTien) {
             // console.log("Tổng tiền tính được khi ở hàm taoHoaDonThanhToan" + tongTien);
+            if (tongTien > 0) {
+                // Bỏ thuộc tính readonly cho một phần tử có id là "elementId"
+                document.getElementById("tienKhachDua").removeAttribute("readonly");
+                document.getElementById("tienThuaTraKhach").value='0';
+            }else{
+                document.getElementById("tienKhachDua").setAttribute("readonly", true);
+                document.getElementById("tienKhachDua").value='0';
+                document.getElementById("tienThuaTraKhach").value='0';
+            }
 
             if(tongTien===0){
                 alert("Vui lòng chọn sản phẩm vào hóa đơn để thưc hiện thanh toán");
@@ -2199,10 +2293,10 @@
     }
 
     function handleChangeSoLuongMua( soLuongMuaMoi,  soLuongMuaCu, idSanPhamChiTiet, idHoaDon, soLuongTrongKho) {
-        console.log("Hàm xử lý thay đổi số lượng mua ");
+        // console.log("Hàm xử lý thay đổi số lượng mua ");
         // console.log("Số lượng mua mới : " + soLuongMuaMoi);
-        // console.log("Số lượng mua cũ : " + soLuongCu);
-        // console.log("ID sản phẩm chi tiết : " + idSanPhamCT);
+        // console.log("Số lượng mua cũ : " + soLuongMuaCu);
+        // console.log("ID sản phẩm chi tiết : " + idSanPhamChiTiet);
         // console.log("Số lượng trong kho : " + soLuongTrongKho);
         // console.log("ID hóa đơn : " + idHoaDon);
 
@@ -2215,13 +2309,13 @@
         var idHoaDon = idHoaDon;
         var soLuongTonKho = soLuongTrongKho;
 
-        if(soLuongMuaMoi < 0){
+        if(parseInt(soLuongMuaMoi) < 0){
             alert("Bạn chỉ cập nhật được số lượng mua > 0, vui lòng nhập số lượng mua phù hợp ");
             document.getElementById(idSanPhamCT).value= soLuongCu;
             return;
         }
 
-        if(soLuongMuaMoi > soLuongTonKho){
+        if(parseInt(soLuongMuaMoi) > parseInt(soLuongTonKho)){
             alert("Số lượng sản phẩm được chọn vượt quá trong kho \n Số lượng có thể mua trong kho là : " + soLuongTrongKho);
             document.getElementById(idSanPhamCT).value= soLuongCu;
             return;
@@ -2250,10 +2344,176 @@
                 console.log("Error: " + error);
             }
         });
+    }
 
+    function themMoiKhachHang(){
+        console.log("Chạy vào hàm : Thêm mới khách hàng")
+        // tenKhachHang
+        // sdtKhachHang
+        // emailKhachHang
+        var tenKhachHang = document.getElementById("tenKhachHang").value;
+        var sdtKhachHang = document.getElementById("sdtKhachHang").value;
+        var emailKhachHang = document.getElementById("emailKhachHang").value;
+        var gioiTinhElements = document.getElementsByName('gioiTinh');
+        var gioiTinhKhachHang;
+        for (var i = 0; i < gioiTinhElements.length; i++) {
+            if (gioiTinhElements[i].checked) {
+                gioiTinhKhachHang = gioiTinhElements[i].value;
+                break;
+            }
+        }
+
+
+        var regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Biểu thức chính quy kiểm tra định dạng email
+
+        var isCheck = true;
+        var regexTenKhachHang = /^[a-zA-Z0-9]+$/; // Biểu thức chính quy kiểm tra chỉ chứa ký tự chữ cái và số
+        var regexSDTKhachHang = /^[0-9]+$/; // Biểu thức chính quy kiểm tra chỉ chứa ký tự chữ cái và số
+
+
+        // Kiểm tra xem tên khách hàng có chứa khoảng trắng không, có rỗng ko
+        if (tenKhachHang.trim().length==0 || tenKhachHang === "") {
+            document.getElementById("checkTenKhachHang").innerText = "Vui lòng nhập tên khách hàng, không chứa ký tự đặc biệt";
+            isCheck = false;
+        }
+
+        // Kiểm tra xem tên khách hàng có chứa ký tự đặc biệt không
+        if (!regexTenKhachHang.test(tenKhachHang)) {
+            document.getElementById("checkTenKhachHang").innerText = "Tên khách hàng không được chứa ký tự đặc biệt.";
+            isCheck = false;
+        }
+
+        // Kiểm tra xem sdt khách hàng có chứa khoảng trắng không, có rỗng ko
+        if (sdtKhachHang.trim().length==0 || sdtKhachHang === null) {
+            document.getElementById("checkSDTKhachHang").innerText = "Vui lòng nhập sdt khách hàng, không chứa ký tự đặc biệt";
+            isCheck = false;
+        }
+
+        var sdtKhachHang = document.getElementById("sdtKhachHang").value;
+        // Kiểm tra xem sdt khách hàng có chứa ký tự đặc biệt không
+        if (!regexSDTKhachHang.test(sdtKhachHang) || sdtKhachHang.length > 10 || sdtKhachHang.length < 10 || sdtKhachHang <= 0) {
+            document.getElementById("checkSDTKhachHang").innerText = "Nhập SDT tối thiểu 10 số  và không được chứa ký tự đặc biệt.";
+            isCheck = false;
+        }
+
+
+
+        if (emailKhachHang.trim().length==0 || emailKhachHang === "") {
+            document.getElementById("checkEmailKhachHang").innerText = "Vui lòng không để trống email, nhập đúng định dạng vd: email123@gmail.com";
+            isCheck = false;
+        }
+
+        if (!regexEmail.test(emailKhachHang)) {
+            document.getElementById("checkEmailKhachHang").innerText = "Vui lòng nhập đúng định dạng email vd: email123@gmail.com";
+            isCheck = false;
+        }
+
+        if(isCheck==false){
+            return;
+        }
+
+        document.getElementById("checkEmailKhachHang").value="";
+        document.getElementById("checkSDTKhachHang").value="";
+        document.getElementById("checkTenKhachHang").value="";
+
+
+        let data = {
+            tenKhachHang : tenKhachHang,
+            sdt : sdtKhachHang,
+            email : emailKhachHang,
+            gioiTinh: gioiTinhKhachHang
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/ban-hang/taoMoiKhachHang",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+            success: function(data) {
+                document.getElementById("tenKhachHang").value="";
+                document.getElementById("sdtKhachHang").value="";
+                document.getElementById("emailKhachHang").value="";
+
+                alert(data.message);
+
+                // fill data to table list product detail
+                fetchDataAndFillTable_danhSachKhachHang();
+                // pagination for list product detail
+                phanTrangSanPhamCT_trongChonKhachHang();
+
+            },
+            error: function(error) {
+                console.log("Error: " + error);
+            }
+        });
+
+    }
+
+    function resetTenKhachHang() {
+        document.getElementById("checkTenKhachHang").innerText= "";
+    }
+
+    function resetSDTKhachHang() {
+        document.getElementById("checkSDTKhachHang").innerText= "";
+    }
+
+    function resetEmailKhachHang() {
+        document.getElementById("checkEmailKhachHang").innerText= "";
+    }
+
+    function xacNhanHuyHoaDon(){
+        console.log("Chạy vào xác nhận hủy hóa đơn");
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        console.log("IdHoaDon_active : " + idHoaDon_active);
+        huyHoaDon(idHoaDon_active);
+    }
+
+
+
+
+    function nhapTienKhachDua_change() {
+        document.getElementById("tienThuaTraKhach").value='';
+
+        console.log("Chạy vào hàm nhập tiền khách đưa");
+        var tienKhachDua = document.getElementById("tienKhachDua").value;
+        var regex = /^[0-9]+(\.[0-9]+)?$/;
+        // kiểm tra không rỗnga
+        var isCheck = true;
+
+        if(tienKhachDua==="" || tienKhachDua===null){
+            alert("Vui lòng nhập tiền khách đưa để tính tiền thừa");
+            tienKhachDua.focus();
+            isCheck = false;
+        }
+
+        // kiểm tra không được phép nhập chữ / ký tự đặc biệt
+        if(!regex.test(tienKhachDua)){
+            alert("Vui lòng nhập tiền khách đưa không chứa chữ hoặc ký tự đặc biệt");
+            isCheck = false;
+        }
+        // oke => chuyển sang kiểu float
+        if(isCheck===false){
+            return;
+        }
+
+        var tienKhachDuaNumber = parseFloat(tienKhachDua);
+
+        var idHoaDon_active = layIDCuaButtonTabPane_active();
+        // từ tổng tiền hàng lấy ra giá trị => tongTienHang, nếu >0 => set bỏ readonly cho element theo id chỉ định
+        tongTienDonHang(idHoaDon_active).then(function(tongTien) {
+            var tienThua =  tienKhachDuaNumber - tongTien;
+            document.getElementById("tienThuaTraKhach").value=tienThua;
+
+        }).catch(function(error) {
+            console.log("Đã xảy ra lỗi: " + error);
+        });
 
 
     }
+
+
 
 </script>
 

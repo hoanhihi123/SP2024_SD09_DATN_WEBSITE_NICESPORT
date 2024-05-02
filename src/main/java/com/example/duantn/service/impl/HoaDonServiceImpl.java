@@ -1,5 +1,6 @@
 package com.example.duantn.service.impl;
 
+import com.example.duantn.model.ChiTietSanPham;
 import com.example.duantn.model.HoaDon;
 import com.example.duantn.model.HoaDonChiTiet;
 import com.example.duantn.model.SanPham;
@@ -55,6 +56,10 @@ public class HoaDonServiceImpl implements HoaDonService {
         return hoaDon;
     }
 
+    public HoaDon chiTietTheoId(UUID id) {
+        return hoaDonRepository.findById(id).orElse(null);
+    }
+
 
 
     @Override
@@ -88,10 +93,10 @@ public class HoaDonServiceImpl implements HoaDonService {
             hoaDonRepository.capNhatHoaDon_apDungPhieuGiamGiaNao(idHoaDon, idPhieuGiamGia);
         }
 
-        public HoaDon chiTietTheoId(UUID id) {
-            Optional<HoaDon> optionalHoaDon = hoaDonRepository.findById(id);
-            return optionalHoaDon.orElse(null);
-        }
+//        public HoaDon chiTietTheoId(UUID id) {
+//            Optional<HoaDon> optionalHoaDon = hoaDonRepository.findById(id);
+//            return optionalHoaDon.orElse(null);
+//        }
 
     public HoaDon capNhat(HoaDon hoaDon) {
         return hoaDonRepository.save(hoaDon);

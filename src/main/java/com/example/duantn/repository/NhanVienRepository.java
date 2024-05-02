@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface NhanVienRepository extends JpaRepository<NhanVien, UUID> {
-    @Query(value = "select * from NhanVien order by ngayTao desc", nativeQuery = true)
+    @Query(value = "select * from NhanVien where trangThai=1 order by ngayTao desc", nativeQuery = true)
     public List<NhanVien> getAll();
 
     // getAll

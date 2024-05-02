@@ -189,7 +189,7 @@
 
                 </div>
                 <div class="card-body">
-                    <form:form action="/nhan-vien/them" method="post" modelAttribute="nhanVien" class="row">
+                    <form:form action="/admin/nhan-vien/them" method="post" modelAttribute="nhanVien" class="row">
                         <div class="col-lg-6" >
                             Tên nhân viên (<i class="fa fa-asterisk" style="color: red;"></i>)
                             <form:input path="hoVaTen" name="hoVaTen" type="text" class="form-control" />
