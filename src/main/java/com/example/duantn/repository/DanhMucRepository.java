@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface DanhMucRepository extends JpaRepository<DanhMuc, UUID> {
-    @Query(value = "select * from DanhMuc order by ngaySua desc", nativeQuery = true)
+    @Query(value = "select * from DanhMuc order by ngayTao desc", nativeQuery = true)
     public List<DanhMuc> getAll();
 
     // getAll

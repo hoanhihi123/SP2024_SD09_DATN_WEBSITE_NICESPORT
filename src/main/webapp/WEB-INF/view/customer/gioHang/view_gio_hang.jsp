@@ -189,27 +189,6 @@
                             </span>
                         </a>
 
-                        <%--                            <div class="dropdown-menu dropdown-menu-right">--%>
-                        <%--                                <div class="dropdown-cart-products">--%>
-
-
-
-                        <%--                                </div><!-- End .cart-product -->--%>
-
-                        <%--                                <div class="dropdown-cart-total">--%>
-                        <%--                                    <span>Thanh toán</span>--%>
-
-                        <%--                                    <span class="cart-total-price">$160.00</span>--%>
-                        <%--                                </div><!-- End .dropdown-cart-total -->--%>
-
-                        <%--                                <div class="dropdown-cart-action">--%>
-                        <%--                                    <a href="cart.html" class="btn btn-primary">View Cart</a>--%>
-                        <%--                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i--%>
-                        <%--                                            class="icon-long-arrow-right"></i></a>--%>
-                        <%--                                </div><!-- End .dropdown-cart-total -->--%>
-                        <%--                            </div><!-- End .dropdown-menu -->--%>
-                        <%--                        --%>
-
                     </div><!-- End .cart-dropdown -->
                 </div><!-- End .header-right -->
             </div><!-- End .container -->
@@ -291,7 +270,7 @@
                                                                </td>
                                                         <td class="quantity-col">
                                                             <div class="cart-product-quantity">
-                                                                <input type="number"  value="${sanPhamTrongGio.soLuong}" min="0" step="1"
+                                                                <input type="number"  value="${sanPhamTrongGio.soLuong}" min="1" step="1"
                                                                        onchange="changeNumberProduct('${sanPhamTrongGio.idSanPhamCT}',this.value)" />
 
                                                             </div>
@@ -628,7 +607,25 @@
     // Hàm để gửi dữ liệu về server để lưu vào session
     function changeNumberProduct(idSanPhamCT, soLuong) {
         // console.log("id sản phẩm:" + idSanPhamCT + "số lượng sản phẩm: " + soLuong);
-        // /gio-hang/view-gio
+
+        // lấy ra tổng số lượng + số lượng thêm => vượt quá 10 thì đưa ra thông báo
+        // nếu mà vượt quá => set value cho input tại nơi sửa dữ liệu = là giá trị cũ
+        // return để ngăn chặn thực hiện câu lệnh phía sau
+        var tongSoLuongTrongGio = 0;
+        tongSoLuongSPTrongGio().then(function(tongSoLuongSPGio) {
+            tongSoLuongTrongGio = tongSoLuongSPGio;
+        }).catch(function(error) {
+            console.log("Đã xảy ra lỗi: " + error);
+        });
+
+        var soLuongCheck = tongSoLuongTrongGio + soLuong;
+
+        if(soLuongCheck>10){
+            alert("Giỏ hàng chỉ chứa tối đa 10 sản phẩm ");
+            window.location.href = "/gio-hang/view-gio";
+            return;
+        }
+
         $.ajax({
             type: "POST",
             url: "/gio-hang/capNhatSoLuongSPCT", // Đường dẫn đến endpoint xử lý yêu cầu Ajax
@@ -660,6 +657,7 @@
             }
         });
     }
+
 </script>
 
 <script type="text/javascript">
@@ -739,6 +737,36 @@
 
         });
     }
+
+    function tongSoLuongSPTrongGio() {
+        console.log(">>>>>>>>>>>>> vào hàm tongTienDonHang()");
+        let data = {
+            // idHoaDon: idHoaDon_active
+        };
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                url: "http://localhost:8080/gio-hang/layTongSLTrongGio",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json", //Kieu du lieu tra ve tu controller la json
+
+                success: function(data) {
+                    var tongSLSP_trongGio = data.tongSLTatCaSP;
+
+                    console.log("=>>>>>>>>>>>>>>>>>>> Tổng tiền đơn hàng o tinh tong tien hang : " + tongSLSP_trongGio);
+                    resolve(tongSLSP_trongGio); // Trả về tổng tiền đơn hàng qua promise
+                },
+                error: function(error) {
+                    console.log("Error: " + error);
+                    reject(error); // Trả về lỗi nếu có lỗi xảy ra
+                }
+            });
+        });
+
+    }
+
+
 </script>
 
 

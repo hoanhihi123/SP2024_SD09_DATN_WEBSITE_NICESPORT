@@ -112,7 +112,7 @@
                                         <sf:errors path="trangThai" cssClass="text-danger" />
 
                                     </div>
-                                    <div class="col-lg-9" style="margin-top: 20px;"  >
+                                    <div class="col-lg-12" style="margin-top: 20px;"  >
                                         <c:if test="${messageSuccess==true}">
                                             <%--                                style="z-index: 9999; position: fixed; top: 10px; right: 10px; width: 350px;"--%>
                                             <div id="messageAlertSuccess" class="alert alert-primary alert-dismissible "  style="width: 300px;" >
@@ -132,9 +132,11 @@
                                             </script>
                                         </c:if>
                                     </div>
-                                    <div class="col-lg-3" style="margin-top: 20px; ">
-                                        <button class="btn btn-success"> <i class="menu-icon fa fa-pencil-square-o"></i></a> Sửa  </button>
-                                        <a href="/san-pham/hien-thi" class="btn btn-secondary" > <i class="menu-icon fa fa-undo"></i> Quay lại</a>
+
+                                    <div class="col-lg-12 d-flex justify-content-end" style="margin-top: 20px; ">
+                                        <button class="btn btn-success mr-2"> <i class="menu-icon fa fa-pencil-square-o"></i></a> Sửa  </button>
+                                        <a href="/san-pham/hien-thi" class="btn btn-primary mr-2" > <i class="menu-icon fa fa-plus"></i> Thêm mới</a>
+                                        <a href="/admin/quanLySanPham/view-tao-sanPhamChiTiet" class="btn btn-secondary mr-2" > <i class="menu-icon fa fa-undo"></i> Quay lại</a>
                                     </div>
                                 </sf:form>
 

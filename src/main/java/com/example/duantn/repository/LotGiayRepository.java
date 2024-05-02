@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface LotGiayRepository extends JpaRepository<LotGiay, UUID> {
-    @Query(value = "select * from LotGiay ",nativeQuery = true)
+    @Query(value = "select * from LotGiay order by ngayTao desc",nativeQuery = true)
     List<LotGiay> getAll();
 
     @Query(value = "select * from LotGiay order by ten desc",

@@ -131,12 +131,10 @@
                         <div class="col-lg-4" style="margin-top: 20px; ">
                             <button class="btn btn-primary">
                                 <i class="menu-icon fa fa-plus"></i> Thêm mới </button>
-                            <a href="/san-pham/hien-thi" class="btn btn-secondary" style="margin-left: 10px;">
+                            <a href="/admin/quanLySanPham/view-tao-sanPhamChiTiet" class="btn btn-secondary" style="margin-left: 10px;">
                                 <i class="menu-icon fa fa-undo"></i> Quay lại</a>
                         </div>
                     </sf:form>
-
-
                 </div>
             </div>
         </div><!-- .animated -->

@@ -14,14 +14,25 @@ import java.util.UUID;
 
 @Repository
 public interface KhachHangRepository extends JpaRepository<KhachHang, UUID> {
+
+    // hoan code
+    @Query(value = "select * from KhachHang where SoDT =:phoneNumber", nativeQuery = true)
+    public List<KhachHang> getAllBySDT_Customer(@Param("phoneNumber") String phoneNumber);
+
+    @Query(value = "select * from KhachHang where SoDT =:phoneNumber", nativeQuery = true)
+    public KhachHang getCustomerOnlyByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
+    @Query(value = "select * from KhachHang where SoDT =:phoneNumber",
+            countQuery = "select count(*) from KhachHang where SoDT =:phoneNumber", nativeQuery = true)
+    public Page<KhachHang> getAllBySDT_Customer_phanTrang(@Param("phoneNumber") String phoneNumber, Pageable pageable);
+
+    // hoan code
+
     @Query(value = "select * from KhachHang order by ngaySua desc", nativeQuery = true)
     public List<KhachHang> getAll();
 
-
-
     @Query(value = "select * from KhachHang where Ma =:textSearch  order by hoTen desc",
             countQuery = "select count(*) from KhachHang where Ma =:textSearch ", nativeQuery = true)
-
     public List<KhachHang> getAllTheoMa(@Param("textSearch") String textSearch);
 
     @Query(value = "select HoTen from KhachHang where HoTen =:textSearch  order by HoTen desc",

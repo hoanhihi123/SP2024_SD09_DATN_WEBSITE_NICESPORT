@@ -32,7 +32,7 @@ public class HoaDon  {
     private NhanVien nhanVien;
 
     @Column(name = "Ma")
-    private String ma;
+    private Integer ma;
 
     @Column(name = "NgayMua")
     private Date ngayMua;
@@ -44,7 +44,6 @@ public class HoaDon  {
     @Column(name = "NgayGiao")
     private Date ngayGiao;
 
-
     @Column(name = "NgayThanhToan")
     private Date ngayThanhToan;
 
@@ -54,9 +53,8 @@ public class HoaDon  {
     @Column(name = "TienVanChuyen")
     private Double tienVanChuyen;
 
-
-    @Column(name = "TongTienGiamGia")
-    private Double tongTienGiamGia;
+    @Column(name = "TongTienDuocGiamGia")
+    private Double tongTienDuocGiamGia;
 
     @Column(name = "TenKH")
     private String tenKH;
@@ -87,4 +85,21 @@ public class HoaDon  {
 
     @Column(name = "phuong_xa")
     private String phuong_xa;
+
+    // hoan them
+        @Column(name = "loaiHoaDon")
+        private String loaiHoaDon;
+
+        @Column(name = "NgaySua")
+        private Date ngaySua;
+
+        @Column(name = "NgayTao")
+        private Date ngayTao;
+
+        @Column(name = "NguoiSua")
+        private Integer nguoiSua;
+
+        @Column(name = "NguoiTao")
+        private Integer nguoiTao;
+    // hoan them
 }

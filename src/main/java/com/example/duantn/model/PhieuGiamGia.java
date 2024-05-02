@@ -28,9 +28,6 @@ public class PhieuGiamGia extends BaseModel{
     @Column(name = "HinhThucGiam")
     private String hinhThucGiam;
 
-    @Column(name = "DieuKienGiam")
-    private String dieuKienGiam;
-
     @Column(name = "GiaTienXetDieuKien")
     private Double giaTienXetDieuKien;
 
@@ -39,5 +36,8 @@ public class PhieuGiamGia extends BaseModel{
 
     @Column(name = "NgayKetThuc")
     private Date ngayKetThucApDung;
+
+    @Column(name = "soLuong")
+    private Integer soLuong;
 
 }

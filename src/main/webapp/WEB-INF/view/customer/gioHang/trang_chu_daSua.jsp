@@ -285,21 +285,17 @@
 <%--                                        <c:forEach items="${dsLoaiSP_trongSanPhamCT}" var="loaiSanPham">--%>
                                             <c:if   test="${sanPhamChiTiet.danhMuc.ten == 'Nam'}">
                                                  <div class="col-6 col-md-4 col-lg-4 col-xl-3">
-                                                <div class="product product-7 text-center">
+                                                    <div class="product product-7 text-center">
                                                     <figure class="product-media">
-                                                        <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
-                                                         </span>
+                                                        <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
+                                                            <span class="product-label label-new">
+                                                                <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
+                                                             </span>
+                                                        </c:if>
+
                                                         <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-
-                                                            <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                            <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                         </a>
-
-<%--                                                        <div class="product-action-vertical">--%>
-<%--                                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>Thêm vào yêu thích</span></a>--%>
-<%--                                                        </div>--%>
-                                                        <!-- End .product-action-vertical -->
 
                                                         <div class="product-action">
                                                             <a href="#" class="btn-product btn-cart" onclick="addToCart('${sanPhamChiTiet.id}', 1);"><span>Thêm vào giỏ</span></a>
@@ -315,38 +311,42 @@
 <%--                                                        <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                         <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                        <div class="product-price">
-                                                            <strike style="color: black !important;">
-                                                            <fmt:formatNumber type = "number"
-                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                            </strike>
+                                                        <div class="product-price" style="margin-top: 5px;">
+                                                            <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                                <s style="color: black !important;">
 
-                                                            <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                            <b style="color: red;">
-                                                                <fmt:formatNumber type = "number"
-                                                                                  maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                                </s>
 
-                                                            </b>
+                                                                <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                                <b style="color: red;">
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                                </b>
+                                                            </c:if>
+                                                            <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                                <b style="color: red;" style="margin-top: 100px;">
+                                                                    <fmt:formatNumber type = "number"
+                                                                                      maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                                </b>
+                                                            </c:if>
+
                                                         </div><!-- End .product-price -->
+
                                                         <div class="ratings-container">
 
                                                         </div><!-- End .rating-container -->
 
                                                         <div class="product-nav product-nav-thumbs">
                                                             <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
-                                                                <img src="${sanPhamChiTiet.hinhAnh}" alt="product desc">
-                                                            </a>
-                                                            <!-- <a href="#">
-                                                                <img src="/user/assets/imagesgiay/giay11-2.jpg" alt="product desc">
+                                                                <img src="${pageContext.servletContext.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                             </a>
 
-                                                            <a href="#">
-                                                                <img src="/user/assets/images/products/product-4-3-thumb.jpg" alt="product desc">
-                                                            </a> -->
                                                         </div>
                                                     </div><!-- End .product-body -->
                                                 </div><!-- End .product -->
-                                            </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                                                 </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
                                             </c:if>
 <%--                                        </c:forEach>--%>
                                     </c:forEach>
@@ -376,12 +376,13 @@
                                     <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
-                                                        <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
-                                                         </span>
+                                                <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
+                                                            <span class="product-label label-new">
+                                                                <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
+                                                             </span>
+                                                </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-                                                    <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                    <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
 
 <%--                                                <div class="product-action-vertical">--%>
@@ -402,26 +403,37 @@
 <%--                                                <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                 <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                <div class="product-price">
-                                                    <strike style="color: black !important;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                    </strike>
+                                                <div class="product-price" style="margin-top: 5px;">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                        <s style="color: black !important;">
 
-                                                    <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                    <b style="color: red;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                        </s>
 
-                                                    </b>
+                                                        <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                        <b style="color: red;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                        <b style="color: red;" style="margin-top: 100px;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+
                                                 </div><!-- End .product-price -->
+
+
                                                 <div class="ratings-container">
 
                                                 </div><!-- End .rating-container -->
 
                                                 <div class="product-nav product-nav-thumbs">
                                                     <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}" class="active">
-                                                        <img src="${sanPhamChiTiet.hinhAnh}" alt="product desc">
+                                                        <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="product desc">
                                                     </a>
                                                     <!-- <a href="#">
                                                         <img src="/user/assets/imagesgiay/giay11-2.jpg" alt="product desc">
@@ -463,12 +475,13 @@
                                     <div class="col-6 col-md-4 col-lg-4 col-xl-3">
                                         <div class="product product-7 text-center">
                                             <figure class="product-media">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam>0}">
                                                         <span class="product-label label-new">
-                                                            <fmt:formatNumber type="number"  value = "${Math.floor(sanPhamChiTiet.giaTriGiam>0?(((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100):'')}
-                                                            " /> %
+                                                            <fmt:formatNumber type="number" value="${Math.floor((((sanPhamChiTiet.giaTriSanPham - sanPhamChiTiet.giaTriGiam) / sanPhamChiTiet.giaTriSanPham) * 100))}" /> %
                                                          </span>
+                                                    </c:if>
                                                 <a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">
-                                                    <img src="${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
+                                                    <img src="${pageContext.request.contextPath}${sanPhamChiTiet.hinhAnh}" alt="Product image" class="product-image">
                                                 </a>
 
                                                 <div class="product-action-vertical">
@@ -488,19 +501,29 @@
 <%--                                                <p>id sản phẩm : ${sanPhamChiTiet.id}</p>--%>
                                                 <h3 class="product-title"><a href="/giay/view-chiTietSanPham/${sanPhamChiTiet.id}">${sanPhamChiTiet.sanPham.ten}  ${sanPhamChiTiet.mauSac.ten}  ${sanPhamChiTiet.muiGiay.ten} ${sanPhamChiTiet.deGiay.ten} </a></h3><!-- End .product-title -->
 
-                                                <div class="product-price">
-                                                    <strike style="color: black !important;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
-                                                    </strike>
+                                                <div class="product-price" style="margin-top: 5px;">
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam > 0}">
+                                                        <s style="color: black !important;">
 
-                                                    <span style="margin: 0px 5px; color: black;"><b>-</b></span>
-                                                    <b style="color: red;">
-                                                        <fmt:formatNumber type = "number"
-                                                                          maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" />
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" />
+                                                        </s>
 
-                                                    </b>
+                                                        <span style="margin: 0px 5px; color: black;"><b>-</b></span>
+                                                        <b style="color: red;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriGiam}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+                                                    <c:if test="${sanPhamChiTiet.giaTriGiam == 0 || sanPhamChiTiet.giaTriGiam ==null }">
+                                                        <b style="color: red;" style="margin-top: 100px;">
+                                                            <fmt:formatNumber type = "number"
+                                                                              maxFractionDigits = "0" value = "${sanPhamChiTiet.giaTriSanPham}" /> vnđ
+                                                        </b>
+                                                    </c:if>
+
                                                 </div><!-- End .product-price -->
+
                                                 <div class="ratings-container">
 
                                                 </div><!-- End .rating-container -->
@@ -942,39 +965,8 @@
         </div><!-- End .modal-dialog -->
     </div><!-- End .modal -->
 
-    <!-- <div class="container newsletter-popup-container mfp-hide" id="newsletter-popup-form">
-         <div class="row justify-content-center">
-            <div class="col-10">
-                <div class="row no-gutters bg-white newsletter-popup-content">
-                    <div class="col-xl-3-5col col-lg-7 banner-content-wrap">
-                        <div class="banner-content text-center">
-                            <img src="/user/assets/images/popup/newsletter/logo.png" class="logo" alt="logo" width="60"
-                                height="15">
-                            <h2 class="banner-title">get <span>25<light>%</light></span> off</h2>
-                            <p>Subscribe to the Molla eCommerce newsletter to receive timely updates from your favorite
-                                products.</p>
-                            <form action="#">
-                                <div class="input-group input-group-round">
-                                    <input type="email" class="form-control form-control-white"
-                                        placeholder="Your Email Address" aria-label="Email Adress" required>
-                                    <div class="input-group-append">
-                                        <button class="btn" type="submit"><span>go</span></button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="register-policy-2" required>
-                                <label class="custom-control-label" for="register-policy-2">Do not show this popup
-                                    again</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2-5col col-lg-5 ">
-                        <img src="/user/assets/images/popup/newsletter/img-1.jpg" class="newsletter-img" alt="newsletter">
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    <input type="number" id="totalAllProduct_InCart" hidden>
+
 </div>
 </div>
 <!-- Plugins JS File -->
@@ -990,80 +982,219 @@
 </body>
 
 <script type="text/javascript">
+
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     console.log("Đây là hàm khởi chạy");
+    //     localStorage.removeItem("dsSanPhamDuocThemVaoGio");
+    //
+    //     // set luôn phần totalProductInCart
+    //     // lấy ra idCart , lấy ra ds sản phẩm được thêm vào local
+    //     // set tổng số lượng danh sách trong local vào idCart thông qua hàm set giá trị
+    //     // lấy ra danh sach sản phẩm được chọn vào giỏ - ở localstore
+    //     var dsSanPhamTrongGioJSON = localStorage.getItem("dsSanPhamDuocThemVaoGio");
+    //     console.log("Danh sách sản phẩm giỏ trong - local : " + dsSanPhamTrongGioJSON);
+    //
+    //     var dsSanPhamTrongGioCurrent;
+    //     if (dsSanPhamTrongGioJSON) {
+    //         // Chuyển đổi kiểu dữ liệu của danh sách JSON => array
+    //         dsSanPhamTrongGioCurrent = JSON.parse(dsSanPhamTrongGioJSON);
+    //         // var innerArray = dsSanPhamTrongGioCurrent[0];
+    //         // console.log("Số lượng phần tử trong mảng con: " + innerArray.length);
+    //         // var soLuongSPTrongGio = innerArray.length;
+    //
+    //         // Parse chuỗi JSON thành mảng JavaScript
+    //         var parsedArray = JSON.parse(dsSanPhamTrongGioJSON);
+    //
+    //         // Lấy số lượng phần tử trong mảng
+    //         var count = parsedArray.length;
+    //
+    //         console.log("Số lượng phần tử trong mảng là: " + count);
+    //
+    //         updateValueTongSoLuongSPTrongGioHang(count);
+    //     } else {
+    //         dsSanPhamTrongGioCurrent = [];
+    //         updateValueTongSoLuongSPTrongGioHang(0);
+    //     }
+    //
+    //     // console.log("ds san pham current : " + dsSanPhamTrongGioCurrent.length);
+    //
+    // });
+
+
     addToCart = function(idSanPhamCT, soLuong) {
         // console.log("Click vào function addToCart");
-        let data = {
-            idSanPhamCT: idSanPhamCT, //lay theo id
-            soLuong: soLuong
-        };
 
-        //$ === jQuery
-        jQuery.ajax({
-            url : "/gio-hang/add-to-cart",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
+        // kiểm tra dữ liệu , lấy số lượng thêm + tổng số lượng sản phẩm trong giỏ ( có vượt quá 10 không ? )
+        // tổng số lượng trong giỏ => chưa có cách nào lấy được
 
-            success : function(jsonResult) {
-                / alert(jsonResult.code + ": " + jsonResult.message); /
-                let totalProducts = jsonResult.totalCartProducts;
-                let totalPrice = jsonResult.totalPriceResult;
-                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                $("#totalCartProductsId").html(totalProducts);
-                // $("#totalPriceInCart").html(totalPrice);
-                if(soLuongMuaVuotQua===true){
-                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
-                }
 
-            },
+        var tongSoLuongSanPhamTrongGio = 0;
 
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
+        layTongSoLuongSanPhamTrongGio()
+        .then(function(totalAllProducts) {
+            tongSoLuongSanPhamTrongGio = totalAllProducts;
+            console.log("Gia tri cua tongSoLuongSanPhamTrongGio : " + tongSoLuongSanPhamTrongGio);
+
+            if((tongSoLuongSanPhamTrongGio + soLuong)>10){
+                alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuong + "\n\tVui lòng dọn giỏ hàng");
+                return;
+            }else{
+                let data = {
+                    idSanPhamCT: idSanPhamCT, //lay theo id
+                    soLuongMuaThem: soLuong
+                };
+
+                //$ === jQuery
+                jQuery.ajax({
+                    url : "/gio-hang/add-to-cart",
+                    type : "POST",
+                    contentType: "application/json",
+                    data : JSON.stringify(data),
+                    dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+                    success : function(jsonResult) {
+                        let totalProducts = jsonResult.totalCartProducts;
+                        let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
+
+                        $("#totalCartProductsId").html(totalProducts);
+
+                        if(soLuongMuaVuotQua===true){
+                            let soLuongTrongGio_cuaSanPhamHienTai = jsonResult.soLuongCuaSanPhamChon_trongGioDaThem;
+                            alert("Số lượng sản phẩm trong kho không đủ \nBạn đã thêm: "+soLuongTrongGio_cuaSanPhamHienTai +" sản phẩm này vào giỏ hàng");
+                        }
+
+                    },
+
+                    error : function(jqXhr, textStatus, errorMessage) {
+                        //alert(jsonResult.code + ': Luu thanh cong...!')
+                    }
+
+                });
             }
-
+        })
+        .catch(function(errorMessage) {
+            console.error("Lỗi khi lấy tổng số lượng sản phẩm trong giỏ: " + errorMessage);
         });
+
     }
 
 
     muaNgay = function(idSanPhamCT, soLuong) {
-        // console.log("Click vào function addToCart");
-        let data = {
-            idSanPhamCT: idSanPhamCT, //lay theo id
-            soLuong: soLuong
-        };
+        var soLuongMua = soLuong;
 
-        //$ === jQuery
-        jQuery.ajax({
-            url : "/gio-hang/mua-ngay",
-            type : "POST",
-            contentType: "application/json",
-            data : JSON.stringify(data),
-            dataType : "json", //Kieu du lieu tra ve tu controller la json
+        layTongSoLuongSanPhamTrongGio()
+            .then(function(totalAllProducts) {
+                tongSoLuongSanPhamTrongGio = totalAllProducts;
+                // console.log("Gia tri cua tongSoLuongSanPhamTrongGio : " + tongSoLuongSanPhamTrongGio);
 
-            success : function(jsonResult) {
-                / alert(jsonResult.code + ": " + jsonResult.message); /
-                let totalProducts = jsonResult.totalCartProducts;
-                let totalPrice = jsonResult.totalPriceResult;
-                let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
-                $("#totalCartProductsId").html(totalProducts);
-                // $("#totalPriceInCart").html(totalPrice);
-                if(soLuongMuaVuotQua===true){
-                    alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                var checkSoLuongToiDa = parseInt(tongSoLuongSanPhamTrongGio) + parseInt(soLuongMua) ;
+
+                if(checkSoLuongToiDa>10){
+                    alert(" Giỏ hàng chỉ được thêm tối đa 10 sản phẩm! \n Số lượng sản phẩm bạn vừa nhập = " + soLuongMua + "\n\tVui lòng dọn giỏ hàng");
+                    return;
                 }else{
-                    window.location.href = "/gio-hang/view-gio";
-                    // window.location.reload();
+                    let data = {
+                        idSanPhamCT: idSanPhamCT, //lay theo id
+                        soLuong: soLuong
+                    };
+
+                    //$ === jQuery
+                    jQuery.ajax({
+                        url : "/gio-hang/mua-ngay",
+                        type : "POST",
+                        contentType: "application/json",
+                        data : JSON.stringify(data),
+                        dataType : "json", //Kieu du lieu tra ve tu controller la json
+
+                        success : function(jsonResult) {
+                            / alert(jsonResult.code + ": " + jsonResult.message); /
+                            let totalProducts = jsonResult.totalCartProducts;
+                            let totalPrice = jsonResult.totalPriceResult;
+                            let soLuongMuaVuotQua = jsonResult.soLuongMuaVuotQua;
+                            $("#totalCartProductsId").html(totalProducts);
+                            // $("#totalPriceInCart").html(totalPrice);
+                            if(soLuongMuaVuotQua===true){
+                                alert("Số lượng trong kho không đủ, vui lòng chọn sản phẩm khác hoặc liên hệ với chúng tôi để đặt hàng sớm nhất.");
+                            }else{
+                                window.location.href = "/gio-hang/view-gio";
+                                // window.location.reload();
+                            }
+                        },
+
+                        error : function(jqXhr, textStatus, errorMessage) {
+                            //alert(jsonResult.code + ': Luu thanh cong...!')
+                        }
+
+                    });
                 }
-            },
+            })
+            .catch(function(errorMessage) {
+                console.error("Lỗi khi lấy tổng số lượng sản phẩm trong giỏ: " + errorMessage);
+            });
 
-            error : function(jqXhr, textStatus, errorMessage) {
-                //alert(jsonResult.code + ': Luu thanh cong...!')
-            }
+    }
 
+    function layTongSoLuongSanPhamTrongGio() {
+        return new Promise(function(resolve, reject) {
+            let data = {};
+
+            jQuery.ajax({
+                url: "/gio-hang/layTongSLSanPhamTrongGio",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                dataType: "json",
+
+                success: function(jsonResult) {
+                    let totalAllProducts = jsonResult.totalAllProducts;
+                    $("#totalAllProduct_InCart").html(totalAllProducts);
+                    console.log("Tổng số lượng sản phẩm trong giỏ : " + totalAllProducts);
+                    // document.getElementById("totalAllProduct_InCart").value = totalAllProducts;
+
+                    resolve(totalAllProducts); // Trả về giá trị totalAllProducts khi thành công
+                },
+
+                error: function(jqXhr, textStatus, errorMessage) {
+                    reject(errorMessage); // Trả về lỗi khi gặp lỗi
+                }
+            });
         });
     }
 </script>
 
-<!-- molla/index-2.html  22 Nov 2019 09:55:42 GMT -->
+<script>
+    // function luuDuLieuVaoLocalstore(){
+    //     // tạo ra 1 key lưu danh sách các đối tượng
+    //     // Tạo một mảng rỗng
+    //     var dsSanPhamDuocThemVaoGio = [];
+    //
+    //     // Chuyển đổi mảng thành chuỗi JSON
+    //     var dsSanPhamDuocThemVaoGioJSON = JSON.stringify(emptyArray);
+    //
+    //     // tạo ra 1 key lưu trạng thái đăng nhập
+    //     localStorage.setItem("isLogin",false);
+    //     localStorage.setItem("tongSoLuongSPTrongGio",0);
+    //     // lưu danh sách sản phẩm được thêm vào giỏ vào localstore
+    //     localStorage.setItem("dsSanPhamDuocThemVaoGio", dsSanPhamDuocThemVaoGioJSON);
+    //
+    //
+    //     // khi thêm sản phẩm vào giỏ
+    //     // khi mua ngay
+    //     // số lượng sản phẩm hiển thị trên giỏ
+    //
+    // }
+    //
+    // function updateValueTongSoLuongSPTrongGioHang(soLuongSanPhamTrongGio){
+    //
+    //     var soLuongSPTrongGio = soLuongSanPhamTrongGio;
+    //
+    //     document.getElementById("totalCartProductsId").innerText = soLuongSPTrongGio;
+    //
+    //     localStorage.setItem("tongSoLuongSPTrongGio",soLuongSPTrongGio);
+    //
+    //     console.log("Số lượng sp trong giỏ : " + soLuongSPTrongGio);
+    // }
 
+
+</script>
 </html>

@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 @Repository
 public interface ThuongHieuRepository extends JpaRepository<ThuongHieu, UUID> {
-    @Query(value = "select * from ThuongHieu ", nativeQuery = true)
+    @Query(value = "select * from ThuongHieu order by ngayTao desc", nativeQuery = true)
     public List<ThuongHieu> getAll();
 
     // getAll

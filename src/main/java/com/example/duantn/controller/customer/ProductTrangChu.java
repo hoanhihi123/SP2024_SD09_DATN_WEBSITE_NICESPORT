@@ -55,13 +55,12 @@ public class ProductTrangChu {
         // -- sửa ở đây
 //        if(session.getAttribute("dsChiTietSP_color_sp")!=null) {
 //            dsChiTietSP_color = (List<ChiTietSanPham>) session.getAttribute("dsChiTietSP_color_sp");
-//        }
+////        }
         // chưa có trường hợp ngược lại
 
         // với idSanPhamChiTiet => lấy ra danh sách hình ảnh
         List<ChiTietSanPham> dsChiTietSP = new ArrayList<>();
         dsChiTietSP = chiTietSPService.layDanhSachSPCT_theoIDSanPham_va_ID_mauSac(chiTietSanPham.getSanPham().getId(),chiTietSanPham.getMauSac().getId());
-
 
         // set lại giá trị cho dsChiTietSP_color_sp với danh sách mới
         session.setAttribute("dsChiTietSP_color_sp",dsChiTietSP);

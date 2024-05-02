@@ -22,7 +22,8 @@ public class SanPhamTrongGioHang {
     private KichCo kichCo;
     private MauSac mauSac;
     private String hinhAnh;
-    private Integer soLuong;
+    private Integer soLuong;  // so luong trong gio
+    private Integer soLuongMuaThem;  // so luong mua them
     private Double gia;
     private Integer numberCheck;
     private Double trongLuong;

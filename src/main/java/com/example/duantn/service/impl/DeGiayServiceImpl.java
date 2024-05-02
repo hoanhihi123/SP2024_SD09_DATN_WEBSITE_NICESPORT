@@ -67,7 +67,6 @@ public class DeGiayServiceImpl implements BaseService<DeGiay> {
     @Override
     public DeGiay chiTietTheoId(UUID id) {
 
-
         Optional<DeGiay> deGiay = repo_deGiay.findById(id);
         DeGiay deGiay1 = deGiay.get();
         return deGiay1;

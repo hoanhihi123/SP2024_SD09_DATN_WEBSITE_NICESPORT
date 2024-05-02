@@ -36,14 +36,19 @@ public class HinhAnhGiaysService implements BaseService<HinhAnhGiays> {
 
     }
 
+    public void xoaTheoIdSanPhamCT(UUID idSanPhamCT){
+        repo_hinhAnhGiays.xoaHinhAnhTheoIdSanPhamCT(idSanPhamCT);
+    }
+
     @Override
     public void themMoi(HinhAnhGiays entity) {
         repo_hinhAnhGiays.save(entity);
     }
 
+
     @Override
     public void capNhat(HinhAnhGiays entity) {
-
+        repo_hinhAnhGiays.save(entity);
     }
 
     @Override

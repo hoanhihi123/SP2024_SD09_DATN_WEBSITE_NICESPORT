@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface DayGiayRepository extends JpaRepository<DayGiay, UUID> {
-    @Query(value = "select * from DayGiay", nativeQuery = true)
+    @Query(value = "select * from DayGiay order by ngayTao desc", nativeQuery = true)
     public List<DayGiay> getAll();
 
     @Query(value = "select * from DayGiay order by ngaySua desc",

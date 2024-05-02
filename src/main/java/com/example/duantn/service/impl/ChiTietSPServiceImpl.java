@@ -1,11 +1,9 @@
 package com.example.duantn.service.impl;
 
-import com.example.duantn.model.ChiTietSanPham;
-import com.example.duantn.model.HoaDon;
-import com.example.duantn.model.KichCo;
-import com.example.duantn.model.LoaiSanPham;
+import com.example.duantn.model.*;
 import com.example.duantn.repository.ChiTietSanPhamRepository;
 import com.example.duantn.repository.LoaiSanPhamRepository;
+import com.example.duantn.request.ChiTietSanPham_theoSanPham_soLuong;
 import com.example.duantn.service.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,20 +23,19 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     @Autowired
     LoaiSanPhamRepository repo_loaiSanPham;
 
-//    @Override
-//    public List<ChiTietSanPham> layDanhSach() {
-//        return repo_chiTietSanPham.getAll();
-//    }
-//
-//    @Override
-//    public List<ChiTietSanPham> findByCondition(ChiTietSanPham entity) {
-//        return null;
-//    }
-
     @Override
     public Page<ChiTietSanPham> layDanhSach(Pageable pageable) {
         return repo_chiTietSanPham.getAll(pageable);
     }
+
+    public List<ChiTietSanPham> layDanhSachTheoIDSanPham(UUID idSanPham) {
+        return repo_chiTietSanPham.getAll(idSanPham);
+    }
+
+    public List<ChiTietSanPham> layDanhSachTheoIDSanPham_searchTrangThai(Integer trangThai, UUID idSanPham) {
+        return repo_chiTietSanPham.getAllTheoTrangThai(idSanPham, trangThai);
+    }
+
 
     @Override
     public Page<ChiTietSanPham> layDanhSach(String textSearch, Pageable pageable) {
@@ -49,19 +46,28 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
         return repo_chiTietSanPham.getAll(pageable);
     }
 
-//    @Override
-//    public Page<ChiTietSanPham> findPage(ChiTietSanPham entity, Pageable pageable) {
-//        return null;
-//    }
+
 
     @Override
     public void xoa(UUID id) {
+        repo_chiTietSanPham.updateTrangThaiSanPhamCT(id);
+    }
 
+    public void capNhatTrangThaiSanPhamCT(UUID id) {
+        repo_chiTietSanPham.updateTrangThaiSanPhamCT(id);
     }
 
     @Override
     public void themMoi(ChiTietSanPham entity) {
+        repo_chiTietSanPham.save(entity);
+    }
 
+    public ChiTietSanPham themMoi_traVeKetQua(ChiTietSanPham chiTietSanPham) {
+        return repo_chiTietSanPham.save(chiTietSanPham);
+    }
+
+    public ChiTietSanPham capNhat_traVeKetQua(ChiTietSanPham chiTietSanPham) {
+        return repo_chiTietSanPham.save(chiTietSanPham);
     }
 
     @Override
@@ -71,9 +77,7 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
 
     @Override
     public ChiTietSanPham chiTietTheoId(UUID id) {
-        Optional<ChiTietSanPham> chiTietSanPham = repo_chiTietSanPham.findById(id);
-        ChiTietSanPham chiTietSanPham1 = chiTietSanPham.get();
-        return chiTietSanPham1;
+        return repo_chiTietSanPham.findById(id).orElse(null);
     }
 
     @Override
@@ -132,5 +136,15 @@ public class ChiTietSPServiceImpl implements BaseService<ChiTietSanPham> {
     public  List<UUID> layDanhSach_IdSanPham_trongSanPhamCT(){
         return repo_chiTietSanPham.getListUUID_SanPham_fromChiTietSP();
     }
+
+    // lay so luong trong kho bang idSanPhamChiTiet
+    public Integer laySoLuongTrongKho(UUID idSanPhamCT){
+        return  repo_chiTietSanPham.getSoLuong_byIdSanPhamChiTiet(idSanPhamCT);
+    }
+
+    public void xoaSanPhamChiTietTheoTrangThai(Integer trangThai){
+        repo_chiTietSanPham.xoaSanPhamChiTietTheoTrangThai(trangThai);
+    }
+
 
 }
